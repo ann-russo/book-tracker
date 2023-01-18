@@ -72,3 +72,5 @@ Thumbs.db
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
+/book-tracker-ui/node_modules/
+/book-tracker-ui/.angular/
