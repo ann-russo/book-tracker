@@ -5,4 +5,4 @@ ng build && npm start
 
 
 #start node
-npm run dev
+#npm run dev
