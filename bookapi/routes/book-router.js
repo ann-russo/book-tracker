@@ -3,8 +3,8 @@ const controller = require('../controllers/book-controller');
 
 const routes = Router();
 
-routes.get('/books', controller.getTest);
-
+routes.get('/test', controller.getTest);
+routes.get('/books', controller.getBooks);
 
 
 //routes.get("/messages", res.send("test"));
