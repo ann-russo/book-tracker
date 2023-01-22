@@ -9,7 +9,6 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookListComponent } from './book-list/book-list.component';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
-import {HeaderComponent, HeaderSearchDialogComponent} from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -27,6 +26,11 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatTabsModule} from "@angular/material/tabs";
+import { TableComponent } from './book-list/table/table.component';
+import {HeaderComponent, HeaderSearchDialogComponent} from "./home/header/header.component";
+import { BooksCardsComponent } from './home/books-cards/books-cards.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -37,11 +41,13 @@ import {MatDialogModule} from "@angular/material/dialog";
     BookDetailsComponent,
     BookListComponent,
     PageNotFoundComponent,
-    HeaderComponent,
-    HeaderSearchDialogComponent,
     HomeComponent,
     WelcomeComponent,
-    WelcomeLinksComponent
+    WelcomeLinksComponent,
+    TableComponent,
+    HeaderComponent,
+    HeaderSearchDialogComponent,
+    BooksCardsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +66,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatToolbarModule,
     MatMenuModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
+    MatTableModule
   ],
   providers: [AppRoutingModule],
   bootstrap: [AppComponent]

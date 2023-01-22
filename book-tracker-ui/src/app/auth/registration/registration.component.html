@@ -16,10 +16,10 @@
     <mat-label>Username</mat-label>
     <input type="text" matInput formControlName="usernameFormControl" [errorStateMatcher]="matcher"
            placeholder="Your nickname">
-    <mat-error *ngIf="f.usernameFormControl.hasError('minLength') && !f.usernameFormControl.hasError('required')">
+    <mat-error *ngIf="f.usernameFormControl.hasError('minlength') && !f.usernameFormControl.hasError('required')">
       Username must be at least <strong>4 characters </strong> long
     </mat-error>
-    <mat-error *ngIf="f.usernameFormControl.hasError('maxLength') && !f.usernameFormControl.hasError('required')">
+    <mat-error *ngIf="f.usernameFormControl.hasError('maxlength') && !f.usernameFormControl.hasError('required')">
       Username must be less than <strong>14 characters </strong> long
     </mat-error>
     <mat-error *ngIf="f.usernameFormControl.hasError('required')">
@@ -31,6 +31,9 @@
     <mat-label>Password</mat-label>
     <input type="password" matInput formControlName="passwordFormControl" [errorStateMatcher]="matcher"
            placeholder="Your password">
+    <mat-error *ngIf="f.passwordFormControl.hasError('minlength') && !f.passwordFormControl.hasError('required')">
+      Password must be at least <strong>6 characters</strong>
+    </mat-error>
     <mat-error *ngIf="f.passwordFormControl.hasError('required')">
       Password is <strong>required</strong>
     </mat-error>
@@ -53,18 +56,17 @@
     </mat-form-field></td>
   </tr></table>
 
-
   <table class="example-full-width"><tr>
     <td><mat-form-field class="example-full-width">
       <mat-label>Select your country</mat-label>
-      <mat-select>
-        <mat-option value="option">Option</mat-option>
+      <mat-select [(ngModel)]="listCountries">
+        <mat-option *ngFor="let item of listCountries" value="item">{{item}}</mat-option>
       </mat-select>
     </mat-form-field></td>
     <td><mat-form-field class="example-full-width">
       <mat-label>Preferred language</mat-label>
-      <mat-select>
-        <mat-option value="option">Option</mat-option>
+      <mat-select [(ngModel)]="listLanguages">
+        <mat-option *ngFor="let item of listLanguages" value="item">{{item}}</mat-option>
       </mat-select>
     </mat-form-field></td>
   </tr></table>
