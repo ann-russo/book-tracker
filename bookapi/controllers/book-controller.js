@@ -101,7 +101,18 @@ function createJson(input){
                     item ["year"] = input[j][x].volumeInfo.publishedDate;
                     item ["description"] = input[j][x].volumeInfo.description;
                     item ["genre"] = input[j][x].volumeInfo.categories;
-                    item ["isbn"] = input[j][x].volumeInfo.industryIdentifiers;
+                    isbnjson = input[j][x].volumeInfo.industryIdentifiers;
+                    let isbnnumber;
+                    for( i in isbnjson){
+                        console.log("isbnjosn....", isbnjson[i]);
+                        if(isbnjson[i].type == "ISBN_13"){
+                            isbnnumber = isbnjson[i].identifier;
+                            console.log("my isbn...", isbnnumber);
+                            item ["isbn"] = isbnnumber;
+                        } else {
+                            isbnnumber = isbnjson[i].identifier;
+                        }
+                    }
                     item ["noofpages"] = input[j][x].volumeInfo.pageCount;
                     item ["cover"] = input[j][x].volumeInfo.imageLinks.smallThumbnail;
                     jsonBookList.push(item);
@@ -110,7 +121,6 @@ function createJson(input){
         }
     }
 
-    //output = input;
     return JSON.stringify(jsonBookList);
 }
 
