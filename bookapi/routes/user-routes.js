@@ -17,9 +17,7 @@ routes.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
 
-    //TODO avoid saving same email multiple times!, return error
     //TODO add unique id to user starting with 0, count ascending (max(id)+1), useful if a connection with books assigned to an account is required
-
 
     let userInDb = await User.findOne({email: req.body.email})
     if (!userInDb){
@@ -34,11 +32,8 @@ routes.post('/register', async (req, res) => {
         res.send(data)
     } else{
         console.log("user already known, send error...");
-        res.send("user already known...");
+        res.send("user already known..."); //TODO like in row 11, generic error json with reason text...
     }
-
-
-
 
 
 })

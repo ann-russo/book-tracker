@@ -5,6 +5,7 @@ const dist = process.cwd()+"/book-tracker-ui/dist/book-tracker-ui/"
 
 const bookRouter = require ('./bookapi/routes/book-router');
 const userRouter = require ('./bookapi/routes/user-routes');
+const booklistRouter = require ('./bookapi/routes/booklist-router');
 /*
  * mongodb configuration
  */
@@ -34,12 +35,9 @@ app.use(cors({
 }))
 
 
-
-
 app.use('/api/users', userRouter); //TODO during implementation add registered info when required...
 
-
-
+app.use('/api/booklist', booklistRouter);
 
 //include book api
 app.use('/api', bookRouter);
@@ -57,7 +55,6 @@ app.listen(port, (error)=> {
         console.log('Server is up on port ' + port)
     }
 })
-
 
 
 

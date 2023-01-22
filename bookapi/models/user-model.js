@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+//TODO add unique id or use email!
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
