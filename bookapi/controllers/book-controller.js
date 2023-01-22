@@ -66,13 +66,52 @@ class BookController{
 
         fetchData(apiurl, propertiesObject, options).then((data) => {
             jsonResponse = data;
-            resRequest.send(jsonResponse);
+            //resRequest.send(jsonResponse);
+            resRequest.send(createJson(jsonResponse));
         }).catch((e) => {
             console.log(e);
         });
         
     }
 
+}
+
+
+
+/*
+create expected JSON
+ */
+function createJson(input){
+    let output = [];
+    jsonBookList = [];
+    let jsonBook = [];
+    for(let j in input){
+        if(!input.hasOwnProperty((j))){
+            continue; //current property not a direct property of input
+        }
+
+        if(j == "items"){ //find delivered items
+            console.log(j)
+            for (let x in j){
+                if((input[j][x])){
+                    console.log(input[j][x]);
+                    item = {}
+                    item ["title"] = input[j][x].volumeInfo.title;
+                    item ["author"] = input[j][x].volumeInfo.author;
+                    item ["year"] = input[j][x].volumeInfo.publishedDate;
+                    item ["description"] = input[j][x].volumeInfo.description;
+                    item ["genre"] = input[j][x].volumeInfo.categories;
+                    item ["isbn"] = input[j][x].volumeInfo.industryIdentifiers;
+                    item ["noofpages"] = input[j][x].volumeInfo.pageCount;
+                    item ["cover"] = input[j][x].volumeInfo.imageLinks.smallThumbnail;
+                    jsonBookList.push(item);
+                }
+            }
+        }
+    }
+
+    //output = input;
+    return JSON.stringify(jsonBookList);
 }
 
 
