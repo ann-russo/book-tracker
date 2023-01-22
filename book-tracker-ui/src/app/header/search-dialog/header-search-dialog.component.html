@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+    <button mat-button (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-form-field class="searchInput">
+      <mat-label>Find book</mat-label>
+      <input matInput [(ngModel)]="data.searchKeyword">
+    </mat-form-field>
+    <button mat-button [mat-dialog-close]="data.searchKeyword">
+      <mat-icon>search</mat-icon>
+    </button>
+</div>

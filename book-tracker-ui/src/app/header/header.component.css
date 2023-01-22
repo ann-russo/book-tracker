@@ -1,0 +1,21 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+.example-form-field {
+  height: 50px;
+  width: 200px;
+}
+
+.toolbar{
+  position: relative;
+}
+
+.mat-dialog-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  display: flex;
+  width: 100%
+}

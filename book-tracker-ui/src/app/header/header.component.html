@@ -1,1 +1,37 @@
-<p>header works!</p>
+<mat-toolbar color="primary" class="toolbar">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Categories" matTooltip="Book Genres">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <span>Science Fiction</span>
+    </button>
+    <button mat-menu-item>
+      <span>Horror</span>
+    </button>
+    <button mat-menu-item>
+      <span>Mystery</span>
+    </button>
+    <button mat-menu-item>
+      <span>Biography</span>
+    </button>
+    <button mat-menu-item>
+      <span>Self-help</span>
+    </button>
+  </mat-menu>
+
+  <span>Book Tracker</span>
+  <span class="example-spacer"></span>
+
+  <button mat-button class="example-icon" aria-label="Search" matTooltip="Search" (click)="openDialog()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+
+  <button mat-icon-button class="example-icon" aria-label="Book List" matTooltip="My Book List">
+    <mat-icon>list</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Settings" matTooltip="Account Settings">
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>
