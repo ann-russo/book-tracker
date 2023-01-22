@@ -25,13 +25,16 @@ app.use(express.static(dist));
 
 
 //include routes for user api
-/*
-app.use(cookieParser);
+
+app.use(cookieParser());
+
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3080', 'http://localhost:8080', 'http://localhost:80']
+    origin: ['http://localhost:3080', 'http://localhost:8080', 'http://localhost:80', 'http://127.0.0.1:3080']
 }))
- */
+
+
+
 
 app.use('/api/users', userRouter); //TODO during implementation add registered info when required...
 
@@ -75,18 +78,12 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     }
     console.log("asdfdfj")
     //const db = client.db(databaseName)
-
-
     /*
     db.collection('users').insertOne({
         email: 'test@example.com',
         password: 'test'
     })
-
-
-
 })
-
  */
 
 
