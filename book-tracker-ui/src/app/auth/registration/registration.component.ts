@@ -21,7 +21,8 @@ export class RegistrationComponent implements OnInit {
   loading = false;
   submitted = false;
   matcher = new MyErrorStateMatcher();
-  listCountries: any;
+  listCountries: string[] = ['Austria', 'Germany', 'Switzerland']
+  listLanguages: string[] = ['English', 'German']
 
   constructor(
     private router: Router,
@@ -31,8 +32,8 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       emailFormControl: new FormControl('', [Validators.required, Validators.email]),
-      usernameFormControl: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(14)]),
-      passwordFormControl: new FormControl('', [Validators.required]),
+      usernameFormControl: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
+      passwordFormControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
       firstNameFormControl: new FormControl(''),
       lastNameFormControl: new FormControl(''),
       birthDateFormControl: new FormControl(''),
@@ -51,15 +52,29 @@ export class RegistrationComponent implements OnInit {
     }
 
     this.loading = true;
-    let email = this.registerForm.get('Email')?.value;
-    let password = this.registerForm.get('Password')?.value;
+    const { email, username, password, firstName, lastName, birthDate, country, prefLang } = this.registerForm.value
+
 
     // TODO check in backend if email exists
     // TODO send data to backend and save in database
+    /*
+    this.authService.register(username, email, password).subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
 
     let registrationOk = true;
     if (registrationOk) {
       this.router.navigate(['/home'])
     }
+
+     */
   }
 }

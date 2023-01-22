@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 export interface DialogData {
   searchKeyword: string;
@@ -13,7 +14,9 @@ export interface DialogData {
 export class HeaderComponent {
   searchKeyword: string;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog,
+    private router: Router) {
     this.searchKeyword = '';
   }
 
@@ -32,11 +35,16 @@ export class HeaderComponent {
     });
   }
 
+  logOut(): void {
+
+    this.router.navigate(['/'])
+  }
+
 }
 
 @Component({
   selector: 'header-search-dialog.component',
-  templateUrl: '/search-dialog/header-search-dialog.component.html',
+  templateUrl: '/header-search-dialog/header-search-dialog.component.html',
 })
 export class HeaderSearchDialogComponent {
   constructor(

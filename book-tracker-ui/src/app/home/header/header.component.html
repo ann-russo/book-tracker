@@ -28,10 +28,15 @@
     Search
   </button>
 
-  <button mat-icon-button class="example-icon" aria-label="Book List" matTooltip="My Book List">
+  <button mat-icon-button class="example-icon" aria-label="Book List" matTooltip="My Book List" routerLink="mylist">
     <mat-icon>list</mat-icon>
   </button>
-  <button mat-icon-button class="example-icon" aria-label="Settings" matTooltip="Account Settings">
+
+  <button mat-icon-button [matMenuTriggerFor]="menuSettings" class="example-icon" aria-label="Settings" matTooltip="Settings">
     <mat-icon>settings</mat-icon>
   </button>
+  <mat-menu #menuSettings="matMenu">
+    <button mat-menu-item routerLink="settings">Account Settings</button>
+    <button mat-menu-item (click)="logOut()">Log Out</button>
+  </mat-menu>
 </mat-toolbar>

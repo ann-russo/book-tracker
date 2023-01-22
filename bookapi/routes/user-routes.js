@@ -36,11 +36,6 @@ routes.post('/register', async (req, res) => {
         console.log("user already known, send error...");
         res.send("user already known...");
     }
-
-
-
-
-
 })
 
 routes.post('/login', async (req, res) => {
