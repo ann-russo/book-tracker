@@ -16,18 +16,31 @@ routes.post('/register', async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
-    console.log("received data")
-    const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
-    })
+
     //TODO avoid saving same email multiple times!, return error
     //TODO add unique id to user starting with 0, count ascending (max(id)+1), useful if a connection with books assigned to an account is required
-    console.log("saving now into DB...")
-    const result = await user.save()
-    const {password, ...data} = await result.toJSON()
-    res.send(data)
+
+
+    let userInDb = await User.findOne({email: req.body.email})
+    if (!userInDb){
+        console.log("user not known add to DB");
+        const user = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword,
+        })
+        const result = await user.save()
+        const {password, ...data} = await result.toJSON()
+        res.send(data)
+    } else{
+        console.log("user already known, send error...");
+        res.send("user already known...");
+    }
+
+
+
+
+
 })
 
 routes.post('/login', async (req, res) => {
