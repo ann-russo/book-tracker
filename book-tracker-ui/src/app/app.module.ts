@@ -9,9 +9,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookListComponent } from './book-list/book-list.component';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
-import { HeaderComponent } from './header/header.component';
+import {HeaderComponent, HeaderSearchDialogComponent} from './header/header.component';
 import { HomeComponent } from './home/home.component';
-import { LandingComponent } from './landing/landing.component';
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -22,6 +21,12 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSelectCountryModule} from "@angular-material-extensions/select-country";
 import {MatNativeDateModule} from "@angular/material/core";
+import { WelcomeComponent } from './welcome/welcome.component';
+import { WelcomeLinksComponent } from './welcome/welcome-links/welcome-links.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -33,8 +38,10 @@ import {MatNativeDateModule} from "@angular/material/core";
     BookListComponent,
     PageNotFoundComponent,
     HeaderComponent,
+    HeaderSearchDialogComponent,
     HomeComponent,
-    LandingComponent
+    WelcomeComponent,
+    WelcomeLinksComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,11 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatSelectCountryModule
+    MatSelectCountryModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [AppRoutingModule],
   bootstrap: [AppComponent]
