@@ -31,6 +31,7 @@ import { TableComponent } from './book-list/table/table.component';
 import {HeaderComponent, HeaderSearchDialogComponent} from "./home/header/header.component";
 import { BooksCardsComponent } from './home/books-cards/books-cards.component';
 import {MatTableModule} from "@angular/material/table";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import {MatTableModule} from "@angular/material/table";
     MatTooltipModule,
     MatDialogModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ],
   providers: [AppRoutingModule],
   bootstrap: [AppComponent]

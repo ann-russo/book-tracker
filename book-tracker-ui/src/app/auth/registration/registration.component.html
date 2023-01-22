@@ -59,13 +59,13 @@
   <table class="example-full-width"><tr>
     <td><mat-form-field class="example-full-width">
       <mat-label>Select your country</mat-label>
-      <mat-select [(ngModel)]="listCountries">
+      <mat-select [(ngModel)]="listCountries" [ngModelOptions]="{standalone: true}">
         <mat-option *ngFor="let item of listCountries" value="item">{{item}}</mat-option>
       </mat-select>
     </mat-form-field></td>
     <td><mat-form-field class="example-full-width">
       <mat-label>Preferred language</mat-label>
-      <mat-select [(ngModel)]="listLanguages">
+      <mat-select [(ngModel)]="listLanguages" [ngModelOptions]="{standalone: true}">
         <mat-option *ngFor="let item of listLanguages" value="item">{{item}}</mat-option>
       </mat-select>
     </mat-form-field></td>

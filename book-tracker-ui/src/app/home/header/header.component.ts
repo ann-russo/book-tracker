@@ -13,6 +13,7 @@ export interface DialogData {
 })
 export class HeaderComponent {
   searchKeyword: string;
+  url: string = 'https://localhost:3080/api/users/logout'
 
   constructor(
     public dialog: MatDialog,
@@ -36,7 +37,9 @@ export class HeaderComponent {
   }
 
   logOut(): void {
-
+    let request = new XMLHttpRequest();
+    request.open("POST", this.url);
+    request.withCredentials = true;
     this.router.navigate(['/'])
   }
 

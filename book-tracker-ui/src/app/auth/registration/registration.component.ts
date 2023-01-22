@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {HttpClient} from "@angular/common/http";
+import {first} from "rxjs";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -16,6 +18,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
+
+@Injectable()
 export class RegistrationComponent implements OnInit {
   registerForm!: FormGroup;
   loading = false;
@@ -23,10 +27,12 @@ export class RegistrationComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   listCountries: string[] = ['Austria', 'Germany', 'Switzerland']
   listLanguages: string[] = ['English', 'German']
+  url: string = 'http://localhost:3080/api/users/registration'
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -51,30 +57,28 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
+    let userData = {
+      "email": this.registerForm.controls['emailFormControl'].value,
+      "username": this.registerForm.controls['usernameFormControl'].value,
+      "password": this.registerForm.controls['passwordFormControl'].value,
+      "birthdate": this.registerForm.controls['birthDateFormControl'].value,
+      "firstName": this.registerForm.controls['firstNameFormControl'].value,
+      "lastName": this.registerForm.controls['lastNameFormControl'].value,
+      "country": this.registerForm.controls['countryFormControl'].value,
+      "prefLang": this.registerForm.controls['prefLangFormControl'].value,
+    };
+
+    console.log(userData)
     this.loading = true;
-    const { email, username, password, firstName, lastName, birthDate, country, prefLang } = this.registerForm.value
-
-
-    // TODO check in backend if email exists
-    // TODO send data to backend and save in database
-    /*
-    this.authService.register(username, email, password).subscribe(
-      data => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },
-      err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    );
-
-    let registrationOk = true;
-    if (registrationOk) {
-      this.router.navigate(['/home'])
-    }
-
-     */
+    this.http.post(this.url, userData)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate(['/login'])
+        },
+        error => {
+          console.log(error.error)
+          this.loading = false;
+        });
   }
 }

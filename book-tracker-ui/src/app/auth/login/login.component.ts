@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {first} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -21,10 +23,12 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   matcher = new MyErrorStateMatcher();
+  url: string = 'https://localhost:3080/api/users/login'
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -38,21 +42,26 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
     if (this.loginForm.invalid) {
       return;
     }
 
+    let userData = {
+      "email": this.loginForm.controls['emailFormControl'].value,
+      "password": this.loginForm.controls['passwordFormControl'].value
+    };
+
     this.loading = true;
-    let email = this.loginForm.get('Email')?.value;
-    let password = this.loginForm.get('Password')?.value;
-
-    // TODO send data to backend for validation (does user + password exist?)
-
-    let loginOk = true;
-    if (loginOk) {
-      this.router.navigate(['/home'])
-    }
+    this.http.post(this.url, userData)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate(['/home'])
+        },
+        error => {
+          console.log(error.error)
+          this.loading = false;
+        });
   }
 
 }

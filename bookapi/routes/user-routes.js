@@ -12,20 +12,20 @@ const routes = Router();
 
 //routes.get("/messages", res.send("test")); //test message..
 
-routes.post('/register', async (req, res) => {
+routes.post('/registration', async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
-
-    //TODO avoid saving same email multiple times!, return error
-    //TODO add unique id to user starting with 0, count ascending (max(id)+1), useful if a connection with books assigned to an account is required
-
-
     let userInDb = await User.findOne({email: req.body.email})
+
     if (!userInDb){
         console.log("user not known add to DB");
         const user = new User({
-            name: req.body.name,
+            username: req.body.username,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            birthdate: req.body.birthdate,
+            country: req.body.country,
+            prefLang: req.body.prefLang,
             email: req.body.email,
             password: hashedPassword,
         })
@@ -34,16 +34,14 @@ routes.post('/register', async (req, res) => {
         res.send(data)
     } else{
         console.log("user already known, send error...");
-        res.send("user already known...");
+        res.send("Email already exists");
     }
-
-
-
-
-
 })
 
 routes.post('/login', async (req, res) => {
+    res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080');
+    res.headers.append('Access-Control-Allow-Credentials', 'true');
+
     const user = await User.findOne({email: req.body.email})
 
     if (!user) {
