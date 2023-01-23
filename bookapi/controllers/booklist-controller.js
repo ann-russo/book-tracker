@@ -89,16 +89,64 @@ class booklistController{
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
         const user = await User.findOne({_id: claims._id})
-        console.log("affected User: ", user, "userid" , user.id)
+        //console.log("affected User: ", user, "userid" , user.id)
         let findVariable = {}
         findVariable.id = user.id;
         if(req.body.status){findVariable.status = req.body.status};
         if(req.body.public){findVariable.public = req.body.public};
         let result = await booklist.find(findVariable)
-        console.log(result)
+        //console.log(result)
         res.send(JSON.stringify(result))
     }
-}
 
+    async deleteBook(req, res){
+        //user authenticated?
+        try {
+            const cookie = req.cookies['jwt']
+            const claims = jwt.verify(cookie, 'secret')
+
+            if (!claims) {
+                return res.status(401).send({
+                    message: 'unauthenticated'
+                })
+            }
+        } catch (e) {
+            return res.status(401).send({
+                message: 'unauthenticated'
+            })
+        }
+
+        const cookie = req.cookies['jwt']
+        const claims = jwt.verify(cookie, 'secret')
+        const user = await User.findOne({_id: claims._id})
+        //console.log("affected User: ", user, "userid" , user.id)
+
+        try{
+            const result = await booklist.deleteOne({_id: req.body._id})
+            if (result.deletedCount === 1) {
+                let response = {
+                    resultcode: 'OK',
+                    resulttext: 'Book deleted successfully'
+                };
+                res.send(response)
+            }else{
+                let response = {
+                    resultcode: 'ERROR',
+                    resulttext: 'No Book matching _id'
+                };
+                res.send(response)
+            }
+
+        }catch (e) {
+            let response = {
+                resultcode: 'ERROR',
+                resulttext: 'Error Deleting Book'
+            };
+            res.send(response)
+        }
+
+    }
+
+}
 
 module.exports = new booklistController();
