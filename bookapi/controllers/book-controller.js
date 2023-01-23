@@ -1,116 +1,97 @@
 const model = require("../models/book-model");
-const bookrequest = require("../models/book-requests");
-const request = require("request");
-const {response} = require("express");
+const bookRequest = require("../models/book-requests");
+require("request");
 const fetch = require('node-fetch');
 
 
 class BookController{
-
     getTest(req, res){
         res.send('test api....');
     }
 
     getBooksTest(req, res){
-        let myBook = new model.Book("testtilte","author","year","desc","genre","isbn","33","cover");
+        let myBook = new model.Book("Test Titel","author","year","desc","genre","isbn","33","cover");
         res.send(myBook); // return book as JSON
     }
 
-
     getBooks(req, resRequest) {
-        let requestincoming = extractRequestValues(req);
-        console.log("retrieved values..: ", "searchText: ", requestincoming.searchText, "isbn: ", requestincoming.isbn, "author: ", requestincoming.author, "random book true: ", requestincoming.rand, "amount of requested books: ", requestincoming.amount);
+        let incomingRequest = extractRequestValues(req);
+        console.log("Retrieved values:", "searchText:", incomingRequest.searchText, "isbn:", incomingRequest.isbn, "author:", incomingRequest.author, "random book:", incomingRequest.rand, "amount of requested books:", incomingRequest.amount);
 
+        let searchText = incomingRequest.searchText, searchIsbn = incomingRequest.isbn,
+            searchAuthor = incomingRequest.author, searchRandom = incomingRequest.rand,
+            searchAmount = incomingRequest.amount;
 
-        let SearchText = requestincoming.searchText, SearchIsbn = requestincoming.isbn,
-            SearchAuthor = requestincoming.author, SearchRandom = requestincoming.rand,
-            SearchAmount = requestincoming.amount;
         let query = "q?=";
-        if (SearchText) {
-            query += SearchText
+
+        if (searchText) {
+            query += searchText
         }
-        ;
-        if (SearchIsbn) {
-            query += "+isbn:" + SearchIsbn
+        if (searchIsbn) {
+            query += "+isbn:" + searchIsbn
         }
-        ;
-        if (SearchAuthor) {
-            query += "+inauthor:" + SearchAuthor
+        if (searchAuthor) {
+            query += "+inauthor:" + searchAuthor
         }
-        ;
-        let maxresults = 40; //the maximum possible by the google api, set to requested value if exists
-        if (SearchAmount) {
-            if(SearchAmount<=40){ //values bigger than 40 not allowed by the api
-                maxresults = SearchAmount;
+
+        let maxResults = 40; //the maximum possible by the Google api, set to requested value if exists
+        if (searchAmount) {
+            if(searchAmount <= 40){ //values bigger than 40 not allowed by the api
+                maxResults = searchAmount;
             }
-        }
-        ;
-        //console.log(SearchRandom);
-        if (SearchRandom && SearchText === undefined && SearchIsbn === undefined && SearchAuthor === undefined) {
-            query = "test"; // execute when all other parameters are empty and really any amount of random books is requested
         }
 
         //if all parameters are empty return error //TODO add maybe other  useful combinations
-        if (SearchRandom === undefined && SearchText === undefined && SearchIsbn === undefined && SearchAuthor === undefined) {
+        if (searchRandom === undefined && searchText === undefined && searchIsbn === undefined && searchAuthor === undefined) {
             resRequest.send("error not enough variables defined") //TODO send as json / reasonable request
         }
 
-        console.log("currently executed query:..", query);
+        console.log("Currently executed query:", query);
 
-        var propertiesObject = {q: query, maxResults: maxresults};
+        let propertiesObject = {q: query, maxResults: maxResults};
         let apiurl = ('https://www.googleapis.com/books/v1/volumes');
-
-
-        let jsonResponse
         let options = {method: 'GET'}; //set method and other possible options.. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
         fetchData(apiurl, propertiesObject, options).then((data) => {
-            jsonResponse = data;
-            //resRequest.send(jsonResponse);
-            resRequest.send(createJson(jsonResponse));
+            resRequest.send(createJson(data));
         }).catch((e) => {
             console.log(e);
         });
-        
     }
-
 }
-
-
 
 /*
 create expected JSON
  */
-function createJson(input){
-    let output = [];
-    jsonBookList = [];
-    let jsonBook = [];
-    for(let j in input){
-        if(!input.hasOwnProperty((j))){
-            continue; //current property not a direct property of input
+function createJson(input) {
+    let jsonBookList = [];
+    for (let j in input) {
+        if(!input.hasOwnProperty((j))) {
+            continue; // current property not a direct property of input
         }
-
-        if(j == "items"){ //find delivered items
+        if(j === "items"){ // find delivered items
             console.log(j)
-            for (let x in j){
-                if((input[j][x])){
+            for (let x in j) {
+                if((input[j][x])) {
                     console.log(input[j][x]);
-                    item = {}
+                    let item = {}
                     item ["title"] = input[j][x].volumeInfo.title;
-                    item ["author"] = input[j][x].volumeInfo.author;
+                    item ["author"] = input[j][x].volumeInfo.authors;
                     item ["year"] = input[j][x].volumeInfo.publishedDate;
                     item ["description"] = input[j][x].volumeInfo.description;
                     item ["genre"] = input[j][x].volumeInfo.categories;
-                    isbnjson = input[j][x].volumeInfo.industryIdentifiers;
-                    let isbnnumber;
-                    for( i in isbnjson){
-                        console.log("isbnjosn....", isbnjson[i]);
-                        if(isbnjson[i].type == "ISBN_13"){
-                            isbnnumber = isbnjson[i].identifier;
-                            console.log("my isbn...", isbnnumber);
-                            item ["isbn"] = isbnnumber;
+                    item ["language"] = input[j][x].volumeInfo.language;
+                    let isbnJson = input[j][x].volumeInfo.industryIdentifiers;
+                    let isbnNumber;
+
+                    for (let i in isbnJson) {
+                        console.log("isbnJson:", isbnJson[i]);
+                        if(isbnJson[i].type === "ISBN_13"){
+                            isbnNumber = isbnJson[i].identifier;
+                            console.log("my isbn:", isbnNumber);
+                            item ["isbn"] = isbnNumber;
                         } else {
-                            isbnnumber = isbnjson[i].identifier;
+                            isbnNumber = isbnJson[i].identifier;
                         }
                     }
                     item ["noofpages"] = input[j][x].volumeInfo.pageCount;
@@ -127,15 +108,12 @@ function createJson(input){
 
 async function fetchData(url, properties, options){
     const response = await fetch(url + '?' + new URLSearchParams(properties), options)
-    const resData = response.json();
-    //console.log(resData);
-    return resData;
-};
+    return response.json();
+}
 
 
 function extractRequestValues(req){
-    var requestobject = new bookrequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount);
-    return requestobject;
+    return new bookRequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount);
 }
 
 

@@ -39,9 +39,6 @@ routes.post('/registration', async (req, res) => {
 })
 
 routes.post('/login', async (req, res) => {
-    res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080');
-    res.headers.append('Access-Control-Allow-Credentials', 'true');
-
     const user = await User.findOne({email: req.body.email})
 
     if (!user) {

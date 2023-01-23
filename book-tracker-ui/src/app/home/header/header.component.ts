@@ -25,9 +25,7 @@ export class HeaderComponent {
     const dialogRef = this.dialog.open(HeaderSearchDialogComponent, {
       data: {searchKeyword: this.searchKeyword},
       position: {
-        top: '0px',
-        left: '0px',
-        right: '0px'
+        top: '0px'
       }
     });
 
