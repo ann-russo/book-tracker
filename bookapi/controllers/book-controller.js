@@ -4,19 +4,8 @@ const request = require("request");
 const {response} = require("express");
 const fetch = require('node-fetch');
 
-
+//TODO add required authentication for usage of API
 class BookController{
-
-    getTest(req, res){
-        res.send('test api....');
-    }
-
-    getBooksTest(req, res){
-        let myBook = new model.Book("testtilte","author","year","desc","genre","isbn","33","cover");
-        res.send(myBook); // return book as JSON
-    }
-
-
     getBooks(req, resRequest) {
         let requestincoming = extractRequestValues(req);
         console.log("retrieved values..: ", "searchText: ", requestincoming.searchText, "isbn: ", requestincoming.isbn, "author: ", requestincoming.author, "random book true: ", requestincoming.rand, "amount of requested books: ", requestincoming.amount);
@@ -71,9 +60,7 @@ class BookController{
         }).catch((e) => {
             console.log(e);
         });
-        
     }
-
 }
 
 
@@ -89,7 +76,6 @@ function createJson(input){
         if(!input.hasOwnProperty((j))){
             continue; //current property not a direct property of input
         }
-
         if(j == "items"){ //find delivered items
             console.log(j)
             for (let x in j){
@@ -120,7 +106,6 @@ function createJson(input){
             }
         }
     }
-
     return JSON.stringify(jsonBookList);
 }
 
@@ -137,7 +122,5 @@ function extractRequestValues(req){
     var requestobject = new bookrequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount);
     return requestobject;
 }
-
-
 
 module.exports = new BookController();

@@ -52,18 +52,15 @@ routes.post('/addbook', async (req, res) => {
         const {password, ...data} = await result.toJSON()
         res.send(data)
     } else {
-        res.send("book already exists in DB...")
+        let response = {
+            resultcode: 'ERROR',
+            resulttext: 'Book already exists in DB'
+        };
+        res.send(response)
     }
 
 
 })
 
-routes.post('/logout', (req, res) => {
-    res.cookie('jwt', '', {maxAge: 0})
-
-    res.send({
-        message: 'success'
-    })
-})
 
 module.exports = routes;

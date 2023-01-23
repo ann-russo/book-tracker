@@ -45,12 +45,19 @@ routes.post('/registration', async (req, res) => {
             const {password, ...data} = await result.toJSON()
             res.send(data)
         } catch (e){
-            res.send("Error creating user - missing parameters?")
+            let response = {
+                resultcode: 'ERROR',
+                resulttext: 'Error creating User - maybe youre missing some Parameters?'
+            };
+            res.send(response)
         }
 
     } else{
-        console.log("user already known, send error...");
-        res.send("Email already exists");
+        let response = {
+            resultcode: 'ERROR',
+            resulttext: 'Email already known'
+        };
+        res.send(response)
     }
 })
 
@@ -62,13 +69,15 @@ routes.post('/login', async (req, res) => {
 
     if (!user) {
         return res.status(404).send({
-            message: 'user not found'
+            resultcode: 'ERROR',
+            resulttext: 'User not found.'
         })
     }
 
     if (!await bcrypt.compare(req.body.password, user.password)) {
         return res.status(400).send({
-            message: 'invalid credentials'
+            resultcode: 'ERROR',
+            resulttext: 'Invalid Credentials'
         })
     }
 
@@ -79,7 +88,8 @@ routes.post('/login', async (req, res) => {
     })
 
     res.send({
-        message: 'success'
+        resultcode: 'OK',
+        resulttext: 'Login successful'
     })
 })
 
@@ -91,7 +101,8 @@ routes.get('/user', async (req, res) => {
 
         if (!claims) {
             return res.status(401).send({
-                message: 'unauthenticated'
+                resultcode: 'ERROR',
+                resulttext: 'User not authenticated.'
             })
         }
 
@@ -102,7 +113,8 @@ routes.get('/user', async (req, res) => {
         res.send(data)
     } catch (e) {
         return res.status(401).send({
-            message: 'unauthenticated'
+            resultcode: 'ERROR',
+            resulttext: 'User not authenticated.'
         })
     }
 })
@@ -111,7 +123,8 @@ routes.post('/logout', (req, res) => {
     res.cookie('jwt', '', {maxAge: 0})
 
     res.send({
-        message: 'success'
+        resultcode: 'OK',
+        resulttext: 'User successfully logged out.'
     })
 })
 

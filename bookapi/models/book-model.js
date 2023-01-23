@@ -37,15 +37,8 @@ class BookList{
     getBooklistasMap(){
         return this.booklist.get();
     }
-
-
-
-
-
 }
 
-
 const model = new BookList();
-//model.addBook(Book(asdf,dd,dd,dd,dd,dd,23,dd));
 module.exports = {model, Book: Book};
 

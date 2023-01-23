@@ -7,8 +7,4 @@ const routes = Router();
 routes.get('/test', controller.getTest);
 routes.get('/books', controller.getBooks);
 
-
-//routes.get("/messages", res.send("test")); //test message..
-
-
 module.exports = routes;
