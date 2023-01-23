@@ -5,7 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { LoginComponent } from './auth/login/login.component';
-import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import {
+  AccountSettingsComponent,
+  DialogDeleteAccount,
+  DialogEditData
+} from './account-settings/account-settings.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookListComponent } from './book-list/book-list.component';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
@@ -32,6 +36,7 @@ import {HeaderComponent, HeaderSearchDialogComponent} from "./home/header/header
 import { BooksCardsComponent } from './home/books-cards/books-cards.component';
 import {MatTableModule} from "@angular/material/table";
 import { HttpClientModule } from '@angular/common/http';
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -39,6 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     RegistrationComponent,
     LoginComponent,
     AccountSettingsComponent,
+    DialogDeleteAccount,
+    DialogEditData,
     BookDetailsComponent,
     BookListComponent,
     PageNotFoundComponent,
@@ -50,28 +57,29 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderSearchDialogComponent,
     BooksCardsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatIconModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatSelectCountryModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatTableModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatIconModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatSelectCountryModule,
+        MatToolbarModule,
+        MatMenuModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatTableModule,
+        HttpClientModule,
+        MatDividerModule,
+    ],
   providers: [AppRoutingModule],
   bootstrap: [AppComponent]
 })

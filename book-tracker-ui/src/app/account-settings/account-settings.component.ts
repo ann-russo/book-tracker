@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
-export interface UserData {
-  type: string;
-  value: string;
+export interface PeriodicElement {
+  name: string;
+  position: string;
 }
 
-const USER_DATA: UserData[] = [
-  { type: 'Email address', value: 'test@example.com'},
-  { type: 'Username', value: 'User1'},
-  { type: 'Password', value: ''},
-  { type: 'First Name', value: 'Anna'},
-  { type: 'Last Name', value: 'Hello'},
-  { type: 'Birthdate', value: '23.10.1999'},
-  { type: 'Country', value: 'Austria'},
-  { type: 'Preferred Language', value: 'English'},
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 'Email address', name: 'name@example.com'},
+  {position: 'Username', name: 'User1'},
+  {position: 'Password', name: ''},
+  {position: 'Birthdate', name: '25.12.1996'},
+  {position: 'First Name', name: 'Anna'},
+  {position: 'Last Name', name: 'Blabla'},
+  {position: 'Country', name: 'Austria'},
+  {position: 'Preferred Language', name: 'German'},
 ];
 
 @Component({
@@ -22,9 +23,44 @@ const USER_DATA: UserData[] = [
   styleUrls: ['./account-settings.component.css']
 })
 
-
-
 export class AccountSettingsComponent {
-  displayedColumns: string[] = ['Data Type', 'Data'];
-  dataSource = USER_DATA;
+  displayedColumns: string[] = ['position', 'name'];
+  dataSource = ELEMENT_DATA;
+
+  constructor(public dialog: MatDialog) {
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, dialogChoice: string): void {
+    if (dialogChoice === 'edit') {
+      this.dialog.open(DialogEditData, {
+        width: '400px',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
+    }
+    if (dialogChoice === 'delete') {
+      this.dialog.open(DialogDeleteAccount, {
+        width: '400px',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
+    }
+  }
+}
+
+@Component({
+  selector: 'dialog-delete-account',
+  templateUrl: 'dialog-delete-account/dialog-delete-account.html',
+})
+export class DialogDeleteAccount {
+  constructor(public dialogRefDelete: MatDialogRef<DialogDeleteAccount>) {}
+
+}
+
+@Component({
+  selector: 'dialog-edit-data',
+  templateUrl: 'dialog-edit-data/dialog-edit-data.html',
+})
+export class DialogEditData {
+  constructor(public dialogRefEdit: MatDialogRef<DialogEditData>) {}
 }
