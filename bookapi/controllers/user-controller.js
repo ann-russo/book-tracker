@@ -10,7 +10,6 @@ const mongoose = require('mongoose')
 //const {first} = require("rxjs");
 
 
-//TODO move functions out from model into controller....
 class UserController{
 
     async register(req, res){
@@ -193,11 +192,7 @@ class UserController{
             };
             res.send(response)
         }
-
-
     }
-
-
 }
 
 module.exports = new UserController();

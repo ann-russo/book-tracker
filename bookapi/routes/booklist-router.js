@@ -9,7 +9,7 @@ const routes = Router();
 
 
 routes.post('/addbook', bookController.addBookToDB)
-
+routes.get('/findbooks', bookController.findbooks)
 
 //TODO add functionality for displaying collection of own books, filtered by the different types of list
 //TODO move to controller instead of routes
