@@ -29,11 +29,20 @@ app.use(express.static(dist));
 
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.set('page-size', '20');
+    res.set('Access-Control-Expose-Headers', 'page-size')
+
+    next();
+});
+
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3080', 'http://localhost:8080', 'http://localhost:80', 'http://127.0.0.1:3080']
+    origin: ['http://localhost:3080', 'http://localhost:4200', 'http://localhost:8080', 'http://localhost:80', 'http://127.0.0.1:3080']
 }))
-
 
 app.use('/api/users', userRouter); //TODO during implementation add registered info when required...
 
