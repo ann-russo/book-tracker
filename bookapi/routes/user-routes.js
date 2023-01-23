@@ -16,5 +16,5 @@ routes.get('/user', UserController.userLoggedIn);
 routes.post('/logout', UserController.logoutUser);
 
 routes.post('/updateuser', UserController.updateUser);
-
+ 
 module.exports = routes;

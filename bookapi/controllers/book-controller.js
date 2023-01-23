@@ -45,7 +45,6 @@ class BookController{
         let options = {method: 'GET'}; //set method and other possible options.. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
         fetchData(apiurl, propertiesObject, options).then((data) => {
-            //console.log(data)
             resRequest.send(createJson(data));
         }).catch((e) => {
             console.log(e);
@@ -68,9 +67,6 @@ function createJson(input) {
 
         if(j === "items"){ // find delivered items
             for (let x in input[j]) {
-                //console.log("beginning of dat.....")
-                //console.log(input[j][x])
-                //console.log("end of dat.....")
                 let item = {}
                 item ["title"] = input[j][x].volumeInfo.title;
                 count+=1;
