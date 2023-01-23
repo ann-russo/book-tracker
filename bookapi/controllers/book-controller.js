@@ -34,7 +34,11 @@ class BookController{
 
         //if all parameters are empty return error //TODO add maybe other  useful combinations
         if (searchRandom === undefined && searchText === undefined && searchIsbn === undefined && searchAuthor === undefined) {
-            resRequest.send("error not enough variables defined") //TODO send as json / reasonable request
+            let response = {
+                resultcode: 'ERROR',
+                resulttext: 'not enough variables defined'
+            };
+            resRequest.send(response)
         }
 
         console.log("Currently executed query:", query);
