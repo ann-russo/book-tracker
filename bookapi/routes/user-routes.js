@@ -15,8 +15,6 @@ routes.get('/user', UserController.userLoggedIn);
 
 routes.post('/logout', UserController.logoutUser);
 
-
-//TODO add function for updating userdata..
-
+routes.post('/updateuser', UserController.updateUser);
 
 module.exports = routes;

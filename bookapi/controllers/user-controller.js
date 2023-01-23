@@ -6,6 +6,8 @@ const fetch = require('node-fetch');
 const bcrypt = require("bcryptjs");
 const User = require("../models/user-model");
 const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose')
+//const {first} = require("rxjs");
 
 
 //TODO move functions out from model into controller....
@@ -17,7 +19,6 @@ class UserController{
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
         let userInDb = await User.findOne({email: req.body.email})
 
-
         let userid = 0; // 0 if db is empty
         try{
             let maxUserID = await User.findOne().sort({"id" : -1 })
@@ -26,19 +27,33 @@ class UserController{
             userid = 0; //no user found
         }
 
+        if(req.body.username){
+
+        }else{
+
+        }
+        let username = req.body.username;
+        let firstName = req.body.firstname;
+        let lastName = req.body.lastname;
+        let birthdate = req.body.birthdate;
+        let country = req.body.country;
+        let prefLang = req.body.preflang;
+        let email = req.body.email;
+
+
         console.log("Adding new User with id..: ", userid);
         if (!userInDb){
             console.log("user not known add to DB");
             try{
                 const user = new User({
                     id: userid,
-                    username: req.body.username,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    birthdate: req.body.birthdate,
-                    country: req.body.country,
-                    prefLang: req.body.prefLang,
-                    email: req.body.email,
+                    username: username,
+                    firstName: firstName,
+                    lastName: lastName,
+                    birthdate: birthdate,
+                    country: country,
+                    prefLang: prefLang,
+                    email: email,
                     password: hashedPassword,
                 })
                 const result = await user.save()
@@ -112,7 +127,11 @@ class UserController{
 
             const {password, ...data} = await user.toJSON()
 
-            res.send(data)
+            res.send({
+                resultcode: 'OK',
+                resulttext: 'User is logged in'
+            })
+
             } catch (e) {
                 return res.status(401).send({
                     resultcode: 'ERROR',
@@ -131,6 +150,53 @@ class UserController{
             resulttext: 'User successfully logged out.'
         })
     }
+
+    async updateUser(req, res){
+        console.log("updating user....")
+
+        const cookie = req.cookies['jwt']
+        const claims = jwt.verify(cookie, 'secret')
+
+        if (!claims) {
+            return res.status(401).send({
+                resultcode: 'ERROR',
+                resulttext: 'User not authenticated.'
+            })
+        }
+
+        const user = await User.findOne({_id: claims._id})
+        console.log("user inDB...", user.id)
+
+
+        if(req.body.password){ //updating password only when update is requested by user
+            const salt = await bcrypt.genSalt(10)
+
+            const hashedPassword = await bcrypt.hash(req.body.password, salt)
+            try{
+
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: { password: hashedPassword }})
+            }catch(e){}
+           console.log("error updating password..")
+        }
+
+        try{
+            await User.collection.findOneAndUpdate({id: user.id}, {$set: { username: req.body.username, firstname: req.body.firstname, lastname: req.body.lastname, birthdate: req.body.birthdate, country: req.body.country, prefLang: req.body.preflang, email: req.body.email }})
+            let response = {
+                resultcode: 'OK',
+                resulttext: 'User updated successfully'
+            };
+            res.send(response)
+        } catch (e){
+            let response = {
+                resultcode: 'ERROR',
+                resulttext: 'Error updating User - maybe youre missing some Parameters?'
+            };
+            res.send(response)
+        }
+
+
+    }
+
 
 }
 

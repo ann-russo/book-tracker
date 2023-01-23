@@ -110,6 +110,8 @@ function createJson(input){
 }
 
 
+
+
 async function fetchData(url, properties, options){
     const response = await fetch(url + '?' + new URLSearchParams(properties), options)
     const resData = response.json();

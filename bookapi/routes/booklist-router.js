@@ -57,5 +57,7 @@ routes.post('/addbook', async (req, res) => {
     }
 })
 
+//TODO add functionality for displaying collection of own books, filtered by the different types of list
+//TODO move to controller instead of routes
 
 module.exports = routes;

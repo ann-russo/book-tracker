@@ -29,13 +29,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    firstName: {
+    firstname: {
         type: String,
         required: false,
         minlength: [2, 'Name can\'t be smaller than 2 characters'],
         maxlength: [64, 'Name can\'t be greater than 64 characters']
     },
-    lastName: {
+    lastname: {
         type: String,
         required: false
     },
