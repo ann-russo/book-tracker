@@ -3,17 +3,8 @@ const bookRequest = require("../models/book-requests");
 require("request");
 const fetch = require('node-fetch');
 
-
+//TODO add required authentication for usage of API
 class BookController{
-    getTest(req, res){
-        res.send('test api....');
-    }
-
-    getBooksTest(req, res){
-        let myBook = new model.Book("Test Titel","author","year","desc","genre","isbn","33","cover");
-        res.send(myBook); // return book as JSON
-    }
-
     getBooks(req, resRequest) {
         let incomingRequest = extractRequestValues(req);
         console.log("Retrieved values:", "searchText:", incomingRequest.searchText, "isbn:", incomingRequest.isbn, "author:", incomingRequest.author, "random book:", incomingRequest.rand, "amount of requested books:", incomingRequest.amount);
@@ -101,7 +92,6 @@ function createJson(input) {
             }
         }
     }
-
     return JSON.stringify(jsonBookList);
 }
 
@@ -115,7 +105,5 @@ async function fetchData(url, properties, options){
 function extractRequestValues(req){
     return new bookRequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount);
 }
-
-
 
 module.exports = new BookController();

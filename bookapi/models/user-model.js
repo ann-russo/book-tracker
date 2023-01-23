@@ -1,7 +1,13 @@
 const mongoose = require('mongoose')
+const {Int32} = require("mongodb");
 
 //TODO add unique id or use email!
 const userSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        maxlength: [128, 'Email can\'t be greater than 128 characters'],
+        index: true
+    },
     email: {
         type: String,
         lowercase: true,
@@ -41,7 +47,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-
 })
 
 module.exports = mongoose.model('User', userSchema)
