@@ -40,10 +40,12 @@ class BookController{
         console.log("Currently executed query:", query);
 
         let propertiesObject = {q: query, maxResults: maxResults};
+        console.log("sending request using the following properties: ", propertiesObject)
         let apiurl = ('https://www.googleapis.com/books/v1/volumes');
         let options = {method: 'GET'}; //set method and other possible options.. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
         fetchData(apiurl, propertiesObject, options).then((data) => {
+            //console.log(data)
             resRequest.send(createJson(data));
         }).catch((e) => {
             console.log(e);
@@ -55,40 +57,46 @@ class BookController{
 create expected JSON
  */
 function createJson(input) {
+    let count = 0;
     let jsonBookList = [];
+    console.log("total items according to the google api: ", input.totalItems)
     for (let j in input) {
+
         if(!input.hasOwnProperty((j))) {
             continue; // current property not a direct property of input
         }
-        if(j === "items"){ // find delivered items
-            console.log(j)
-            for (let x in j) {
-                if((input[j][x])) {
-                    console.log(input[j][x]);
-                    let item = {}
-                    item ["title"] = input[j][x].volumeInfo.title;
-                    item ["author"] = input[j][x].volumeInfo.authors;
-                    item ["year"] = input[j][x].volumeInfo.publishedDate;
-                    item ["description"] = input[j][x].volumeInfo.description;
-                    item ["genre"] = input[j][x].volumeInfo.categories;
-                    item ["language"] = input[j][x].volumeInfo.language;
-                    let isbnJson = input[j][x].volumeInfo.industryIdentifiers;
-                    let isbnNumber;
 
-                    for (let i in isbnJson) {
-                        console.log("isbnJson:", isbnJson[i]);
-                        if(isbnJson[i].type === "ISBN_13"){
-                            isbnNumber = isbnJson[i].identifier;
-                            console.log("my isbn:", isbnNumber);
-                            item ["isbn"] = isbnNumber;
-                        } else {
-                            isbnNumber = isbnJson[i].identifier;
-                        }
+        if(j === "items"){ // find delivered items
+            for (let x in input[j]) {
+                //console.log("beginning of dat.....")
+                //console.log(input[j][x])
+                //console.log("end of dat.....")
+                let item = {}
+                item ["title"] = input[j][x].volumeInfo.title;
+                count+=1;
+                item ["number"] = count;
+                console.log("found book with title: " , input[j][x].volumeInfo.title, "number of book: ", count)
+                item ["author"] = input[j][x].volumeInfo.authors;
+                item ["year"] = input[j][x].volumeInfo.publishedDate;
+                item ["description"] = input[j][x].volumeInfo.description;
+                item ["genre"] = input[j][x].volumeInfo.categories;
+                item ["language"] = input[j][x].volumeInfo.language;
+                let isbnJson = input[j][x].volumeInfo.industryIdentifiers;
+                let isbnNumber;
+                for (let i in isbnJson) {
+                    //console.log("isbnJson:", isbnJson[i]);
+                    if(isbnJson[i].type === "ISBN_13"){
+                        isbnNumber = isbnJson[i].identifier;
+                        //console.log("my isbn:", isbnNumber);
+                        item ["isbn"] = isbnNumber;
+                    } else {
+                        isbnNumber = isbnJson[i].identifier;
                     }
-                    item ["noofpages"] = input[j][x].volumeInfo.pageCount;
-                    item ["cover"] = input[j][x].volumeInfo.imageLinks.smallThumbnail;
-                    jsonBookList.push(item);
                 }
+                item ["noofpages"] = input[j][x].volumeInfo.pageCount;
+                item ["cover"] = input[j][x].volumeInfo.imageLinks.smallThumbnail;
+                jsonBookList.push(item);
+
             }
         }
     }
