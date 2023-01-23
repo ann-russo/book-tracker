@@ -30,11 +30,8 @@ routes.post('/addbook', async (req, res) => {
         const claims = jwt.verify(cookie, 'secret')
         const user = await User.findOne({_id: claims._id})
 
-        //TODO use email from user information
-        //TODO do not add book if already exists for user
-
-
         const book = new booklist({
+            id: user.id,
             email: user.email,
             title: req.body.title,
             status: req.body.status,
@@ -58,8 +55,6 @@ routes.post('/addbook', async (req, res) => {
         };
         res.send(response)
     }
-
-
 })
 
 

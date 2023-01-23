@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const bookSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        maxlength: [128, 'Email can\'t be greater than 128 characters'],
+        index: true
+    },
     email: {
         type: String,
         required: true
