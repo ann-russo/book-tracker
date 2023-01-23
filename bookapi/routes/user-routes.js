@@ -17,21 +17,37 @@ routes.post('/registration', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
     let userInDb = await User.findOne({email: req.body.email})
 
+
+    let userid = 0; // 0 if db is empty
+    try{
+        let maxUserID = await User.findOne().sort({"id" : -1 })
+        userid =  maxUserID.id + 1;
+    } catch(e){
+        userid = 0; //no user found
+    }
+
+    console.log("Adding new User with id..: ", userid);
     if (!userInDb){
         console.log("user not known add to DB");
-        const user = new User({
-            username: req.body.username,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            birthdate: req.body.birthdate,
-            country: req.body.country,
-            prefLang: req.body.prefLang,
-            email: req.body.email,
-            password: hashedPassword,
-        })
-        const result = await user.save()
-        const {password, ...data} = await result.toJSON()
-        res.send(data)
+        try{
+            const user = new User({
+                id: userid,
+                username: req.body.username,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                birthdate: req.body.birthdate,
+                country: req.body.country,
+                prefLang: req.body.prefLang,
+                email: req.body.email,
+                password: hashedPassword,
+            })
+            const result = await user.save()
+            const {password, ...data} = await result.toJSON()
+            res.send(data)
+        } catch (e){
+            res.send("Error creating user - missing parameters?")
+        }
+
     } else{
         console.log("user already known, send error...");
         res.send("Email already exists");
@@ -39,8 +55,8 @@ routes.post('/registration', async (req, res) => {
 })
 
 routes.post('/login', async (req, res) => {
-    res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080');
-    res.headers.append('Access-Control-Allow-Credentials', 'true');
+    //res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080'); //TODO add headers again, excluded them as login was not possible..
+    //res.headers.append('Access-Control-Allow-Credentials', 'true');
 
     const user = await User.findOne({email: req.body.email})
 
@@ -98,5 +114,9 @@ routes.post('/logout', (req, res) => {
         message: 'success'
     })
 })
+
+
+//TODO add function for updating userdata..
+
 
 module.exports = routes;
