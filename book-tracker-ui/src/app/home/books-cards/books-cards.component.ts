@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {ActivatedRoute} from "@angular/router";
 
 export interface BookCard {
   title?: string;
@@ -20,31 +21,39 @@ let BOOK_DATA: BookCard[] = [];
   styleUrls: ['./books-cards.component.css']
 })
 export class BooksCardsComponent implements OnInit, OnDestroy {
-  dataSource1: BookCard[] = []
-  url1: string = 'http://localhost:3080/api/books?author=Shakespeare&amount=5'
-  url2: string = 'http://localhost:3080/api/books?searchText=programmierung&amount=5'
+  dataSourceCardOne: BookCard[] = []
+  dataSourceCardTwo: BookCard[] = []
+  urlCardOne: string = 'http://localhost:3080/api/books?author=Shakespeare&amount=10'
+  urlCardTwo: string = 'http://localhost:3080/api/books?querytext=programmierung&amount=10'
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    public activatedRoute: ActivatedRoute,) {
   }
 
   ngOnInit(): void {
-    this.requestBookCategory(this.url1)
-    this.requestBookCategory(this.url2)
+    this.requestBookCategory(this.urlCardOne, 1)
+    this.requestBookCategory(this.urlCardTwo, 2)
   }
 
   ngOnDestroy(): void {
-    BOOK_DATA.length = 0
-    this.dataSource1.length = 0
+    this.resetData()
   }
 
-  requestBookCategory(url: string): void {
+  resetData(): void {
+    BOOK_DATA = []
+    this.dataSourceCardOne = []
+    this.dataSourceCardTwo = []
+  }
+
+  requestBookCategory(url: string, cardRow: number): void {
     this.http.get(url).subscribe({
-      next: books => this.extractBooks(books),
+      next: books => this.extractBooks(books, cardRow),
       error: error => console.log(error)
     })
   }
 
-  extractBooks(books: any): void {
+  extractBooks(books: any, cardRow: number): void {
     for (let book of books) {
       let newBook = {
         author: book.author,
@@ -58,13 +67,25 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
       }
       BOOK_DATA.push(newBook)
       console.log(newBook)
-    }
-    this.dataSource1 = BOOK_DATA
 
-    for (let item of this.dataSource1) {
-      if (item.description !== undefined && item.description.length > 200) {
-        item.description = item.description.slice(0, 200) + "(...)"
-      }
     }
+
+    if (cardRow === 1) {
+      this.dataSourceCardOne = BOOK_DATA
+    }
+    if (cardRow === 2) {
+      this.dataSourceCardTwo = BOOK_DATA
+    }
+    BOOK_DATA = []
+  }
+
+  isTooLong(description: string|undefined): boolean {
+    return description !== undefined && description.length > 200;
+  }
+}
+
+export class BookService {
+  getBook(isbn: string|null) {
+    return BOOK_DATA.find((book) => book.isbn == isbn)
   }
 }

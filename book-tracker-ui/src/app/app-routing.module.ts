@@ -9,6 +9,7 @@ import {WelcomeLinksComponent} from "./welcome/welcome-links/welcome-links.compo
 import {AccountSettingsComponent} from "./account-settings/account-settings.component";
 import {BookListComponent} from "./book-list/book-list.component";
 import {BooksCardsComponent} from "./home/books-cards/books-cards.component";
+import {BookDetailsComponent} from "./book-details/book-details.component";
 
 const routes: Routes = [
   { path: '',
@@ -22,7 +23,14 @@ const routes: Routes = [
   { path: 'home',
     component: HomeComponent,
     children: [
-      { path: '', component: BooksCardsComponent },
+      { path: '',
+        component: BooksCardsComponent,
+        children: [
+          { path: 'book/:isbn',
+            component: BookDetailsComponent
+          }
+        ]
+      },
       { path: 'mylist', component: BookListComponent },
       { path: 'settings', component: AccountSettingsComponent },
     ]

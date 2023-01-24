@@ -1,11 +1,13 @@
 <div class="container">
-  <h2>Selected W. Shakespeare Works</h2>
+  <h2>Selected Shakespeare Works</h2>
   <ul class="cards">
-    <li class="card" *ngFor="let item of dataSource1">
+    <li class="card" *ngFor="let item of dataSourceCardOne">
       <div>
         <h3 class="card-title">{{item.title}}</h3>
+        <h4 >by {{item.author}}</h4>
         <div class="card-content">
-          <p>{{item.description}}</p>
+          <p *ngIf="isTooLong(item.description)">{{item.description?.slice(0, 200)}}(...)</p>
+          <p *ngIf="!isTooLong(item.description)">{{item.description}}</p>
         </div>
       </div>
       <div class="card-link-wrapper">
@@ -18,16 +20,20 @@
 <div class="container">
   <h2>Books About Programming</h2>
   <ul class="cards">
-    <li class="card" *ngFor="let item of dataSource1">
+    <li class="card" *ngFor="let item of dataSourceCardTwo">
       <div>
         <h3 class="card-title">{{item.title}}</h3>
+        <h4 >by {{item.author}}</h4>
         <div class="card-content">
-          <p>{{item.description}}</p>
+          <p *ngIf="isTooLong(item.description)">{{item.description?.slice(0, 200)}}(...)</p>
+          <p *ngIf="!isTooLong(item.description)">{{item.description}}</p>
         </div>
       </div>
       <div class="card-link-wrapper">
-        <a href="" class="card-link">Learn More</a>
+        <a [routerLink]="['book', item.isbn]" class="card-link">Learn More</a>
       </div>
     </li>
   </ul>
 </div>
+
+<router-outlet></router-outlet>

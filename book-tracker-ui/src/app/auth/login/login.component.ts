@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   matcher = new MyErrorStateMatcher();
-  url: string = 'https://localhost:3080/api/users/login'
+  url: string = 'http://localhost:3080/api/users/login'
 
   constructor(
     private router: Router,

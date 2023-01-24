@@ -72,26 +72,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/book-tracker', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }, () => {
-    console.log('connected to the database')
+    console.log('Connected to the database')
 })
-
-
-
-/*
-MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
-    if (error) {
-        return console.log('Unable to connect to database!')
-    }
-    console.log("asdfdfj")
-    //const db = client.db(databaseName)
-    /*
-    db.collection('users').insertOne({
-        email: 'test@example.com',
-        password: 'test'
-    })
-})
- */
-
 
 
 
