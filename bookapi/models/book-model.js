@@ -5,7 +5,7 @@
 * One Book with all possible properties (javascript knows only one constructor -> let parameter empty if not used)
 */
 class Book{
-    constructor(title, author, year, description, genre, isbn, noofpages, cover) {
+    constructor(title, author, year, description, genre, isbn, noofpages, cover, language) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -14,6 +14,7 @@ class Book{
         this.isbn = isbn;
         this.noofpages = noofpages;
         this.cover = cover;
+        this.language = language;
     }
 
 }

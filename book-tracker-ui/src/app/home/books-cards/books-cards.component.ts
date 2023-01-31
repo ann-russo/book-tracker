@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {DomSanitizer} from "@angular/platform-browser";
+
+let apiAddress = 'localhost'
 
 export interface BookCard {
   title?: string;
@@ -11,6 +13,7 @@ export interface BookCard {
   description?: string;
   isbn?: string;
   language?: string;
+  genre?: string;
 }
 
 let BOOK_DATA: BookCard[] = [];
@@ -23,17 +26,21 @@ let BOOK_DATA: BookCard[] = [];
 export class BooksCardsComponent implements OnInit, OnDestroy {
   dataSourceCardOne: BookCard[] = []
   dataSourceCardTwo: BookCard[] = []
-  urlCardOne: string = 'http://localhost:3080/api/books?author=Shakespeare&amount=10'
-  urlCardTwo: string = 'http://localhost:3080/api/books?querytext=programmierung&amount=10'
+  dataSourceCardThree: BookCard[] = []
+  urlCardOne: string = 'http://' + apiAddress + ':3080/api/books?author=Shakespeare&amount=10'
+  urlCardTwo: string = 'http://' + apiAddress + ':3080/api/books?querytext=programmierung&amount=10'
+  urlCardThree: string = 'http://' + apiAddress + ':3080/api/books?querytext=potter&author=rowling&langRestrict=en&amount=10'
+
 
   constructor(
     private http: HttpClient,
-    public activatedRoute: ActivatedRoute,) {
+    private sanitization: DomSanitizer) {
   }
 
   ngOnInit(): void {
     this.requestBookCategory(this.urlCardOne, 1)
     this.requestBookCategory(this.urlCardTwo, 2)
+    this.requestBookCategory(this.urlCardThree, 3)
   }
 
   ngOnDestroy(): void {
@@ -52,7 +59,6 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
       error: error => console.log(error)
     })
   }
-
   extractBooks(books: any, cardRow: number): void {
     for (let book of books) {
       let newBook = {
@@ -64,10 +70,10 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         title: book.title,
         year: book.year,
         language: book.language,
+        genre: book.genre
       }
       BOOK_DATA.push(newBook)
       console.log(newBook)
-
     }
 
     if (cardRow === 1) {
@@ -76,16 +82,17 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
     if (cardRow === 2) {
       this.dataSourceCardTwo = BOOK_DATA
     }
+    if (cardRow === 3) {
+      this.dataSourceCardThree = BOOK_DATA
+    }
     BOOK_DATA = []
   }
-
   isTooLong(description: string|undefined): boolean {
     return description !== undefined && description.length > 200;
   }
-}
 
-export class BookService {
-  getBook(isbn: string|null) {
-    return BOOK_DATA.find((book) => book.isbn == isbn)
+  getCoverUrl(book: BookCard) {
+    let cover = book.cover
+    return this.sanitization.bypassSecurityTrustStyle('url(\'' + cover + '\')');
   }
 }

@@ -15,7 +15,6 @@
 
 body {
   font: 16px / 24px "Rubik", sans-serif;
-  color: #2b2d42;
   background: whitesmoke;
   margin: 50px 0;
 }
@@ -24,11 +23,12 @@ body {
   max-width: 1400px;
   padding: 0 15px;
   margin: 0 auto;
+  position: relative;
 }
 
 h2 {
-  font-size: 30px;
-  padding-top: 35px;
+  font-size: 28px;
+  padding-top: 30px;
   padding-left: 15px;
 }
 
@@ -44,25 +44,45 @@ h2 {
   display: flex;
   flex-direction: column;
   flex: 0 0 100%;
-  padding: 20px;
-  background: #edf2f4;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
   scroll-snap-align: start;
   transition: all 0.2s;
+  background-size: cover;
+  height: 300px;
+}
+
+.overlay {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 100%;
+  background-size: cover;
+  border-radius: 12px;
+  height: 300px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem;
+  transform: scale(0);
+  transition: all .3s ease-in-out;
+  backdrop-filter: blur(8px) brightness(80%);
+}
+
+.overlay mat-card-title {
+  color: #ef233c;
+}
+
+.overlay mat-card-subtitle {
+  color: whitesmoke;
+  display: block;
+}
+
+.card:hover .overlay {
+  transform: scale(1);
 }
 
 .card:not(:last-child) {
   margin-right: 10px;
-}
-
-.card:hover {
-  color: white;
-  background: #ef233c;
-}
-
-.card .card-title {
-  font-size: 23px;
 }
 
 .card .card-content {
@@ -107,30 +127,34 @@ h2 {
 
 @media (min-width: 500px) {
   .card {
-    flex-basis: calc(50% - 10px);
-  }
-
-  .card:not(:last-child) {
-    margin-right: 20px;
-  }
-}
-
-@media (min-width: 700px) {
-  .card {
-    flex-basis: calc(calc(100% / 3) - 20px);
-  }
-
-  .card:not(:last-child) {
-    margin-right: 30px;
-  }
-}
-
-@media (min-width: 1100px) {
-  .card {
-    flex-basis: calc(25% - 30px);
+    flex-basis: calc(50% - 30px);
   }
 
   .card:not(:last-child) {
     margin-right: 40px;
   }
+}
+
+@media (min-width: 700px) {
+  .card {
+    flex-basis: calc(calc(100% / 3) - 40px);
+  }
+
+  .card:not(:last-child) {
+    margin-right: 50px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .card {
+    flex-basis: calc(20% - 32px);
+  }
+
+  .card:not(:last-child) {
+    margin-right: 40px;
+  }
+}
+
+.example-card {
+  max-width: 200px;
 }

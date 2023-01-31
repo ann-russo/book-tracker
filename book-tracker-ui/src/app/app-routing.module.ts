@@ -25,12 +25,8 @@ const routes: Routes = [
     children: [
       { path: '',
         component: BooksCardsComponent,
-        children: [
-          { path: 'book/:isbn',
-            component: BookDetailsComponent
-          }
-        ]
       },
+      { path: 'book/:isbn', component: BookDetailsComponent },
       { path: 'mylist', component: BookListComponent },
       { path: 'settings', component: AccountSettingsComponent },
     ]

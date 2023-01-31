@@ -57,6 +57,11 @@ const bookSchema = new mongoose.Schema({
         unique: false,
         required: false
     },
+    language: {
+        type: String,
+        unique: false,
+        required: false
+    },
     public: {
         type: String,
         unique: false,

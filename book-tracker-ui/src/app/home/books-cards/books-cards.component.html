@@ -1,39 +1,53 @@
 <div class="container">
   <h2>Selected Shakespeare Works</h2>
+  <mat-divider></mat-divider>
   <ul class="cards">
-    <li class="card" *ngFor="let item of dataSourceCardOne">
-      <div>
-        <h3 class="card-title">{{item.title}}</h3>
-        <h4 >by {{item.author}}</h4>
-        <div class="card-content">
-          <p *ngIf="isTooLong(item.description)">{{item.description?.slice(0, 200)}}(...)</p>
-          <p *ngIf="!isTooLong(item.description)">{{item.description}}</p>
+    <li class="card" *ngFor="let item of dataSourceCardOne" [style.background-image]="getCoverUrl(item)">
+      <div class="overlay">
+        <mat-card-header>
+          <mat-card-title>{{item.title}}</mat-card-title>
+          <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+        </mat-card-header>
+        <div class="card-link-wrapper">
+          <a [routerLink]="['book', item.isbn]" class="card-link">Learn More</a>
         </div>
-      </div>
-      <div class="card-link-wrapper">
-        <a href="" class="card-link">Learn More</a>
       </div>
     </li>
   </ul>
 </div>
 
 <div class="container">
-  <h2>Books About Programming</h2>
+  <h2>Selected Books About Coding</h2>
+  <mat-divider></mat-divider>
   <ul class="cards">
-    <li class="card" *ngFor="let item of dataSourceCardTwo">
-      <div>
-        <h3 class="card-title">{{item.title}}</h3>
-        <h4 >by {{item.author}}</h4>
-        <div class="card-content">
-          <p *ngIf="isTooLong(item.description)">{{item.description?.slice(0, 200)}}(...)</p>
-          <p *ngIf="!isTooLong(item.description)">{{item.description}}</p>
+    <li class="card" *ngFor="let item of dataSourceCardTwo" [style.background-image]="getCoverUrl(item)">
+      <div class="overlay">
+        <mat-card-header>
+          <mat-card-title>{{item.title}}</mat-card-title>
+          <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+        </mat-card-header>
+        <div class="card-link-wrapper">
+          <a [routerLink]="['book', item.isbn]" class="card-link">Learn More</a>
         </div>
-      </div>
-      <div class="card-link-wrapper">
-        <a [routerLink]="['book', item.isbn]" class="card-link">Learn More</a>
       </div>
     </li>
   </ul>
 </div>
 
-<router-outlet></router-outlet>
+<div class="container">
+  <h2>Harry Potter Book Series</h2>
+  <mat-divider></mat-divider>
+  <ul class="cards">
+    <li class="card" *ngFor="let item of dataSourceCardThree" [style.background-image]="getCoverUrl(item)">
+      <div class="overlay">
+        <mat-card-header>
+          <mat-card-title>{{item.title}}</mat-card-title>
+          <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+        </mat-card-header>
+        <div class="card-link-wrapper">
+          <a [routerLink]="['book', item.isbn]" class="card-link">Learn More</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

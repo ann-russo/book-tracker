@@ -7,11 +7,13 @@ const fetch = require('node-fetch');
 class BookController{
     getBooks(req, resRequest) {
         let incomingRequest = extractRequestValues(req);
-        console.log("Retrieved values:", "searchText:", incomingRequest.searchText, "isbn:", incomingRequest.isbn, "author:", incomingRequest.author, "random book:", incomingRequest.rand, "amount of requested books:", incomingRequest.amount);
+        console.log(
+            "Retrieved values:", "searchText:", incomingRequest.searchText, "isbn:", incomingRequest.isbn, "author:", incomingRequest.author,
+            "random book:", incomingRequest.rand, "amount of requested books:", incomingRequest.amount, "language of the book:", incomingRequest.language);
 
         let searchText = incomingRequest.searchText, searchIsbn = incomingRequest.isbn,
             searchAuthor = incomingRequest.author, searchRandom = incomingRequest.rand,
-            searchAmount = incomingRequest.amount;
+            searchAmount = incomingRequest.amount, searchLanguage = incomingRequest.language;
 
         let query = "q?=";
 
@@ -23,6 +25,9 @@ class BookController{
         }
         if (searchAuthor) {
             query += "+inauthor:" + searchAuthor
+        }
+        if (searchLanguage) {
+            query += "&langRestrict=" + searchLanguage
         }
 
         let maxResults = 40; //the maximum possible by the Google api, set to requested value if exists
@@ -87,14 +92,13 @@ function createJson(input) {
                     //console.log("isbnJson:", isbnJson[i]);
                     if(isbnJson[i].type === "ISBN_13"){
                         isbnNumber = isbnJson[i].identifier;
-                        //console.log("my isbn:", isbnNumber);
                         item ["isbn"] = isbnNumber;
                     } else {
                         isbnNumber = isbnJson[i].identifier;
                     }
                 }
                 item ["noofpages"] = input[j][x].volumeInfo.pageCount;
-                item ["cover"] = input[j][x].volumeInfo.imageLinks.smallThumbnail;
+                item ["cover"] = input[j][x].volumeInfo.imageLinks?.smallThumbnail;
                 jsonBookList.push(item);
 
             }

@@ -37,6 +37,7 @@ import { BooksCardsComponent } from './home/books-cards/books-cards.component';
 import {MatTableModule} from "@angular/material/table";
 import { HttpClientModule } from '@angular/common/http';
 import {MatDividerModule} from "@angular/material/divider";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import {MatDividerModule} from "@angular/material/divider";
         MatTableModule,
         HttpClientModule,
         MatDividerModule,
+        MatCardModule,
     ],
   providers: [AppRoutingModule],
   bootstrap: [AppComponent]
