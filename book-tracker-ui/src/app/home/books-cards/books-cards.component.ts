@@ -1,22 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Book} from "../../models/book";
 
 let apiAddress = 'localhost'
-
-export interface BookCard {
-  title?: string;
-  author?: string;
-  cover?: string;
-  year?: string;
-  noofpages?: number;
-  description?: string;
-  isbn?: string;
-  language?: string;
-  genre?: string;
-}
-
-let BOOK_DATA: BookCard[] = [];
+let BOOK_DATA: Book[] = [];
 
 @Component({
   selector: 'app-books-cards',
@@ -24,13 +12,12 @@ let BOOK_DATA: BookCard[] = [];
   styleUrls: ['./books-cards.component.css']
 })
 export class BooksCardsComponent implements OnInit, OnDestroy {
-  dataSourceCardOne: BookCard[] = []
-  dataSourceCardTwo: BookCard[] = []
-  dataSourceCardThree: BookCard[] = []
+  dataSourceCardOne: Book[] = []
+  dataSourceCardTwo: Book[] = []
+  dataSourceCardThree: Book[] = []
   urlCardOne: string = 'http://' + apiAddress + ':3080/api/books?author=Shakespeare&amount=10'
   urlCardTwo: string = 'http://' + apiAddress + ':3080/api/books?querytext=programmierung&amount=10'
   urlCardThree: string = 'http://' + apiAddress + ':3080/api/books?querytext=potter&author=rowling&langRestrict=en&amount=10'
-
 
   constructor(
     private http: HttpClient,
@@ -87,11 +74,7 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
     }
     BOOK_DATA = []
   }
-  isTooLong(description: string|undefined): boolean {
-    return description !== undefined && description.length > 200;
-  }
-
-  getCoverUrl(book: BookCard) {
+  getCoverUrl(book: Book) {
     let cover = book.cover
     return this.sanitization.bypassSecurityTrustStyle('url(\'' + cover + '\')');
   }

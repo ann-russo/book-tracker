@@ -1,0 +1,38 @@
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navigation h3 {
+  vertical-align: middle;
+  margin-top: 5px;
+}
+
+.book-cover {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-part {
+  text-align: center;
+}
+
+.book-details {
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.add-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.add-button button {
+  margin-left: 5px;
+  line-height: 1.125;
+  height: 56px;
+  width: 212px;
+}
