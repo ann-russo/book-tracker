@@ -18,12 +18,12 @@ const bookSchema = new mongoose.Schema({
         required: true
     },
     status: { //1,2,3,4 = currently reading, plan to read, finsihed, cancelled
-        type: String,
+        type: Number,
         unique: false,
-        required: false
+        required: true
     },
     author: {
-        type: String,
+        type: Array,
         unique: false,
         required: false
     },
@@ -38,7 +38,7 @@ const bookSchema = new mongoose.Schema({
         required: false
     },
     genre: {
-        type: String,
+        type: Array,
         unique: false,
         required: false
     },

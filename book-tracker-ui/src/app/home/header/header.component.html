@@ -3,21 +3,11 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <span>Science Fiction</span>
-    </button>
-    <button mat-menu-item>
-      <span>Horror</span>
-    </button>
-    <button mat-menu-item>
-      <span>Mystery</span>
-    </button>
-    <button mat-menu-item>
-      <span>Biography</span>
-    </button>
-    <button mat-menu-item>
-      <span>Self-help</span>
-    </button>
+    <div *ngFor="let genre of genres">
+      <button mat-menu-item>
+        <span>{{genre}}</span>
+      </button>
+    </div>
   </mat-menu>
 
   <span>

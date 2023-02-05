@@ -1,0 +1,20 @@
+export const GENRES: string[] = [
+  'Biography',
+  'Classics',
+  'Computers',
+  'Drama',
+  'Fantasy',
+  'Fiction',
+  'History',
+  'Juvenile fiction',
+  'Mystery',
+  'Non-fiction',
+  'Philosophy',
+  'Religion',
+  'Romance',
+  'Science',
+  'Science fiction',
+  'Self help',
+  'Thriller',
+  'Travel'
+]

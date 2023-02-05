@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Router} from "@angular/router";
+import {GENRES} from "../../models/genres";
 
 export interface DialogData {
   searchKeyword: string;
@@ -13,7 +14,8 @@ export interface DialogData {
 })
 export class HeaderComponent {
   searchKeyword: string;
-  url: string = 'https://localhost:3080/api/users/logout'
+  url: string = 'http://localhost:3080/api/users/logout'
+  genres = GENRES;
 
   constructor(
     public dialog: MatDialog,
@@ -55,5 +57,9 @@ export class HeaderSearchDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  fetchBooksByGenre(genre: string): void {
+    let url = 'http://www.googleapis.com/books/v1/volumes?q=subject:' + genre;
   }
 }

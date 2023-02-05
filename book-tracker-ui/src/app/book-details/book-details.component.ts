@@ -2,17 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {Book} from "../models/book";
+import {BookStatus} from "../models/bookstatus";
 import {FormControl, Validators} from "@angular/forms";
 import { Location } from '@angular/common';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
-interface BookStatus {
-  statusName: string;
-}
 
 @Component({
   selector: 'app-book-details',
   templateUrl: './book-details.component.html',
-  styleUrls: ['./book-details.component.css']
+  styleUrls: ['./book-details.component.css'],
+  providers: [MatSnackBar]
 })
 export class BookDetailsComponent implements OnInit {
 
@@ -21,16 +21,17 @@ export class BookDetailsComponent implements OnInit {
   selectedStatus!: BookStatus;
   statusControl = new FormControl<BookStatus | null>(null, Validators.required);
   lists: BookStatus[] = [
-    {statusName: "Reading"},
-    {statusName: "Finished"},
-    {statusName: "Plan to read"},
-    {statusName: "Dropped"},
+    {statusId: 1, statusName: "Currently Reading"},
+    {statusId: 2, statusName: "Plan to read"},
+    {statusId: 3, statusName: "Finished"},
+    {statusId: 4, statusName: "Dropped"}
   ];
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private location: Location) {}
+    private location: Location,
+    private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -68,6 +69,16 @@ export class BookDetailsComponent implements OnInit {
   }
 
   addToList(status: BookStatus): void {
-    console.log("Book added to list with status " + status.statusName)
+    const url = 'http://localhost:3080/api/booklist/addbook'
+    this.book.status = status.statusId
+    this.http.post(url, this.book).subscribe({
+      next: response => this.showFeedback(response),
+      error: err => console.log(err)
+    })
+  }
+
+  showFeedback(response: Object): void {
+    const feedbackMessage = Object.values(response)[0] + ': ' + Object.values(response)[1]
+    this._snackBar.open(feedbackMessage, 'OK');
   }
 }

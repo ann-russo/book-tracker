@@ -6,16 +6,14 @@ const booklist = require('../models/bookDB-model')
 
 
 class booklistController{
-
     async addBookToDB(req, res){
         try {
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
-
         if (!claims) {
-        return res.status(401).send({
-                                        message: 'unauthenticated'
-                                    })
+            return res.status(401).send({
+                message: 'unauthenticated'
+            })
         }
         } catch (e) {
             return res.status(401).send({
@@ -43,6 +41,7 @@ class booklistController{
                 noofpages: req.body.noofpages,
                 cover: req.body.cover,
                 public: req.body.public,
+                language: req.body.language
             })
 
             try{
