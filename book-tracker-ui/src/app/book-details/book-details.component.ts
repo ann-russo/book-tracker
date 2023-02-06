@@ -41,7 +41,6 @@ export class BookDetailsComponent implements OnInit {
         next: book => this.saveBookData(book),
         error: error => console.log(error)
       })
-      console.log("book isbn:", isbn)
     })
   }
 

@@ -1,31 +1,8 @@
 <h2>My Book List</h2>
 
 <mat-tab-group>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Currently Reading
-    </ng-template>
-    <app-table></app-table>
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Completed
-    </ng-template>
-    <app-table></app-table>
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Dropped
-    </ng-template>
-    <app-table></app-table>
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      Plan to Read
-    </ng-template>
-    <app-table></app-table>
-  </mat-tab>
+  <mat-tab label="Currently Reading"> <app-table></app-table> </mat-tab>
+  <mat-tab label="Plan to Read"> <app-table></app-table> </mat-tab>
+  <mat-tab label="Finished"> <app-table></app-table> </mat-tab>
+  <mat-tab label="Dropped"> <app-table></app-table> </mat-tab>
 </mat-tab-group>

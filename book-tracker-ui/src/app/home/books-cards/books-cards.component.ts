@@ -60,7 +60,6 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         genre: book.genre
       }
       BOOK_DATA.push(newBook)
-      console.log(newBook)
     }
 
     if (cardRow === 1) {
@@ -75,7 +74,6 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
     BOOK_DATA = []
   }
   getCoverUrl(book: Book) {
-    let cover = book.cover
-    return this.sanitization.bypassSecurityTrustStyle('url(\'' + cover + '\')');
+    return this.sanitization.bypassSecurityTrustStyle('url(\'' + book.cover + '\')');
   }
 }
