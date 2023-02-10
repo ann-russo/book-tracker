@@ -15,7 +15,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   providers: [MatSnackBar]
 })
 export class BookDetailsComponent implements OnInit {
-
   url: string = 'http://localhost:3080/api/books?isbn=';
   book!: Book;
   selectedStatus!: BookStatus;

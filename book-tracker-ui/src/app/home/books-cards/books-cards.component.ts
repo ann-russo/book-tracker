@@ -46,6 +46,7 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
       error: error => console.log(error)
     })
   }
+
   extractBooks(books: any, cardRow: number): void {
     for (let book of books) {
       let newBook = {
@@ -73,6 +74,7 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
     }
     BOOK_DATA = []
   }
+
   getCoverUrl(book: Book) {
     return this.sanitization.bypassSecurityTrustStyle('url(\'' + book.cover + '\')');
   }
