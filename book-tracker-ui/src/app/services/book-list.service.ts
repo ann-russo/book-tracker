@@ -24,8 +24,9 @@ export class BookListService {
     return this.http.post(url, book);
   }
 
-  private deleteBook(url: string): void {
-    //TODO call deleteBook method in backend (issue #5)
+  public deleteBook(book: Book): Observable<any> {
+    const url = this.api + '/deletebook';
+    return this.http.delete(url, {body: book});
   }
 
   public getBookList(sorted: boolean, status?: number): Book[] {

@@ -25,7 +25,15 @@
           <mat-card-title class="book-title">
             <a [routerLink]="['../book', element.isbn]" class="card-link">{{element.title}}</a>
           </mat-card-title><br>
-          <mat-card-subtitle class="book-author">{{element.author}}</mat-card-subtitle>
+          <mat-card-subtitle class="book-author">{{element.author}}</mat-card-subtitle><br>
+          <div class="book-options">
+            <button mat-icon-button class="book-edit" aria-label="Edit" matTooltip="Edit entry" (click)="editBookEntry(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="book-delete" aria-label="Delete" matTooltip="Delete entry" (click)="deleteBookEntry(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </td>
       </ng-container>
 
