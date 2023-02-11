@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import {Book} from "../models/book";
 import {BookStatus} from "../models/bookstatus";
 import {FormControl, Validators} from "@angular/forms";
 import { Location } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {BookService} from "../services/book.service";
+import {BookListService} from "../services/book-list.service";
 
 
 @Component({
   selector: 'app-book-details',
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css'],
-  providers: [MatSnackBar]
+  providers: [MatSnackBar, BookService, BookListService]
 })
 export class BookDetailsComponent implements OnInit {
-  url: string = 'http://localhost:3080/api/books?isbn=';
   book!: Book;
   selectedStatus!: BookStatus;
   statusControl = new FormControl<BookStatus | null>(null, Validators.required);
@@ -28,22 +28,22 @@ export class BookDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
     private location: Location,
-    private _snackBar: MatSnackBar) {}
+    private _snackBar: MatSnackBar,
+    private bookService: BookService,
+    private bookListService: BookListService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const isbn: string = params['isbn'];
-      this.url += isbn + ("&amount=1")
-      this.http.get(this.url).subscribe({
-        next: book => this.saveBookData(book),
+      this.bookService.getBookByIsbn(isbn).subscribe({
+        next: book => this.extractBook(book),
         error: error => console.log(error)
       })
     })
   }
 
-  saveBookData(fetchedBook: any) {
+  extractBook(fetchedBook: any) {
     const newBook = fetchedBook[0]
     this.book = {
       title: newBook.title,
@@ -67,12 +67,11 @@ export class BookDetailsComponent implements OnInit {
   }
 
   addToList(status: BookStatus): void {
-    const url = 'http://localhost:3080/api/booklist/addbook'
     this.book.status = status.statusId
-    this.http.post(url, this.book).subscribe({
-      next: response => this.showFeedback(response),
-      error: err => console.log(err)
-    })
+    this.bookListService.addBook(this.book).subscribe({
+        next: response => this.showFeedback(response),
+        error: err => console.log(err)
+      })
   }
 
   showFeedback(response: Object): void {

@@ -39,6 +39,8 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatCardModule} from "@angular/material/card";
 import {BookListService} from "./services/book-list.service";
 import {BookService} from "./services/book.service";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -58,30 +60,32 @@ import {BookService} from "./services/book.service";
     HeaderSearchDialogComponent,
     BooksCardsComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        MatIconModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatSelectModule,
-        MatSelectCountryModule,
-        MatToolbarModule,
-        MatMenuModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatTabsModule,
-        MatTableModule,
-        HttpClientModule,
-        MatDividerModule,
-        MatCardModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatSelectCountryModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatTableModule,
+    HttpClientModule,
+    MatDividerModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+  ],
   providers: [AppRoutingModule, BookListService, BookService],
   bootstrap: [AppComponent]
 })

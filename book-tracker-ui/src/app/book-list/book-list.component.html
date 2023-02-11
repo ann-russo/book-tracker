@@ -1,7 +1,7 @@
 <h2>My Book List</h2>
 
 <ng-container *ngIf="(asyncTabs | async) === null">
-  Loading lists...
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-container>
 
 <mat-tab-group>

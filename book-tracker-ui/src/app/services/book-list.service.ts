@@ -1,6 +1,7 @@
 import {Book} from "../models/book";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn:'root'
@@ -18,11 +19,9 @@ export class BookListService {
     return this.bookList;
   }
 
-  public addBook(book: Book): Object {
+  public addBook(book: Book): Observable<any> {
     const url = this.api + '/addbook';
-    return this.http.post(url, book).subscribe(res => {
-      return res;
-    });
+    return this.http.post(url, book);
   }
 
   private deleteBook(url: string): void {
@@ -32,7 +31,6 @@ export class BookListService {
   public getBookList(sorted: boolean, status?: number): Book[] {
     const url = this.api + '/findbooks';
     const bookList = this.getBooks(url);
-
     if (sorted && status !== undefined) {
       return this.getSortedBookList(bookList, status);
     } else {
