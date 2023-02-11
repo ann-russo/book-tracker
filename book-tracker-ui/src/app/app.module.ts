@@ -41,6 +41,7 @@ import {BookListService} from "./services/book-list.service";
 import {BookService} from "./services/book.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {UserService} from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -86,7 +87,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatProgressBarModule,
     MatProgressSpinnerModule,
   ],
-  providers: [AppRoutingModule, BookListService, BookService],
+  providers: [AppRoutingModule, BookListService, BookService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

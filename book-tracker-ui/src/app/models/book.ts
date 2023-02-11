@@ -1,5 +1,3 @@
-import {BookStatus} from "./bookstatus";
-
 export interface Book {
   title: string;
   author: string;
