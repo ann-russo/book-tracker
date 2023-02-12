@@ -1,21 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {StorageService} from "../services/storage.service";
 
-export interface PeriodicElement {
-  name: string;
-  position: string;
+export interface AccountData {
+  type: string;
+  value: any;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 'Email address', name: 'name@example.com'},
-  {position: 'Username', name: 'User1'},
-  {position: 'Password', name: ''},
-  {position: 'Birthdate', name: '25.12.1996'},
-  {position: 'First Name', name: 'Anna'},
-  {position: 'Last Name', name: 'Blabla'},
-  {position: 'Country', name: 'Austria'},
-  {position: 'Preferred Language', name: 'German'},
-];
 
 @Component({
   selector: 'app-account-settings',
@@ -23,12 +13,36 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./account-settings.component.css']
 })
 
-export class AccountSettingsComponent {
-  displayedColumns: string[] = ['position', 'name'];
-  dataSource = ELEMENT_DATA;
+export class AccountSettingsComponent implements OnInit {
+  displayedColumns: string[] = ['type', 'value'];
+  userData: AccountData[] = [];
+  typesOfData: string[] = ['Email address', 'Username', 'Password',
+    'First name', 'Last name', 'Date of birth', 'Country', 'Preferred language']
+  dataSource = this.userData
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog,
+    private storageService: StorageService) {}
+
+  ngOnInit(): void {
+    for (const [key, value] of Object.entries(this.storageService.getUser())) {
+      let element: AccountData = {
+        type: key,
+        value: value
+      }
+      this.userData.push(element)
+    }
+    this.userData = this.userData.filter(x => x.type !== "_id" && x.type !== "id" && x.type !== "__v")
+    const isPassword = (element: any) => element.type === "password"
+    const indexPassword = this.userData.findIndex(isPassword)
+    this.userData[indexPassword] = {
+      type: 'password',
+      value: ''
+    }
+
+    this.dataSource = this.userData
   }
+
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, dialogChoice: string): void {
     if (dialogChoice === 'edit') {

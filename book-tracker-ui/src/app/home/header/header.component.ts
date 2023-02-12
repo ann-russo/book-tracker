@@ -2,6 +2,8 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {GENRES} from "../../models/genres";
+import {UserService} from "../../services/user.service";
+import {StorageService} from "../../services/storage.service";
 
 export interface DialogData {
   searchKeyword: string;
@@ -10,16 +12,18 @@ export interface DialogData {
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  providers: [UserService]
 })
 export class HeaderComponent {
   searchKeyword: string;
-  url: string = 'http://localhost:3080/api/users/logout'
   genres = GENRES;
 
   constructor(
     public dialog: MatDialog,
-    private router: Router) {
+    private router: Router,
+    private userService: UserService,
+    private storageService: StorageService) {
     this.searchKeyword = '';
   }
 
@@ -37,12 +41,17 @@ export class HeaderComponent {
   }
 
   logOut(): void {
-    let request = new XMLHttpRequest();
-    request.open("POST", this.url);
-    request.withCredentials = true;
-    this.router.navigate(['/'])
+    this.userService.logoutUser().subscribe({
+      next: res => {
+        console.log(res);
+        this.storageService.clean();
+        this.router.navigate(['/'])
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
   }
-
 }
 
 @Component({
@@ -57,9 +66,5 @@ export class HeaderSearchDialogComponent {
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  fetchBooksByGenre(genre: string): void {
-    let url = 'http://www.googleapis.com/books/v1/volumes?q=subject:' + genre;
   }
 }

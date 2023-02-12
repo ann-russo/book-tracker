@@ -1,129 +1,108 @@
-const model = require("../models/book-model");
-const bookrequest = require("../models/book-requests");
-const request = require("request");
-const {response} = require("express");
-const fetch = require('node-fetch');
 const bcrypt = require("bcryptjs");
 const User = require("../models/user-model");
 const jwt = require("jsonwebtoken");
-const mongoose = require('mongoose')
-//const {first} = require("rxjs");
 
+class UserController {
 
-class UserController{
-
-    async register(req, res){
+    async register(req, res) {
         const salt = await bcrypt.genSalt(10)
-        console.log("passwort ist.;..", req.body.password)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        let userInDb = await User.findOne({email: req.body.email})
 
+        let userInDb = await User.findOne({email: req.body.email})
         let userid = 0; // 0 if db is empty
-        try{
-            let maxUserID = await User.findOne().sort({"id" : -1 })
-            userid =  maxUserID.id + 1;
-        } catch(e){
+        try {
+            let maxUserID = await User.findOne().sort({"id": -1})
+            userid = maxUserID.id + 1;
+        } catch (e) {
             userid = 0; //no user found
         }
 
-        if(req.body.username){
-
-        }else{
-
-        }
+        let email = req.body.email;
         let username = req.body.username;
-        let firstName = req.body.firstname;
-        let lastName = req.body.lastname;
+        let firstname = req.body.firstname;
+        let lastname = req.body.lastname;
         let birthdate = req.body.birthdate;
         let country = req.body.country;
-        let prefLang = req.body.preflang;
-        let email = req.body.email;
+        let prefLang = req.body.prefLang;
 
+        console.log("Adding new user with id ", userid);
 
-        console.log("Adding new User with id..: ", userid);
-        if (!userInDb){
-            console.log("user not known add to DB");
-            try{
+        if (!userInDb) {
+            console.log("User not known - adding to DB");
+            try {
                 const user = new User({
                     id: userid,
+                    email: email,
                     username: username,
-                    firstName: firstName,
-                    lastName: lastName,
+                    password: hashedPassword,
+                    firstname: firstname,
+                    lastname: lastname,
                     birthdate: birthdate,
                     country: country,
                     prefLang: prefLang,
-                    email: email,
-                    password: hashedPassword,
                 })
                 const result = await user.save()
                 const {password, ...data} = await result.toJSON()
                 res.send(data)
-            } catch (e){
+            } catch (e) {
                 let response = {
                     resultcode: 'ERROR',
-                    resulttext: 'Error creating User - maybe youre missing some Parameters?'
+                    resulttext: 'Error creating user - maybe you are missing some parameters?'
                 };
                 res.send(response)
             }
 
-        } else{
+        } else {
             let response = {
                 resultcode: 'ERROR',
-                resulttext: 'Email already known'
+                resulttext: 'Email address already is use'
             };
             res.send(response)
         }
     }
 
 
-    async login(req, res){
-        //res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080'); //TODO add headers again, excluded them as login was not possible..
+    async login(req, res) {
+        //TODO add headers again, excluded them as login was not possible
+        //res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080');
         //res.headers.append('Access-Control-Allow-Credentials', 'true');
 
         const user = await User.findOne({email: req.body.email})
 
         if (!user) {
-        return res.status(404).send({
-                                        resultcode: 'ERROR',
-                                        resulttext: 'User not found.'
-                                    })
+            return res.status(404).send({
+                resultcode: 'ERROR',
+                resulttext: 'Email not found'
+            })
         }
 
         if (!await bcrypt.compare(req.body.password, user.password)) {
             return res.status(400).send({
                 resultcode: 'ERROR',
-                resulttext: 'Invalid Credentials'
+                resulttext: 'Wrong password'
             })
         }
 
         const token = jwt.sign({_id: user._id}, "secret")
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-        })
-
-        res.send({
-            resultcode: 'OK',
-            resulttext: 'Login successful'
+        res.json({
+            token: token,
+            user: user
         })
     }
 
 
-    async userLoggedIn(req,res){
+    async userLoggedIn(req, res) {
         try {
             const cookie = req.cookies['jwt']
-
             const claims = jwt.verify(cookie, 'secret')
-
             if (!claims) {
                 return res.status(401).send({
                     resultcode: 'ERROR',
-                    resulttext: 'User not authenticated.'
+                    resulttext: 'User is not authenticated'
                 })
             }
 
             const user = await User.findOne({_id: claims._id})
-
             const {password, ...data} = await user.toJSON()
 
             res.send({
@@ -131,31 +110,28 @@ class UserController{
                 resulttext: 'User is logged in'
             })
 
-            } catch (e) {
-                return res.status(401).send({
-                    resultcode: 'ERROR',
-                    resulttext: 'User not authenticated.'
-                })
-            }
+        } catch (e) {
+            return res.status(401).send({
+                resultcode: 'ERROR',
+                resulttext: 'User is not authenticated'
+            })
         }
+    }
 
 
-
-    async logoutUser(req, res){
+    async logoutUser(req, res) {
         res.cookie('jwt', '', {maxAge: 0})
-
         res.send({
             resultcode: 'OK',
             resulttext: 'User successfully logged out.'
         })
     }
 
-    async updateUser(req, res){
+    async updateUser(req, res) {
         console.log("updating user....")
 
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
-
         if (!claims) {
             return res.status(401).send({
                 resultcode: 'ERROR',
@@ -166,26 +142,35 @@ class UserController{
         const user = await User.findOne({_id: claims._id})
         console.log("user inDB...", user.id)
 
-
-        if(req.body.password){ //updating password only when update is requested by user
+        if (req.body.password) { //updating password only when update is requested by user
             const salt = await bcrypt.genSalt(10)
 
             const hashedPassword = await bcrypt.hash(req.body.password, salt)
-            try{
-
-                await User.collection.findOneAndUpdate({id: user.id}, {$set: { password: hashedPassword }})
-            }catch(e){}
-           console.log("error updating password..")
+            try {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {password: hashedPassword}})
+            } catch (e) {
+            }
+            console.log("error updating password..")
         }
 
-        try{
-            await User.collection.findOneAndUpdate({id: user.id}, {$set: { username: req.body.username, firstname: req.body.firstname, lastname: req.body.lastname, birthdate: req.body.birthdate, country: req.body.country, prefLang: req.body.preflang, email: req.body.email }})
+        try {
+            await User.collection.findOneAndUpdate({id: user.id}, {
+                $set: {
+                    email: req.body.email,
+                    username: req.body.username,
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
+                    birthdate: req.body.birthdate,
+                    country: req.body.country,
+                    prefLang: req.body.prefLang,
+                }
+            })
             let response = {
                 resultcode: 'OK',
                 resulttext: 'User updated successfully'
             };
             res.send(response)
-        } catch (e){
+        } catch (e) {
             let response = {
                 resultcode: 'ERROR',
                 resulttext: 'Error updating User - maybe youre missing some Parameters?'

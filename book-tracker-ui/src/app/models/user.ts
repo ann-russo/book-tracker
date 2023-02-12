@@ -1,10 +1,10 @@
 export interface User {
   email: string;
   username?: string;
-  password: string;
+  password?: string;
+  firstname?: string;
+  lastname?: string;
   birthdate?: string;
-  firstName?: string;
-  lastName?: string;
   country?: string;
   prefLang?: string;
 }

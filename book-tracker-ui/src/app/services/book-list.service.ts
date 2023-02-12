@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 
+const BOOKLIST_API = 'http://localhost:3080/api/booklist/';
+
 @Injectable({
   providedIn:'root'
 })
 export class BookListService {
   private bookList: Book[] = [];
-  private api: string = 'http://localhost:3080/api/booklist';
   constructor(private http: HttpClient) {
   }
 
@@ -20,17 +21,17 @@ export class BookListService {
   }
 
   public addBook(book: Book): Observable<any> {
-    const url = this.api + '/addbook';
+    const url = BOOKLIST_API + 'addbook';
     return this.http.post(url, book);
   }
 
   public deleteBook(book: Book): Observable<any> {
-    const url = this.api + '/deletebook';
+    const url = BOOKLIST_API + 'deletebook';
     return this.http.delete(url, {body: book});
   }
 
   public getBookList(sorted: boolean, status?: number): Book[] {
-    const url = this.api + '/findbooks';
+    const url = BOOKLIST_API + 'findbooks';
     const bookList = this.getBooks(url);
     if (sorted && status !== undefined) {
       return this.getSortedBookList(bookList, status);

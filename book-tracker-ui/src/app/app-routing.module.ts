@@ -10,6 +10,7 @@ import {AccountSettingsComponent} from "./account-settings/account-settings.comp
 import {BookListComponent} from "./book-list/book-list.component";
 import {BooksCardsComponent} from "./home/books-cards/books-cards.component";
 import {BookDetailsComponent} from "./book-details/book-details.component";
+import {AuthGuardService as AuthGuard} from "./services/auth/auth-guard.service";
 
 const routes: Routes = [
   { path: '',
@@ -22,10 +23,9 @@ const routes: Routes = [
   },
   { path: 'home',
     component: HomeComponent,
+    canActivate: [AuthGuard],
     children: [
-      { path: '',
-        component: BooksCardsComponent,
-      },
+      { path: '', component: BooksCardsComponent },
       { path: 'book/:isbn', component: BookDetailsComponent },
       { path: 'mylist', component: BookListComponent },
       { path: 'settings', component: AccountSettingsComponent },
@@ -36,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

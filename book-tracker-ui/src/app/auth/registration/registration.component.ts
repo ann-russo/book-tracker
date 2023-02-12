@@ -33,9 +33,9 @@ export class RegistrationComponent implements OnInit {
       emailFormControl: new FormControl('', [Validators.required, Validators.email]),
       usernameFormControl: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
       passwordFormControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      firstNameFormControl: new FormControl(''),
-      lastNameFormControl: new FormControl(''),
-      birthDateFormControl: new FormControl(''),
+      firstnameFormControl: new FormControl(''),
+      lastnameFormControl: new FormControl(''),
+      birthdateFormControl: new FormControl(''),
       countryFormControl: new FormControl(''),
       prefLangFormControl: new FormControl(''),
     });
@@ -53,16 +53,19 @@ export class RegistrationComponent implements OnInit {
       email: this.registerForm.controls['emailFormControl'].value,
       username: this.registerForm.controls['usernameFormControl'].value,
       password: this.registerForm.controls['passwordFormControl'].value,
-      birthdate: this.registerForm.controls['birthDateFormControl'].value,
-      firstName: this.registerForm.controls['firstNameFormControl'].value,
-      lastName: this.registerForm.controls['lastNameFormControl'].value,
+      firstname: this.registerForm.controls['firstnameFormControl'].value,
+      lastname: this.registerForm.controls['lastnameFormControl'].value,
+      birthdate: this.registerForm.controls['birthdateFormControl'].value,
       country: this.registerForm.controls['countryFormControl'].value,
       prefLang: this.registerForm.controls['prefLangFormControl'].value,
     };
 
     this.loading = true;
     this.userService.registerUser(this.userData).subscribe({
-      next: res => this.router.navigate(['/login']),
+      next: res => {
+        console.log(res);
+        this.router.navigate(['/login']);
+      },
       error: err => {
         console.log(err);
         this.loading = false;

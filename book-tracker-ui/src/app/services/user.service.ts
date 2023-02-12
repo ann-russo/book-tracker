@@ -1,34 +1,37 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../models/user";
 import {Observable} from "rxjs";
+
+const USER_API = 'http://localhost:3080/api/users/';
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn:'root'
 })
 export class UserService {
-  private api: string = 'http://localhost:3080/api/users';
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   public registerUser(user: User): Observable<any> {
-    const url = this.api + '/registration';
-    return this.http.post(url, user);
+    const url = USER_API + 'registration';
+    return this.http.post(url, user, httpOptions);
   }
 
   public loginUser(user: User): Observable<any> {
-    const url = this.api + '/login';
-    return this.http.post(url, user);
+    const url = USER_API + 'login';
+    return this.http.post(url, user, httpOptions);
   }
 
-  public logoutUser(user: User): Observable<any> {
-    const url = this.api + '/logout';
-    return this.http.post(url, user);
+  public logoutUser(): Observable<any> {
+    const url = USER_API + 'logout';
+    return this.http.post(url, {}, httpOptions);
   }
 
   public updateUser(user: User): Observable<any> {
-    const url = this.api + '/updateuser';
-    return this.http.post(url, user);
+    const url = USER_API + 'updateuser';
+    return this.http.post(url, user, httpOptions);
   }
 
   public getUserData() {

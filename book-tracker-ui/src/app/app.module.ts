@@ -41,7 +41,12 @@ import {BookListService} from "./services/book-list.service";
 import {BookService} from "./services/book.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {AuthService} from "./services/auth/auth.service";
+import {AuthGuardService} from "./services/auth/auth-guard.service";
+import {StorageService} from "./services/storage.service";
 import {UserService} from "./services/user.service";
+import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import {httpInterceptorProviders} from "./helpers/http.interceptor";
 
 @NgModule({
   declarations: [
@@ -87,7 +92,18 @@ import {UserService} from "./services/user.service";
     MatProgressBarModule,
     MatProgressSpinnerModule,
   ],
-  providers: [AppRoutingModule, BookListService, BookService, UserService],
+  providers: [
+    AppRoutingModule,
+    httpInterceptorProviders,
+    BookListService,
+    BookService,
+    AuthService,
+    AuthGuardService,
+    StorageService,
+    UserService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
