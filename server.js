@@ -9,24 +9,16 @@ const booklistRouter = require ('./bookapi/routes/booklist-router');
 /*
  * mongodb configuration
  */
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
-const connectionURL = 'mongodb://127.0.0.1:27017';
-const databaseName = 'book-tracker';
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const User = require("./bookapi/models/user-model");
-const bcrypt = require("bcryptjs");
+const path = require("path");
 
 
 app.use(express.json())
 app.use(express.static(dist));
 
-
-
 //include routes for user api
-
 app.use(cookieParser());
 
 app.use((req, res, next) => {
@@ -35,7 +27,6 @@ app.use((req, res, next) => {
     res.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.set('page-size', '20');
     res.set('Access-Control-Expose-Headers', 'page-size')
-
     next();
 });
 
@@ -45,17 +36,19 @@ app.use(cors({
 }))
 
 app.use('/api/users', userRouter); //TODO during implementation add registered info when required...
-
 app.use('/api/booklist', booklistRouter);
-
-//include book api
 app.use('/api', bookRouter);
 
 app.get('/', (req,res) => {
     res.sendFile(dist+"index.html");
 });
 
-
+/**
+ * Redirect to index.html
+ */
+app.route('/*').get(function (req, res) {
+    return res.sendFile(path.join(dist + 'index.html'));
+});
 
 app.listen(port, (error)=> {
     if (error) {
@@ -65,8 +58,6 @@ app.listen(port, (error)=> {
     }
 })
 
-
-
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1:27017/book-tracker', {
     useNewUrlParser: true,
@@ -74,8 +65,3 @@ mongoose.connect('mongodb://127.0.0.1:27017/book-tracker', {
 }, () => {
     console.log('Connected to the database')
 })
-
-
-
-
-
