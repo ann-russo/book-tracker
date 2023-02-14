@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user-model");
 const jwt = require("jsonwebtoken");
+const booklist = require("../models/bookDB-model");
 
 class UserController {
 
@@ -43,7 +44,20 @@ class UserController {
                 })
                 const result = await user.save()
                 const {password, ...data} = await result.toJSON()
-                res.send(data)
+
+                const token = jwt.sign({_id: user._id}, "secret")
+                res.cookie('jwt', token, {
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60 * 1000 // 1 day
+                })
+
+                res.send({
+                    resultcode: 'OK',
+                    resulttext: 'Login successful',
+                    data: data
+                })
+
+                //res.send(data)
             } catch (e) {
                 let response = {
                     resultcode: 'ERROR',
@@ -84,9 +98,14 @@ class UserController {
         }
 
         const token = jwt.sign({_id: user._id}, "secret")
-        res.json({
-            token: token,
-            user: user
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        })
+
+        res.send({
+            resultcode: 'OK',
+            resulttext: 'Login successful'
         })
     }
 
@@ -126,6 +145,30 @@ class UserController {
             resulttext: 'User successfully logged out.'
         })
     }
+
+    /*
+    async deleteUser(req, res){
+        console.log("Deleting user....")
+        const cookie = req.cookies['jwt']
+        const claims = jwt.verify(cookie, 'secret')
+        if (!claims) {
+            return res.status(401).send({
+                resultcode: 'ERROR',
+                resulttext: 'User not authenticated.'
+            })
+        }
+        const user = await User.findOne({_id: claims._id})
+        await booklist.deleteOne({_id: req.body._id}) //deletes books assigned to user
+        await booklist.deleteMany()
+        await User.collection.deleteOne({id: user.id}, {$set: {password: hashedPassword}}) //delete user from DB
+        res.cookie('jwt', '', {maxAge: 0})
+        res.send({
+            resultcode: 'OK',
+            resulttext: 'User deleted (books too...)'
+        })
+    }
+
+     */
 
     async updateUser(req, res) {
         console.log("updating user....")

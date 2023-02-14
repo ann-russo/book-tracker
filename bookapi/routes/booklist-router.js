@@ -7,7 +7,6 @@ const bookController = require("../controllers/booklist-controller");
 const routes = Router();
 
 
-
 routes.post('/addbook', bookController.addBookToDB)
 routes.get('/findbooks', bookController.findbooks)
 routes.delete('/deletebook', bookController.deleteBook)
