@@ -28,12 +28,12 @@ export class BookService {
   }
 
   public getBooksByQueryAndAuthor(query: string, author: string, amount: string): Observable<Book[]> {
-    const url = BOOK_API + 'querytext=' + query + '&author=' + author + '&langRestrict=en&amount=' + amount;
+    const url = BOOK_API + 'querytext=' + query + '&author=' + author + '&prefLang=en&amount=' + amount;
     return this.http.get<Book[]>(url);
   }
 
   public getBooksByGenre(genre: string): Observable<Book[]> {
-    const url = BOOK_API + 'subject=' + genre;
+    const url = BOOK_API + 'genre=' + genre;
     return this.http.get<Book[]>(url);
   }
 }

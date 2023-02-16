@@ -10,14 +10,6 @@
   position: relative;
 }
 
-.mat-dialog-content {
-  position: absolute;
-  top: 0;
-  height: 20px;
-  display: flex;
-  width: 100%
-}
-
 a, a:visited {
   color: white;
   text-decoration: none;

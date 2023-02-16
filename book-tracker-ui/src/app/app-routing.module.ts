@@ -11,6 +11,8 @@ import {BookListComponent} from "./book-list/book-list.component";
 import {BooksCardsComponent} from "./home/books-cards/books-cards.component";
 import {BookDetailsComponent} from "./book-details/book-details.component";
 import {AuthGuardService as AuthGuard} from "./services/auth/auth-guard.service";
+import {BookGenreComponent} from "./book-genre/book-genre.component";
+import {BookSearchComponent} from "./book-search/book-search.component";
 
 const routes: Routes = [
   { path: '',
@@ -27,6 +29,8 @@ const routes: Routes = [
     children: [
       { path: '', component: BooksCardsComponent },
       { path: 'book/:isbn', component: BookDetailsComponent },
+      { path: 'genres/:genre', component: BookGenreComponent },
+      { path: 'search', component: BookSearchComponent },
       { path: 'mylist', component: BookListComponent },
       { path: 'settings', component: AccountSettingsComponent },
     ]

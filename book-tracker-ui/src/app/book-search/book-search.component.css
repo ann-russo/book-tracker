@@ -1,0 +1,9 @@
+h2 {
+  font-size: 30px;
+  padding-top: 35px;
+  padding-left: 15px;
+}
+
+.results-table-container, .filter-input {
+  width: 100%;
+}

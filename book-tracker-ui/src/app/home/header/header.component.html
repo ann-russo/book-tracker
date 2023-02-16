@@ -4,8 +4,8 @@
   </button>
   <mat-menu #menu="matMenu">
     <div *ngFor="let genre of genres">
-      <button mat-menu-item>
-        <span>{{genre}}</span>
+      <button mat-menu-item [routerLink]="['genres', genre.link]">
+        <span>{{genre.label}}</span>
       </button>
     </div>
   </mat-menu>

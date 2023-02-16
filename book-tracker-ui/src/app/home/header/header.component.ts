@@ -1,9 +1,10 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Router} from "@angular/router";
+import {Component} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {ActivatedRoute, Router} from "@angular/router";
 import {GENRES} from "../../models/genres";
 import {UserService} from "../../services/user.service";
 import {StorageService} from "../../services/storage.service";
+import {HeaderSearchDialogComponent} from "./header-search-dialog/header-search-dialog.component";
 
 export interface DialogData {
   searchKeyword: string;
@@ -22,6 +23,7 @@ export class HeaderComponent {
   constructor(
     public dialog: MatDialog,
     private router: Router,
+    private route: ActivatedRoute,
     private userService: UserService,
     private storageService: StorageService) {
     this.searchKeyword = '';
@@ -30,13 +32,20 @@ export class HeaderComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(HeaderSearchDialogComponent, {
       data: {searchKeyword: this.searchKeyword},
+      maxWidth: '100vw',
+      width: '100%',
+      panelClass: 'full-screen-modal',
       position: {
         top: '0px'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.searchKeyword = result;
+      const nameInRoute: String = this.searchKeyword.split(' ').join('-');
+      this.router.navigate(
+        ['search'],
+        { queryParams: { query: nameInRoute } , relativeTo: this.route});
     });
   }
 
@@ -51,20 +60,5 @@ export class HeaderComponent {
         console.log(err);
       }
     })
-  }
-}
-
-@Component({
-  selector: 'header-search-dialog.component',
-  templateUrl: '/header-search-dialog/header-search-dialog.component.html',
-})
-export class HeaderSearchDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<HeaderSearchDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  ) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

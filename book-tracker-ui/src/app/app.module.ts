@@ -31,7 +31,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTabsModule} from "@angular/material/tabs";
-import {HeaderComponent, HeaderSearchDialogComponent} from "./home/header/header.component";
+import {HeaderComponent} from "./home/header/header.component";
 import { BooksCardsComponent } from './home/books-cards/books-cards.component';
 import {MatTableModule} from "@angular/material/table";
 import { HttpClientModule } from '@angular/common/http';
@@ -47,6 +47,11 @@ import {StorageService} from "./services/storage.service";
 import {UserService} from "./services/user.service";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import {httpInterceptorProviders} from "./helpers/http.interceptor";
+import {HeaderSearchDialogComponent} from "./home/header/header-search-dialog/header-search-dialog.component";
+import { BookSearchComponent } from './book-search/book-search.component';
+import { BookGenreComponent } from './book-genre/book-genre.component';
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -64,7 +69,9 @@ import {httpInterceptorProviders} from "./helpers/http.interceptor";
     WelcomeLinksComponent,
     HeaderComponent,
     HeaderSearchDialogComponent,
-    BooksCardsComponent
+    BooksCardsComponent,
+    BookSearchComponent,
+    BookGenreComponent
   ],
   imports: [
     BrowserModule,
@@ -91,6 +98,8 @@ import {httpInterceptorProviders} from "./helpers/http.interceptor";
     MatCardModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [
     AppRoutingModule,

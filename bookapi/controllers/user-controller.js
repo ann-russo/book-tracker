@@ -47,7 +47,7 @@ class UserController {
 
                 const token = jwt.sign({_id: user._id}, "secret")
                 res.cookie('jwt', token, {
-                    httpOnly: true,
+                    httpOnly: false,
                     maxAge: 24 * 60 * 60 * 1000 // 1 day
                 })
 
@@ -99,7 +99,7 @@ class UserController {
 
         const token = jwt.sign({_id: user._id}, "secret")
         res.cookie('jwt', token, {
-            httpOnly: true,
+            httpOnly: false,
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         })
 
