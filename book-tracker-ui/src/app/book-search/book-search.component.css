@@ -4,6 +4,35 @@ h2 {
   padding-left: 15px;
 }
 
-.results-table-container, .filter-input {
+table, .filter-input {
   width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-column-pages {
+  max-width: 64px;
+}
+
+.mat-column-title {
+  max-width: 300px;
+}
+
+a, a:visited, a:hover {
+  color: black;
+  text-decoration: none;
 }

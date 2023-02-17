@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.userService.loginUser(this.userData).subscribe({
       next: res => {
-        //setCookie('jwt', res.token, { expires: 1 })
         this.storageService.saveUser(res.user);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
