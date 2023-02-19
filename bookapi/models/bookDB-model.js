@@ -52,6 +52,31 @@ const bookSchema = new mongoose.Schema({
         unique: false,
         required: false
     },
+    noofpagesread: {
+        type: String,
+        unique: false,
+        required: false
+    },
+    startdate: {
+        type: String,
+        unique: false,
+        required: false
+    },
+    finishdate: {
+        type: String,
+        unique: false,
+        required: false
+    },
+    notes: {
+        type: String,
+        unique: false,
+        required: false
+    },
+    score: {
+        type: String,
+        unique: false,
+        required: false
+    },
     cover: {
         type: String,
         unique: false,

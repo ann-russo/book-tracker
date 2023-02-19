@@ -39,6 +39,11 @@ class booklistController{
                 genre: req.body.genre,
                 isbn: req.body.isbn,
                 noofpages: req.body.noofpages,
+                noofpagesread: req.body.noofpagesread,
+                startdate: req.body.startdate,
+                finishdate: req.body.finishdate,
+                notes: req.body.notes,
+                score: req.body.score,
                 cover: req.body.cover,
                 public: req.body.public,
                 language: req.body.language
@@ -69,7 +74,6 @@ class booklistController{
     }
 
     async findbooks(req, res){
-        //user authenticated?
         try {
             const cookie = req.cookies['jwt']
             const claims = jwt.verify(cookie, 'secret')
@@ -174,6 +178,11 @@ class booklistController{
                 genre: req.body.genre,
                 isbn: req.body.isbn,
                 noofpages: req.body.noofpages,
+                noofpagesread: req.body.noofpagesread,
+                startdate: req.body.startdate,
+                finishdate: req.body.finishdate,
+                notes: req.body.notes,
+                score: req.body.score,
                 cover: req.body.cover,
                 public: req.body.public,
                 language: req.body.language

@@ -102,13 +102,11 @@ function createJson(input) {
                 if(isbnNumber){ //add book only if ISBN Exists
                     jsonBookList.push(item);
                 }
-
             }
         }
     }
     return JSON.stringify(jsonBookList);
 }
-
 
 
 
