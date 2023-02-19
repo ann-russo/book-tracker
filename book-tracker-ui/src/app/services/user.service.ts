@@ -39,8 +39,9 @@ export class UserService {
     return this.http.get<any>(url, httpOptions);
   }
 
-  public deleteUser() {
-    //TODO add delete functionality in backend
+  public deleteUser(): Observable<any> {
+    const url = USER_API + 'deleteUser';
+    return this.http.delete<any>(url, httpOptions);
   }
 
 }

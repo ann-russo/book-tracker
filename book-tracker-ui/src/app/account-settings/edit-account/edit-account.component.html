@@ -49,25 +49,25 @@
   <div class="formField">
     <mat-form-field class="name" appearance="outline">
       <mat-label>First name</mat-label>
-      <input matInput formControlName="firstname" placeholder="">
+      <input matInput formControlName="firstname">
     </mat-form-field>
 
     <mat-form-field class="name" appearance="outline">
       <mat-label>Last name</mat-label>
-      <input matInput formControlName="lastname" placeholder="">
+      <input matInput formControlName="lastname">
     </mat-form-field>
   </div>
 
   <mat-form-field class="formField" appearance="outline">
     <mat-label>Select your country</mat-label>
-    <mat-select formControlName="country" placeholder="">
+    <mat-select formControlName="country">
       <mat-option *ngFor="let item of listCountries" [value]="item">{{item}}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field class="formField" appearance="outline">
     <mat-label>Select your preferred language</mat-label>
-    <mat-select formControlName="prefLang" placeholder="">
+    <mat-select formControlName="prefLang">
       <mat-option *ngFor="let item of listLanguages" [value]="item">{{item}}</mat-option>
     </mat-select>
   </mat-form-field>

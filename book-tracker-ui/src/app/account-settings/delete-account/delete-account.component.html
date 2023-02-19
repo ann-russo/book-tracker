@@ -1,1 +1,22 @@
-<p>delete-account works!</p>
+<div class="navigation">
+  <button mat-button class="back-button" matTooltip="Back" (click)="this.goBackToPrevPage()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h3>Delete Account</h3>
+</div>
+
+<div class="message">
+  <h3 class="header">We're sorry to see you go...</h3>
+  <h4 class="header">
+    Are you sure you want to permanently delete your account? <br>
+    This action cannot be undone. By deleting your account, you agree that:
+  </h4>
+    <ul>
+      <li>Your data associated with the Book Tracker application will be permanently deleted.</li>
+      <li>All book lists that you have created will be deleted and cannot be restored.</li>
+      <li>You will be removed from our database.</li>
+    </ul>
+</div>
+
+<button mat-flat-button color="warn" class="bt submit" (click)="deleteAccount()">DELETE MY ACCOUNT</button>
+<button mat-stroked-button color="basic" class="bt cancel" [routerLink]="['../']">Cancel</button>

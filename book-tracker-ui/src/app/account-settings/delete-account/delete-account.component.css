@@ -1,0 +1,41 @@
+h3 {
+  font-size: 24px;
+  padding-top: 15px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navigation button {
+  margin-top: 10px;
+}
+
+.navigation h3 {
+  vertical-align: middle;
+}
+
+.bt {
+  margin: 8px 8px 8px 5px;
+}
+
+.message {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.header {
+  text-align: center;
+}
+
+@media only screen and (max-width:600px) {
+  .bt {
+    width: 98%;
+    margin-top: 0;
+  }
+
+  .submit {
+    margin-top: 10px;
+  }
+}
