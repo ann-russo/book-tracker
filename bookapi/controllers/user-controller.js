@@ -8,8 +8,17 @@ class UserController {
     async register(req, res) {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
         let userInDb = await User.findOne({email: req.body.email})
+
+        if (userInDb) {
+            return res.status(400).send({
+                resultcode: 'ERROR',
+                resulttext: 'Entered email address is already in use.'
+            })
+        } else {
+            console.log("User not known - adding to DB");
+        }
+
         let userid = 0; // 0 if db is empty
         try {
             let maxUserID = await User.findOne().sort({"id": -1})
@@ -17,61 +26,40 @@ class UserController {
         } catch (e) {
             userid = 0; //no user found
         }
-
-        let email = req.body.email;
-        let username = req.body.username;
-        let firstname = req.body.firstname;
-        let lastname = req.body.lastname;
-        let birthdate = req.body.birthdate;
-        let country = req.body.country;
-        let prefLang = req.body.prefLang;
-
         console.log("Adding new user with id ", userid);
 
-        if (!userInDb) {
-            console.log("User not known - adding to DB");
-            try {
-                const user = new User({
-                    id: userid,
-                    email: email,
-                    username: username,
-                    password: hashedPassword,
-                    firstname: firstname,
-                    lastname: lastname,
-                    birthdate: birthdate,
-                    country: country,
-                    prefLang: prefLang,
-                })
-                const result = await user.save()
-                const {password, ...data} = await result.toJSON()
+        try {
+            const user = new User({
+                id: userid,
+                email: req.body.email,
+                username: req.body.username,
+                password: hashedPassword,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                birthdate: req.body.birthdate,
+                country: req.body.country,
+                prefLang: req.body.prefLang,
+            })
+            const result = await user.save()
+            const {password, ...data} = await result.toJSON()
 
-                const token = jwt.sign({_id: user._id}, "secret")
-                res.cookie('jwt', token, {
-                    httpOnly: false,
-                    maxAge: 24 * 60 * 60 * 1000 // 1 day
-                })
+            const token = jwt.sign({_id: user._id}, "secret")
+            res.cookie('jwt', token, {
+                httpOnly: false,
+                maxAge: 24 * 60 * 60 * 1000 // 1 day
+            })
 
-                res.send({
-                    resultcode: 'OK',
-                    resulttext: 'Login successful',
-                    data: data
-                })
+            res.send({
+                resultcode: 'OK',
+                resulttext: 'Registration successful',
+                data: data
+            })
 
-                //res.send(data)
-            } catch (e) {
-                let response = {
-                    resultcode: 'ERROR',
-                    resulttext: 'Error creating user - maybe you are missing some parameters?'
-                };
-                res.send(response)
-            }
-
-        } else {
-            let response = {
+        } catch (e) {
+            res.send({
                 resultcode: 'ERROR',
-                resulttext: 'Email address already is use'
-            };
-            res.send(response)
+                resulttext: 'Error creating user - maybe you are missing some parameters?'
+            });
         }
     }
 
@@ -86,14 +74,14 @@ class UserController {
         if (!user) {
             return res.status(404).send({
                 resultcode: 'ERROR',
-                resulttext: 'Email not found'
+                resulttext: 'Entered email not found in system.'
             })
         }
 
         if (!await bcrypt.compare(req.body.password, user.password)) {
             return res.status(400).send({
                 resultcode: 'ERROR',
-                resulttext: 'Wrong password'
+                resulttext: 'Entered password is incorrect.'
             })
         }
 
@@ -108,38 +96,6 @@ class UserController {
             resulttext: 'Login successful'
         })
     }
-
-
-    /*
-    async userLoggedIn(req, res) {
-        try {
-            const cookie = req.cookies['jwt']
-            const claims = jwt.verify(cookie, 'secret')
-            if (!claims) {
-                return res.status(401).send({
-                    resultcode: 'ERROR',
-                    resulttext: 'User is not authenticated'
-                })
-            }
-
-            const user = await User.findOne({_id: claims._id})
-            const {password, ...data} = await user.toJSON()
-
-            res.send({
-                resultcode: 'OK',
-                resulttext: 'User is logged in'
-            })
-
-        } catch (e) {
-            return res.status(401).send({
-                resultcode: 'ERROR',
-                resulttext: 'User is not authenticated'
-            })
-        }
-    }
-
-     */
-
 
     async logoutUser(req, res) {
         res.cookie('jwt', '', {maxAge: 0})
@@ -179,7 +135,7 @@ class UserController {
         if (!claims) {
             return res.status(401).send({
                 resultcode: 'ERROR',
-                resulttext: 'User not authenticated.'
+                resulttext: 'User not authenticated!'
             })
         }
 
@@ -188,33 +144,32 @@ class UserController {
     }
 
     async updateUser(req, res) {
-        console.log("updating user with data: ", req.body)
+        console.log("Updating user with data: ", req.body)
 
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
         if (!claims) {
             return res.status(401).send({
                 resultcode: 'ERROR',
-                resulttext: 'User not authenticated.'
+                resulttext: 'User not authenticated!'
             })
         }
 
         const user = await User.findOne({_id: claims._id})
-        console.log("user inDB...", user.id)
+        console.log("User in DB has ID: ", user.id)
 
         if (req.body.password) { //updating password only when update is requested by user
             const salt = await bcrypt.genSalt(10)
-
             const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
             try {
                 await User.collection.findOneAndUpdate({id: user.id}, {$set: {password: hashedPassword}})
             } catch (e) {
-                console.log("error updating password")
-                let response = {
+                console.log("Error updating password!")
+                res.send({
                     resultcode: 'ERROR',
                     resulttext: 'Could not update password'
-                };
-                res.send(response)
+                });
             }
         }
 
@@ -241,17 +196,16 @@ class UserController {
                 await User.collection.findOneAndUpdate({id: user.id}, {$set: {prefLang: req.body.prefLang}})
             }
 
-            let response = {
+            res.send({
                 resultcode: 'OK',
                 resulttext: 'User updated successfully'
-            };
-            res.send(response)
+            });
+
         } catch (e) {
-            let response = {
+            res.send({
                 resultcode: 'ERROR',
-                resulttext: 'Error updating User - maybe youre missing some Parameters?'
-            };
-            res.send(response)
+                resulttext: 'Error updating user - maybe you are missing some parameters?'
+            });
         }
     }
 }

@@ -22,21 +22,39 @@
   margin-top: 1em;
   margin-left: 1em;
   margin-right: 1em;
+  height: 180px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
 
-.add-button {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
+.book-details::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
 }
 
-.add-button button {
-  margin-left: 5px;
-  line-height: 1.125;
+.input {
+  width: 100%;
+}
+
+.btn {
   height: 56px;
-  width: 212px;
+  font-size: 16px;
 }
 
-.feedback-panel {
-  text-align: center;
+@media only screen and (min-width:600px) {
+  .add-button {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+    max-width: 600px;
+  }
+
+  .add-button button {
+    margin-left: 5px;
+    line-height: 1.125;
+    height: 56px;
+    width: 212px;
+  }
 }

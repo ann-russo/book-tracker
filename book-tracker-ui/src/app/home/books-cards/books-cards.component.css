@@ -19,6 +19,12 @@ body {
   margin: 50px 0;
 }
 
+.book-link,
+.book-link:visited,
+.book-link:hover {
+  text-decoration: none;
+}
+
 .loading {
   position: absolute;
   left: 50%;
@@ -71,17 +77,16 @@ h2 {
   bottom: 0;
   width: 100%;
   padding: 1rem;
-  transform: scale(0);
-  transition: all .3s ease-in-out;
-  backdrop-filter: blur(8px) brightness(80%);
+  background: linear-gradient(0deg, #00000088 30%, #ffffff44 100%);
 }
 
 .overlay mat-card-title {
-  color: #ef233c;
+  color: white;
+  font-size: 20px;
 }
 
 .overlay mat-card-subtitle {
-  color: whitesmoke;
+  color: #e5e5e5;
   display: block;
 }
 

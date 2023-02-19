@@ -12,7 +12,6 @@ const httpOptions = {
   providedIn:'root'
 })
 export class UserService {
-  public userData: any[] = [];
   constructor(private http: HttpClient) {}
 
   public registerUser(user: User): Observable<any> {

@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   hidePassword = true;
+  errorMessage = ''
   matcher = new MyErrorStateMatcher();
 
   constructor(
@@ -61,12 +62,16 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.router.navigate(['/home']);
       },
-      error: err => {
-        console.log(err);
-        this.loading = false;
-        this.isLoginFailed = true;
+      error: error => {
+        this.handleError(error);
       }
     })
+  }
+
+  handleError(error: Object) {
+    this.loading = false;
+    this.isLoginFailed = true;
+    this.errorMessage = Object.values(error)[7].resultcode + ": " + Object.values(error)[7].resulttext;
   }
 
 }

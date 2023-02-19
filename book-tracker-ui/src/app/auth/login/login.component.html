@@ -1,5 +1,10 @@
 <h3>LOGIN</h3>
 
+<div *ngIf="isLoginFailed" class="feedback">
+  <mat-icon class="icon">error</mat-icon>
+  <p class="message">{{this.errorMessage}}</p>
+</div>
+
 <form class="mat-typography" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
   <mat-form-field class="example-full-width" appearance="outline">

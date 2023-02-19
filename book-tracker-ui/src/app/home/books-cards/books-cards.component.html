@@ -10,12 +10,10 @@
   <ul class="cards">
     <li class="card" *ngFor="let item of row.content" [style.background-image]="getCoverUrl(item)">
       <div class="overlay">
-        <mat-card-header>
-          <mat-card-title>{{item.title}}</mat-card-title>
-          <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
-        </mat-card-header>
+        <mat-card-header></mat-card-header>
         <div class="card-link-wrapper">
-          <a [routerLink]="['book', item.isbn]" class="card-link">Learn More</a>
+          <a [routerLink]="['book', item.isbn]" class="book-link"><mat-card-title>{{item.title}}</mat-card-title></a>
+          <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
         </div>
       </div>
     </li>

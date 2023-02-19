@@ -19,6 +19,8 @@ export class RegistrationComponent implements OnInit {
   loading = false;
   submitted = false;
   hidePassword = true;
+  isSignupFailed = false;
+  errorMessage = '';
   matcher = new MyErrorStateMatcher();
   listCountries: string[] = ['Austria', 'Germany', 'Switzerland']
   listLanguages: string[] = ['English', 'German']
@@ -32,8 +34,8 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       emailFormControl: new FormControl('', [Validators.required, Validators.email]),
-      usernameFormControl: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
-      passwordFormControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      usernameFormControl: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
+      passwordFormControl: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=[^a-z\\n]*[a-z])[A-Za-z._-]*[0-9][A-Za-z0-9._-]*$')]),
       firstnameFormControl: new FormControl(''),
       lastnameFormControl: new FormControl(''),
       birthdateFormControl: new FormControl(''),
@@ -68,9 +70,14 @@ export class RegistrationComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       error: err => {
-        console.log(err);
-        this.loading = false;
+        this.handleError(err);
       }
     })
+  }
+
+  handleError(error: Object): void {
+    this.loading = false;
+    this.isSignupFailed = true;
+    this.errorMessage = Object.values(error)[7].resultcode + ": " + Object.values(error)[7].resulttext;
   }
 }
