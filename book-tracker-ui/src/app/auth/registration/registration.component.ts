@@ -18,6 +18,7 @@ export class RegistrationComponent implements OnInit {
   userData!: User;
   loading = false;
   submitted = false;
+  hidePassword = true;
   matcher = new MyErrorStateMatcher();
   listCountries: string[] = ['Austria', 'Germany', 'Switzerland']
   listLanguages: string[] = ['English', 'German']

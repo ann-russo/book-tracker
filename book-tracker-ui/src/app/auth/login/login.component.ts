@@ -6,7 +6,6 @@ import {User} from "../../models/user";
 import {MyErrorStateMatcher} from "../shared/my-error-state-matcher";
 import {StorageService} from "../../services/storage.service";
 import {AuthGuardService} from "../../services/auth/auth-guard.service";
-import {setCookie} from 'typescript-cookie'
 
 @Component({
   selector: 'app-login',
@@ -21,6 +20,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   isLoggedIn = false;
   isLoginFailed = false;
+  hidePassword = true;
   matcher = new MyErrorStateMatcher();
 
   constructor(

@@ -110,6 +110,7 @@ class UserController {
     }
 
 
+    /*
     async userLoggedIn(req, res) {
         try {
             const cookie = req.cookies['jwt']
@@ -136,6 +137,8 @@ class UserController {
             })
         }
     }
+
+     */
 
 
     async logoutUser(req, res) {
@@ -170,8 +173,22 @@ class UserController {
 
      */
 
+    async getUserData(req, res) {
+        const cookie = req.cookies['jwt']
+        const claims = jwt.verify(cookie, 'secret')
+        if (!claims) {
+            return res.status(401).send({
+                resultcode: 'ERROR',
+                resulttext: 'User not authenticated.'
+            })
+        }
+
+        const user = await User.findOne({_id: claims._id})
+        res.send(user);
+    }
+
     async updateUser(req, res) {
-        console.log("updating user....")
+        console.log("updating user with data: ", req.body)
 
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
@@ -192,22 +209,38 @@ class UserController {
             try {
                 await User.collection.findOneAndUpdate({id: user.id}, {$set: {password: hashedPassword}})
             } catch (e) {
+                console.log("error updating password")
+                let response = {
+                    resultcode: 'ERROR',
+                    resulttext: 'Could not update password'
+                };
+                res.send(response)
             }
-            console.log("error updating password..")
         }
 
         try {
-            await User.collection.findOneAndUpdate({id: user.id}, {
-                $set: {
-                    email: req.body.email,
-                    username: req.body.username,
-                    firstname: req.body.firstname,
-                    lastname: req.body.lastname,
-                    birthdate: req.body.birthdate,
-                    country: req.body.country,
-                    prefLang: req.body.prefLang,
-                }
-            })
+            if (req.body.email !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {email: req.body.email}})
+            }
+            if (req.body.username !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {username: req.body.username}})
+            }
+            if (req.body.firstname !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {firstname: req.body.firstname}})
+            }
+            if (req.body.lastname !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {lastname: req.body.lastname}})
+            }
+            if (req.body.birthdate !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {birthdate: req.body.birthdate}})
+            }
+            if (req.body.country !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {country: req.body.country}})
+            }
+            if (req.body.prefLang !== undefined) {
+                await User.collection.findOneAndUpdate({id: user.id}, {$set: {prefLang: req.body.prefLang}})
+            }
+
             let response = {
                 resultcode: 'OK',
                 resulttext: 'User updated successfully'

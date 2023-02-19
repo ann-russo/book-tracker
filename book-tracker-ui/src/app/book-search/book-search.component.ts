@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {BookService} from "../services/book.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {filter} from 'rxjs/operators';
 import {Book} from "../models/book";
 import {MatTableDataSource} from "@angular/material/table";
@@ -16,15 +16,14 @@ import {MatPaginator} from "@angular/material/paginator";
 export class BookSearchComponent implements OnInit, AfterViewInit {
   keyword: string = '';
   isLoadingResults = true;
-  public displayedColumns: string[] = ['title', 'author', 'pages'];
+  public displayedColumns: string[] = ['title', 'author', 'noofpages'];
   public dataSource = new MatTableDataSource<Book>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private route: ActivatedRoute,
-    private bookService: BookService,
-    private router: Router
+    private bookService: BookService
   ) {}
 
   ngOnInit() {
@@ -61,6 +60,15 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
     } else {
       console.log("no isbn!")
       return '0'
+    }
+  }
+
+  public getPages(book: any): number {
+    if (book.noofpages !== undefined) {
+      console.log("string: ", book.noofpages)
+      return Number(book.noofpages);
+    } else {
+      return 0;
     }
   }
 }

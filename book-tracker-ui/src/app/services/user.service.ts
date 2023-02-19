@@ -12,6 +12,7 @@ const httpOptions = {
   providedIn:'root'
 })
 export class UserService {
+  public userData: any[] = [];
   constructor(private http: HttpClient) {}
 
   public registerUser(user: User): Observable<any> {
@@ -34,8 +35,9 @@ export class UserService {
     return this.http.post(url, user, httpOptions);
   }
 
-  public getUserData() {
-    //TODO add functionality to fetch user's data in backend
+  public getUserData(): Observable<any> {
+    const url = USER_API + 'user';
+    return this.http.get<any>(url, httpOptions);
   }
 
   public deleteUser() {

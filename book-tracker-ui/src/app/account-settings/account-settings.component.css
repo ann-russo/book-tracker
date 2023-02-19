@@ -1,23 +1,5 @@
-table, mat-divider {
-  width: 100%;
-  margin: 5px;
-}
-
 h2 {
   font-size: 30px;
   padding-top: 35px;
   padding-left: 15px;
-}
-
-.mat-column-type {
-  color: #aaaaad;
-}
-
-.buttons-row {
-  margin: 8px 8px 8px 0;
-  max-width: 600px;
-}
-
-button {
-  margin: 5px;
 }

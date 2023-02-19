@@ -5,11 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { LoginComponent } from './auth/login/login.component';
-import {
-  AccountSettingsComponent,
-  DialogDeleteAccount,
-  DialogEditData
-} from './account-settings/account-settings.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BookListComponent } from './book-list/book-list.component';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
@@ -52,6 +48,10 @@ import { BookSearchComponent } from './book-search/book-search.component';
 import { BookGenreComponent } from './book-genre/book-genre.component';
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {KeyValuePipe} from "@angular/common";
+import { EditAccountComponent } from './account-settings/edit-account/edit-account.component';
+import { AccountOverviewComponent } from './account-settings/account-overview/account-overview.component';
+import { DeleteAccountComponent } from './account-settings/delete-account/delete-account.component';
 
 @NgModule({
   declarations: [
@@ -59,8 +59,6 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     RegistrationComponent,
     LoginComponent,
     AccountSettingsComponent,
-    DialogDeleteAccount,
-    DialogEditData,
     BookDetailsComponent,
     BookListComponent,
     PageNotFoundComponent,
@@ -71,7 +69,10 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     HeaderSearchDialogComponent,
     BooksCardsComponent,
     BookSearchComponent,
-    BookGenreComponent
+    BookGenreComponent,
+    EditAccountComponent,
+    AccountOverviewComponent,
+    DeleteAccountComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +102,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatSortModule,
     MatPaginatorModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    KeyValuePipe
   ],
   providers: [
     AppRoutingModule,

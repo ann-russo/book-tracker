@@ -1,0 +1,40 @@
+body {
+  margin-right: 5px;
+}
+
+.table {
+  width: 100%;
+  margin: 5px;
+}
+
+h2 {
+  font-size: 30px;
+  padding-top: 35px;
+  padding-left: 15px;
+}
+
+h3 {
+  font-size: 24px;
+  padding-top: 15px;
+  padding-left: 15px;
+}
+
+.mat-column-key {
+  color: #aaaaad;
+}
+
+.bt {
+  margin: 8px 8px 8px 5px;
+
+}
+
+@media only screen and (max-width:600px) {
+  .bt {
+    width: 98%;
+    margin-top: 0;
+  }
+
+  .edit {
+    margin-top: 10px;
+  }
+}
