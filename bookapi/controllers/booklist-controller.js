@@ -6,28 +6,28 @@ const booklist = require('../models/bookDB-model')
 
 
 class booklistController{
+
     async addBookToDB(req, res){
         try {
-        const cookie = req.cookies['jwt']
-        const claims = jwt.verify(cookie, 'secret')
-        if (!claims) {
-            return res.status(401).send({
-                message: 'unauthenticated'
-            })
-        }
+            const cookie = req.cookies['jwt']
+            const claims = jwt.verify(cookie, 'secret')
+            if (!claims) {
+                return res.status(401).send({
+                    message: 'unauthenticated'
+                })
+            }
         } catch (e) {
             return res.status(401).send({
                 message: 'unauthenticated'
             })
         }
 
-        let bookInDB = await booklist.findOne({title: req.body.title})
+        const cookie = req.cookies['jwt']
+        const claims = jwt.verify(cookie, 'secret')
+        const user = await User.findOne({_id: claims._id})
+        let bookInDB = await booklist.findOne({title: req.body.title, id: user.id})
 
         if(!bookInDB){
-            const cookie = req.cookies['jwt']
-            const claims = jwt.verify(cookie, 'secret')
-            const user = await User.findOne({_id: claims._id})
-
             const book = new booklist({
                 id: user.id,
                 email: user.email,

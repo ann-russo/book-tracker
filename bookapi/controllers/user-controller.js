@@ -131,16 +131,22 @@ class UserController {
 
     async getUserData(req, res) {
         const cookie = req.cookies['jwt']
-        const claims = jwt.verify(cookie, 'secret')
-        if (!claims) {
+        try{
+            const claims = jwt.verify(cookie, 'secret')
+            const user = await User.findOne({_id: claims._id})
+            res.send(user);
+            if (!claims) {
+                return res.status(401).send({
+                    resultcode: 'ERROR',
+                    resulttext: 'User not authenticated!'
+                })
+            }
+        }catch (e){
             return res.status(401).send({
                 resultcode: 'ERROR',
                 resulttext: 'User not authenticated!'
             })
         }
-
-        const user = await User.findOne({_id: claims._id})
-        res.send(user);
     }
 
     async updateUser(req, res) {
