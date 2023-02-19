@@ -99,7 +99,9 @@ function createJson(input) {
                 }
                 item ["noofpages"] = input[j][x].volumeInfo.pageCount;
                 item ["cover"] = input[j][x].volumeInfo.imageLinks?.smallThumbnail;
-                jsonBookList.push(item);
+                if(isbnNumber){ //add book only if ISBN Exists
+                    jsonBookList.push(item);
+                }
 
             }
         }
