@@ -105,29 +105,6 @@ class UserController {
         })
     }
 
-    /*
-    async deleteUser(req, res){
-        console.log("Deleting user....")
-        const cookie = req.cookies['jwt']
-        const claims = jwt.verify(cookie, 'secret')
-        if (!claims) {
-            return res.status(401).send({
-                resultcode: 'ERROR',
-                resulttext: 'User not authenticated.'
-            })
-        }
-        const user = await User.findOne({_id: claims._id})
-        await booklist.deleteOne({_id: req.body._id}) //deletes books assigned to user
-        await booklist.deleteMany()
-        await User.collection.deleteOne({id: user.id}, {$set: {password: hashedPassword}}) //delete user from DB
-        res.cookie('jwt', '', {maxAge: 0})
-        res.send({
-            resultcode: 'OK',
-            resulttext: 'User deleted (books too...)'
-        })
-    }
-
-     */
 
     async getUserData(req, res) {
         const cookie = req.cookies['jwt']
@@ -214,6 +191,29 @@ class UserController {
             });
         }
     }
+
+    async deleteuser(req,res){
+        const cookie = req.cookies['jwt']
+        const claims = jwt.verify(cookie, 'secret')
+        if (!claims) {
+            return res.status(401).send({
+                resultcode: 'ERROR',
+                resulttext: 'User not authenticated!'
+            })
+        }
+
+        const user = await User.findOne({_id: claims._id})
+        await booklist.deleteMany({id: user.id}) // delete books assigned to user
+        const deleteUserResult = await User.deleteOne({_id: claims._id})
+        res.cookie('jwt', '', {maxAge: 0}) //logout user
+
+        res.send({
+            resultcode: 'OK',
+            resulttext: 'Deleted User + assigned Books',
+            resultdetails: deleteUserResult
+        });
+    }
+
 }
 
 module.exports = new UserController();
