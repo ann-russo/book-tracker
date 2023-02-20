@@ -2,6 +2,7 @@ const model = require("../models/book-model");
 const bookRequest = require("../models/book-requests");
 require("request");
 const fetch = require('node-fetch');
+const {json} = require("express");
 
 //TODO add required authentication for usage of API
 class BookController{
@@ -9,11 +10,12 @@ class BookController{
         let incomingRequest = extractRequestValues(req);
         console.log(
             "Retrieved values:", "searchText:", incomingRequest.searchText, "isbn:", incomingRequest.isbn, "author:", incomingRequest.author,
-            "random book:", incomingRequest.rand, "amount of requested books:", incomingRequest.amount, "language of the book:", incomingRequest.language);
+            "random book:", incomingRequest.rand, "amount of requested books:", incomingRequest.amount, "language of the book:", incomingRequest.language, "category: ", incomingRequest.category);
 
         let searchText = incomingRequest.searchText, searchIsbn = incomingRequest.isbn,
             searchAuthor = incomingRequest.author, searchRandom = incomingRequest.rand,
-            searchAmount = incomingRequest.amount, searchLanguage = incomingRequest.language;
+            searchAmount = incomingRequest.amount, searchLanguage = incomingRequest.language,
+            searchCategory = incomingRequest.category;
 
         let query = "q?=";
 
@@ -26,9 +28,10 @@ class BookController{
         if (searchAuthor) {
             query += "+inauthor:" + searchAuthor
         }
-        if (searchLanguage) {
-            query += "&langRestrict=" + searchLanguage
+        if(searchCategory){//subject
+            query += "+subject:" + '"' + searchCategory + '"'
         }
+
 
         let maxResults = 40; //the maximum possible by the Google api, set to requested value if exists
         if (searchAmount) {
@@ -48,7 +51,14 @@ class BookController{
 
         console.log("Currently executed query:", query);
 
-        let propertiesObject = {q: query, maxResults: maxResults};
+
+        let propertiesObject = {
+            q: query,
+            maxResults: maxResults,
+            langRestrict: searchLanguage
+        };
+
+
         console.log("sending request using the following properties: ", propertiesObject)
         let apiurl = ('https://www.googleapis.com/books/v1/volumes');
         let options = {method: 'GET'}; //set method and other possible options.. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
@@ -80,7 +90,7 @@ function createJson(input) {
                 item ["title"] = input[j][x].volumeInfo.title;
                 count+=1;
                 item ["number"] = count;
-                console.log("found book with title: " , input[j][x].volumeInfo.title, "number of book: ", count)
+                //console.log("found book with title: " , input[j][x].volumeInfo.title, "number of book: ", count)
                 item ["author"] = input[j][x].volumeInfo.authors;
                 item ["year"] = input[j][x].volumeInfo.publishedDate;
                 item ["description"] = input[j][x].volumeInfo.description;
@@ -117,7 +127,7 @@ async function fetchData(url, properties, options){
 
 
 function extractRequestValues(req){
-    return new bookRequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount);
+    return new bookRequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount, req.query.language);
 }
 
 module.exports = new BookController();
