@@ -119,17 +119,6 @@ function createJson(input) {
                 item ["cover"] = input[j][x].volumeInfo.imageLinks?.smallThumbnail;
                 if(isbnNumber && sale){ //add book only if ISBN Exists
                     jsonBookList.push(item);
-                    /*
-                    TODO add only books for sale with link:
-                                "saleInfo": {
-                                    "country": "AT",
-                                    "saleability": "FOR_SALE",
-                                    "isEbook": true,
-                                    "listPrice": {
-                                        "amount": 13.99,
-                                        "currencyCode": "EUR"
-                                    },
-                     */
                 }
             }
         }
