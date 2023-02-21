@@ -111,7 +111,7 @@ function createJson(input) {
                     if(isbnJson[i].type === "ISBN_13"){
                         isbnNumber = isbnJson[i].identifier;
                         item ["isbn"] = isbnNumber;
-                    } else {
+                    } else if (isbnJson[i].type === "ISBN_10") {
                         isbnNumber = isbnJson[i].identifier;
                     }
                 }
