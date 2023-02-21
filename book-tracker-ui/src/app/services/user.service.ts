@@ -40,7 +40,7 @@ export class UserService {
   }
 
   public deleteUser(): Observable<any> {
-    const url = USER_API + 'deleteUser';
+    const url = USER_API + 'deleteuser';
     return this.http.delete<any>(url, httpOptions);
   }
 
