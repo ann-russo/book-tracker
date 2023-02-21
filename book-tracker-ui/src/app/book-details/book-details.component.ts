@@ -54,7 +54,10 @@ export class BookDetailsComponent implements OnInit {
       noofpages: newBook.noofpages,
       year: newBook.year,
       language: newBook.language,
-      genre: newBook.genre
+      genre: newBook.genre,
+      retailPrice: newBook.retailPrice,
+      retailPriceCurrency: newBook.retailPriceCurrency,
+      buyLink: newBook.buyLink
     }
   }
 
@@ -64,6 +67,10 @@ export class BookDetailsComponent implements OnInit {
 
   hasDescription(book: Book): boolean {
     return book.description !== undefined;
+  }
+
+  hasLink(book: Book): boolean {
+    return book.buyLink !== undefined;
   }
 
   addToList(status: BookStatus): void {

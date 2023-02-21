@@ -12,6 +12,12 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+  scroll-snap-align: start;
+  transition: all 0.2s;
+  height: 194px;
+  width: 128px;
 }
 
 .main-part {
@@ -22,7 +28,8 @@
   margin-top: 1em;
   margin-left: 1em;
   margin-right: 1em;
-  height: 180px;
+  height: min-content;
+  max-height: 240px;
   overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer 10+ */

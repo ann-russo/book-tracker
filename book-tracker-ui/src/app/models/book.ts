@@ -9,4 +9,7 @@ export interface Book {
   isbn: string;
   language?: string;
   genre: string;
+  retailPrice?: string | undefined;
+  retailPriceCurrency?: string | undefined;
+  buyLink?: string | undefined;
 }
