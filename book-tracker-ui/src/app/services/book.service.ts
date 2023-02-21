@@ -17,23 +17,23 @@ export class BookService {
     return this.http.get<Book[]>(url);
   }
 
-  public getBooksByAuthor(author: string, amount: string): Observable<Book[]> {
-    const url = BOOK_API + 'author=' + author + '&amount=' + amount;
+  public getBooksByAuthor(author: string, language: string, amount: string): Observable<Book[]> {
+    const url = BOOK_API + 'author=' + author + '&language=' + language + '&amount=' + amount;
     return this.http.get<Book[]>(url);
   }
 
-  public getBooksByQuery(query: string, amount: string): Observable<Book[]> {
-    const url = BOOK_API + 'querytext=' + query + '&amount=' + amount;
+  public getBooksByQuery(query: string, language: string, amount: string): Observable<Book[]> {
+    const url = BOOK_API + 'querytext=' + query + '&language=' + language + '&amount=' + amount;
     return this.http.get<Book[]>(url);
   }
 
-  public getBooksByQueryAndAuthor(query: string, author: string, amount: string): Observable<Book[]> {
-    const url = BOOK_API + 'querytext=' + query + '&author=' + author + '&prefLang=en&amount=' + amount;
+  public getBooksByQueryAndAuthor(query: string, author: string, language: string, amount: string): Observable<Book[]> {
+    const url = BOOK_API + 'querytext=' + query + '&author=' + author + '&language=' + language + '&amount=' + amount;
     return this.http.get<Book[]>(url);
   }
 
-  public getBooksByGenre(genre: string): Observable<Book[]> {
-    const url = BOOK_API + 'genre=' + genre;
+  public getBooksByGenre(category: string, language: string): Observable<Book[]> {
+    const url = BOOK_API + 'category=' + category + '&language=' + language;
     return this.http.get<Book[]>(url);
   }
 }

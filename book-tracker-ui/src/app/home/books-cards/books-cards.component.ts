@@ -38,19 +38,19 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.bookService.getBooksByAuthor('Shakespeare', '60')
+    this.bookService.getBooksByAuthor('Shakespeare', 'en', '20')
       .subscribe({
         next: books => this.extractBooks(books, 1),
         error: error => console.log(error)
       });
 
-    this.bookService.getBooksByQuery('programmieren', '30')
+    this.bookService.getBooksByQuery('programmieren', 'de', '20')
       .subscribe({
         next: books => this.extractBooks(books, 2),
         error: error => console.log(error)
       });
 
-    this.bookService.getBooksByQueryAndAuthor('harry+potter', 'rowling', '40')
+    this.bookService.getBooksByQueryAndAuthor('harry+potter', 'rowling', 'en', '20')
       .subscribe({
         next: books => this.extractBooks(books, 3),
         error: error => console.log(error)

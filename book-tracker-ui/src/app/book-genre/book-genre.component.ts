@@ -17,7 +17,8 @@ export class BookGenreComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const genre: string = params['genre'];
-      this.bookService.getBooksByGenre(genre).subscribe({
+      console.log(genre)
+      this.bookService.getBooksByGenre(genre, 'en').subscribe({
         next: books => console.log(books),
         error: error => console.log(error)
       })

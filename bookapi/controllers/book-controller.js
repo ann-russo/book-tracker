@@ -41,7 +41,11 @@ class BookController{
         }
 
         //if all parameters are empty return error //TODO add maybe other  useful combinations
-        if (searchRandom === undefined && searchText === undefined && searchIsbn === undefined && searchAuthor === undefined) {
+        if (searchRandom === undefined &&
+            searchText === undefined &&
+            searchIsbn === undefined &&
+            searchAuthor === undefined &&
+            searchCategory === undefined) {
             let response = {
                 resultcode: 'ERROR',
                 resulttext: 'not enough variables defined'

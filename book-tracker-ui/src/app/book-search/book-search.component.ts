@@ -33,15 +33,34 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
         this.keyword = params.query.split('-').join(' ');
       });
     this.isLoadingResults = true;
-    this.getResults();
+
+    if (this.isNumber(this.keyword)) {
+      this.getResultByIsbn();
+    } else {
+      this.getResults();
+    }
   }
 
-  public getResults = () => {
-    this.bookService.getBooksByQuery(this.keyword, '40')
+  getResultByIsbn() {
+    this.bookService.getBookByIsbn(this.keyword)
       .subscribe(res => {
         this.isLoadingResults = false;
         this.dataSource.data = res as Book[];
       })
+  }
+
+  public getResults = () => {
+    this.bookService.getBooksByQuery(this.keyword, 'en', '40')
+      .subscribe(res => {
+        this.isLoadingResults = false;
+        this.dataSource.data = res as Book[];
+      })
+  }
+
+  public isNumber(value: string | number): boolean {
+    return ((value != null) &&
+      (value !== '') &&
+      !isNaN(Number(value.toString())));
   }
 
   ngAfterViewInit(): void {
@@ -54,18 +73,8 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 
-  public getIsbn(book: any): string {
-    if (book.isbn !== undefined) {
-      return String(book.isbn)
-    } else {
-      console.log("no isbn!")
-      return '0'
-    }
-  }
-
   public getPages(book: any): number {
     if (book.noofpages !== undefined) {
-      console.log("string: ", book.noofpages)
       return Number(book.noofpages);
     } else {
       return 0;
