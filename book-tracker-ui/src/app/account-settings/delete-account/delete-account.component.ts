@@ -7,7 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-delete-account',
   templateUrl: './delete-account.component.html',
-  styleUrls: ['./delete-account.component.css'],
+  styleUrls: ['./delete-account.component.scss'],
   providers: [UserService, MatSnackBar]
 })
 export class DeleteAccountComponent {

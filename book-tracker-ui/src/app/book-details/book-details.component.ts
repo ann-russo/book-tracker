@@ -12,7 +12,7 @@ import {BookListService} from "../services/book-list.service";
 @Component({
   selector: 'app-book-details',
   templateUrl: './book-details.component.html',
-  styleUrls: ['./book-details.component.css'],
+  styleUrls: ['./book-details.component.scss'],
   providers: [MatSnackBar, BookService, BookListService]
 })
 export class BookDetailsComponent implements OnInit {

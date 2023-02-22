@@ -10,7 +10,7 @@ import {AuthGuardService} from "../../services/auth/auth-guard.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
   providers: [UserService, AuthGuardService]
 })
 export class LoginComponent implements OnInit {

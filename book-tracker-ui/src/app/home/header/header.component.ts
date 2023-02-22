@@ -13,7 +13,7 @@ export interface DialogData {
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+  styleUrls: ['./header.component.scss'],
   providers: [UserService]
 })
 export class HeaderComponent {

@@ -10,7 +10,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-edit-account',
   templateUrl: './edit-account.component.html',
-  styleUrls: ['./edit-account.component.css'],
+  styleUrls: ['./edit-account.component.scss'],
   providers: [UserService, MatSnackBar]
 })
 export class EditAccountComponent implements OnInit {

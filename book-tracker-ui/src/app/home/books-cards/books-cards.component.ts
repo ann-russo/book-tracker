@@ -3,6 +3,8 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {Book} from "../../models/book";
 import {BookService} from "../../services/book.service";
 import {Observable, Observer} from "rxjs";
+import {UserService} from "../../services/user.service";
+import {filter} from "rxjs/operators";
 
 
 let BOOK_DATA: Book[] = [];
@@ -15,17 +17,19 @@ export interface CardRow {
 @Component({
   selector: 'app-books-cards',
   templateUrl: './books-cards.component.html',
-  styleUrls: ['./books-cards.component.css'],
-  providers: [BookService]
+  styleUrls: ['./books-cards.component.scss'],
+  providers: [BookService, UserService]
 })
 export class BooksCardsComponent implements OnInit, OnDestroy {
+  prefLang: string = ''
   asyncRows!: Observable<CardRow[]>;
   dataSourceCardOne: Book[] = []
   dataSourceCardTwo: Book[] = []
   dataSourceCardThree: Book[] = []
   constructor(
     private sanitization: DomSanitizer,
-    private bookService: BookService) {
+    private bookService: BookService,
+    private userService: UserService) {
     this.asyncRows = new Observable((observer: Observer<CardRow[]>) => {
       setTimeout(() => {
         observer.next([
@@ -35,6 +39,10 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         ]);
       }, 1000);
     })
+  }
+
+  getUsersLanguage(): void {
+    this.userService.getUserData().pipe(filter(x => x.prefLang))
   }
 
   ngOnInit(): void {
@@ -56,6 +64,8 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         error: error => console.log(error)
       });
   }
+
+
 
   ngOnDestroy(): void {
     BOOK_DATA = []

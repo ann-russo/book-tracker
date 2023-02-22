@@ -11,11 +11,11 @@ import {BookListComponent} from "./book-list/book-list.component";
 import {BooksCardsComponent} from "./home/books-cards/books-cards.component";
 import {BookDetailsComponent} from "./book-details/book-details.component";
 import {AuthGuardService as AuthGuard} from "./services/auth/auth-guard.service";
-import {BookGenreComponent} from "./book-genre/book-genre.component";
 import {BookSearchComponent} from "./book-search/book-search.component";
 import {EditAccountComponent} from "./account-settings/edit-account/edit-account.component";
 import {AccountOverviewComponent} from "./account-settings/account-overview/account-overview.component";
 import {DeleteAccountComponent} from "./account-settings/delete-account/delete-account.component";
+import {BookGenreComponent} from "./book-genre/book-genre.component";
 
 const routes: Routes = [
   { path: '',

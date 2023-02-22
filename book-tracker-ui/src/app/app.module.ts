@@ -45,13 +45,16 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import {httpInterceptorProviders} from "./helpers/http.interceptor";
 import {HeaderSearchDialogComponent} from "./home/header/header-search-dialog/header-search-dialog.component";
 import { BookSearchComponent } from './book-search/book-search.component';
-import { BookGenreComponent } from './book-genre/book-genre.component';
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {KeyValuePipe} from "@angular/common";
 import { EditAccountComponent } from './account-settings/edit-account/edit-account.component';
 import { AccountOverviewComponent } from './account-settings/account-overview/account-overview.component';
 import { DeleteAccountComponent } from './account-settings/delete-account/delete-account.component';
+import { BookGenreComponent } from './book-genre/book-genre.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -69,10 +72,10 @@ import { DeleteAccountComponent } from './account-settings/delete-account/delete
     HeaderSearchDialogComponent,
     BooksCardsComponent,
     BookSearchComponent,
-    BookGenreComponent,
     EditAccountComponent,
     AccountOverviewComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    BookGenreComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +106,10 @@ import { DeleteAccountComponent } from './account-settings/delete-account/delete
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    KeyValuePipe
+    KeyValuePipe,
+    MatChipsModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     AppRoutingModule,

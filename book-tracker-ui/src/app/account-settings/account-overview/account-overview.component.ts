@@ -13,7 +13,7 @@ export interface AccountData {
 @Component({
   selector: 'app-account-overview',
   templateUrl: './account-overview.component.html',
-  styleUrls: ['./account-overview.component.css'],
+  styleUrls: ['./account-overview.component.scss'],
   providers: [UserService, KeyValuePipe]
 })
 export class AccountOverviewComponent implements OnInit {

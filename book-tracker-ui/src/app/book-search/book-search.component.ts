@@ -10,7 +10,7 @@ import {MatPaginator} from "@angular/material/paginator";
 @Component({
   selector: 'app-book-search',
   templateUrl: './book-search.component.html',
-  styleUrls: ['./book-search.component.css'],
+  styleUrls: ['./book-search.component.scss'],
   providers: [BookService]
 })
 export class BookSearchComponent implements OnInit, AfterViewInit {

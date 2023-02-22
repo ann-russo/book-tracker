@@ -1,11 +1,18 @@
-h2 {
-  font-size: 30px;
-  padding-top: 35px;
+.header {
   padding-left: 15px;
 }
 
-table {
+h2 {
+  font-size: 30px;
+  padding-top: 35px;
+}
+
+table, .filter-input {
   width: 100%;
+}
+
+.cover {
+  cursor: pointer;
 }
 
 a, a:visited, a:hover {
@@ -16,6 +23,11 @@ a, a:visited, a:hover {
 
 img {
   width: 64px;
+  height: 97px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+  scroll-snap-align: start;
+  transition: all 0.2s;
 }
 
 .w-10 {
@@ -25,3 +37,5 @@ img {
 .w-65 {
   width: 65px;
 }
+
+

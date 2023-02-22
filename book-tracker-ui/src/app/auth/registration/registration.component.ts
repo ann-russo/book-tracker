@@ -8,7 +8,7 @@ import {MyErrorStateMatcher} from "../shared/my-error-state-matcher";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
+  styleUrls: ['./registration.component.scss'],
   providers: [UserService]
 })
 
