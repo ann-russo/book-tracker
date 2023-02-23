@@ -1,18 +1,14 @@
-h2 {
-  font-size: 28px;
-  padding-top: 35px;
+.header {
   padding-left: 15px;
+}
+
+h2 {
+  font-size: 30px;
+  padding-top: 35px;
 }
 
 .keyword {
   font-style: italic;
-}
-
-table, .filter-input {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  min-width: 500px;
 }
 
 .example-loading-shade {
@@ -28,15 +24,37 @@ table, .filter-input {
   justify-content: center;
 }
 
-.mat-column-noofpages {
-  max-width: 64px;
+table, .filter-input {
+  width: 100%;
 }
 
-.mat-column-title {
-  max-width: 300px;
+.book-title {
+  line-height: 23px;
+}
+
+.cover {
+  cursor: pointer;
 }
 
 a, a:visited, a:hover {
   color: black;
   text-decoration: none;
+  font-size: 16px;
+}
+
+img {
+  width: 64px;
+  height: 97px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+  scroll-snap-align: start;
+  transition: all 0.2s;
+}
+
+.w-10 {
+  width: 10px;
+}
+
+.w-65 {
+  width: 65px;
 }

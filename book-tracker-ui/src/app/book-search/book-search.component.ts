@@ -16,7 +16,7 @@ import {MatPaginator} from "@angular/material/paginator";
 export class BookSearchComponent implements OnInit, AfterViewInit {
   keyword: string = '';
   isLoadingResults = true;
-  public displayedColumns: string[] = ['title', 'author', 'noofpages'];
+  public displayedColumns: string[] = ['cover', 'title'];
   public dataSource = new MatTableDataSource<Book>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
