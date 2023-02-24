@@ -12,12 +12,22 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 10px;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
   scroll-snap-align: start;
   transition: all 0.2s;
   height: 194px;
   width: 128px;
+}
+
+mat-card-title {
+  color: #17134a;
+  font-size: 28px;
+}
+
+mat-card-subtitle {
+  font-size: 18px;
 }
 
 .main-part {

@@ -6,6 +6,12 @@
   width: 200px;
 }
 
+.homelink {
+  font-family: 'Comfortaa', cursive;
+  font-size: 24px;
+  color: white;
+}
+
 .toolbar{
   position: relative;
 }
@@ -17,4 +23,15 @@ a, a:visited {
 
 img {
   margin-right: 10px;
+}
+
+.title {
+  font-family: 'Comfortaa', cursive;
+  font-size: 28px;
+  color: #161347;
+  text-shadow: 3px 1px 0 #8a58d0;
+}
+
+.title.a {
+  color: #161347;
 }

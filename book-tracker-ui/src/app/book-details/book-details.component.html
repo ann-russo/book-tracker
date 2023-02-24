@@ -29,7 +29,7 @@
       <p>ISBN: {{this.book.isbn}}</p>
       <div *ngIf="this.hasLink(this.book)">
         <p>Price: {{this.book.retailPrice}} {{this.book.retailPriceCurrency}}</p>
-        <p><a [href]="this.book.buyLink">Follow this link to purchase the book!</a></p>
+        <p><a [href]="this.book.buyLink" target="_blank">Follow this link to purchase the book!</a></p>
       </div>
     </div>
   </mat-tab>

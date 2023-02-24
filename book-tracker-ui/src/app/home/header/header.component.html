@@ -10,11 +10,12 @@
     </div>
   </mat-menu>
 
-  <img
-    width="30"
-    alt="BookTracker Logo"
-    src="logo.ico"/>
-  <span><a routerLink="./" class="homelink">Book Tracker</a></span>
+  <span>
+      <a class="title" routerLink="./">
+        <div style="display:inline-block; vertical-align: middle;"><img width="40" alt="BookTracker Logo" src="../../../assets/logo.png"/></div>
+        <div style="display:inline-block; vertical-align: baseline;">booktracker</div>
+      </a>
+  </span>
   <span class="example-spacer"></span>
 
   <button mat-button class="example-icon" aria-label="Search" matTooltip="Search" (click)="openDialog()">
