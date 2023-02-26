@@ -7,17 +7,60 @@ h2 {
   padding-top: 35px;
 }
 
-table, .filter-input {
-  width: 100%;
+.sort-options {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px 0 10px;
 }
 
-.cover {
+@media screen and (min-width: 767px) {
+  .sort-options {
+    flex-direction: row;
+    margin: 0 10px 0 10px;
+    gap: 10px;
+  }
+
+  .filter {
+    flex-grow: 2;
+  }
+}
+
+.element-row {
+  position: relative;
+}
+
+.element-row:not(.expanded) {
   cursor: pointer;
 }
 
-a, a:visited, a:hover {
-  color: black;
+.element-row:not(.expanded):hover {
+  background: #f5f5f5;
+}
+
+.results {
+  border-collapse: separate!important;
+  border-spacing:0 10px!important;
+}
+
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+table {
+  width: 100%;
+}
+
+.book-title {
+  color: #161347;
   text-decoration: none;
+  font-size: 17px;
+}
+
+.book-author {
   font-size: 16px;
 }
 

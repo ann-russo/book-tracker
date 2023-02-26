@@ -3,11 +3,31 @@
   <p>{{this.dataSource.data.length}} results</p>
 </div>
 
-<mat-form-field class="filter-input">
-  <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter results" #input>
-</mat-form-field>
+<div class="sort-options">
+  <mat-form-field class="filter" appearance="fill">
+    <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter results" #input>
+  </mat-form-field>
 
-<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-form-field class="sort" appearance="outline">
+    <mat-label>Sort by</mat-label>
+    <mat-select [(value)]="selectedSortOption" (selectionChange)="sortTable()">
+      <mat-option *ngFor="let option of sortOptions" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="direction" appearance="outline">
+    <mat-label>Sort Direction</mat-label>
+    <mat-select [(value)]="selectedSortDirection" (selectionChange)="sortTable()">
+      <mat-option *ngFor="let option of sortDirections" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="loading" *ngIf="isLoadingResults">
   <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
 </div>
 
@@ -15,26 +35,25 @@
   <ng-container matColumnDef="cover">
     <th mat-header-cell *matHeaderCellDef [ngClass]="'w-65'"> Cover </th>
     <td mat-cell *matCellDef="let element" [ngClass]="'w-65'">
-      <img [src]="element.cover" alt="Book Cover" [routerLink]="['../../book', element.isbn]" class="cover"/>
+      <img [src]="element.cover" alt="Book Cover" class="cover"/>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef> Title </th>
     <td mat-cell *matCellDef="let element">
-      <mat-card-title class="book-title">
-        <a [routerLink]="['../../book', element.isbn]" class="card-link">{{element.title}}</a>
-      </mat-card-title><br>
+      <mat-card-title class="book-title">{{element.title}}</mat-card-title><br>
       <mat-card-subtitle class="book-author">{{element.author}}</mat-card-subtitle><br>
-      <mat-card-subtitle class="book-pages">{{element.noofpages}} pages</mat-card-subtitle><br>
-      <mat-chip-listbox aria-label="Genres">
-        <mat-chip-option color="accent">{{element.genre}}</mat-chip-option>
+      <mat-card-content class="book-pages" *ngIf="hasPages(element); else nopages"><b>{{element.noofpages}}</b> pages</mat-card-content><br>
+      <ng-template #nopages>Number of pages <b>unknown</b></ng-template>
+      <mat-chip-listbox *ngIf="hasGenre(element)" aria-label="Genres">
+        <mat-chip-option color="accent" selected>{{element.genre}}</mat-chip-option>
       </mat-chip-listbox>
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [routerLink]="['../../book', row.isbn]"></tr>
 
   <!-- Row shown when there is no matching data. -->
   <tr class="mat-row" *matNoDataRow>
@@ -42,4 +61,4 @@
   </tr>
 </table>
 
-<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 40]"></mat-paginator>
+<mat-paginator (page)="scrollUp()" [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 40]" showFirstLastButtons></mat-paginator>

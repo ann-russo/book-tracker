@@ -15,11 +15,9 @@ export const GENRES: GenreEntry[] = [
   {label: 'Mystery', link: 'mystery'},
   {label: 'Non-fiction', link: 'non-fiction'},
   {label: 'Philosophy', link: 'philosophy'},
-  {label: 'Religion', link: 'religion'},
   {label: 'Romance', link: 'romance'},
   {label: 'Science', link: 'science'},
   {label: 'Science fiction', link: 'science-fiction'},
-  {label: 'Self help', link: 'self-help'},
   {label: 'Thriller', link: 'thriller'},
   {label: 'Travel', link: 'travel'}
 ]

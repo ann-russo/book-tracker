@@ -16,6 +16,11 @@ import {MatPaginator} from "@angular/material/paginator";
 export class BookSearchComponent implements OnInit, AfterViewInit {
   keyword: string = '';
   isLoadingResults = true;
+  selectedSortOption = '';
+  selectedSortDirection = '';
+
+  public sortOptions = ['Author', 'Title', 'Pages'];
+  public sortDirections = ['Ascending', 'Descending'];
   public displayedColumns: string[] = ['cover', 'title'];
   public dataSource = new MatTableDataSource<Book>();
 
@@ -73,11 +78,62 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 
-  public getPages(book: any): number {
-    if (book.noofpages !== undefined) {
-      return Number(book.noofpages);
-    } else {
-      return 0;
+  public sortTable(): void {
+    if (this.selectedSortOption === 'Author') {
+      this.sortByAuthor();
     }
+    if (this.selectedSortOption === 'Title') {
+      this.sortByTitle();
+    }
+    if (this.selectedSortOption === 'Pages') {
+      this.sortByPages();
+    }
+    this.paginator.pageIndex = 0;
+  }
+
+  public sortByAuthor(): void {
+    this.dataSource.data = this.dataSource.data.sort((a, b) => {
+      if (this.selectedSortDirection === 'Descending') {
+        return a.author < b.author ? 1 : -1;
+      } else {
+        return a.author < b.author ? -1 : 1;
+      }
+    });
+  }
+
+  public sortByTitle(): void {
+    this.dataSource.data = this.dataSource.data.sort((a, b) => {
+      if (this.selectedSortDirection === 'Descending') {
+        return a.title < b.title ? 1 : -1;
+      } else {
+        return a.title < b.title ? -1 : 1;
+      }
+    });
+  }
+
+  public sortByPages(): void {
+    this.dataSource.data = this.dataSource.data.sort((a, b) => {
+      if (this.selectedSortDirection === 'Descending') {
+        return b.noofpages - a.noofpages
+      } else {
+        return a.noofpages - b.noofpages;
+      }
+    });
+  }
+
+  public scrollUp(): void {
+    setTimeout(() => window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    }));
+  }
+
+  public hasGenre(book: Book): boolean {
+    return book.genre !== undefined;
+  }
+
+  public hasPages(book: Book): boolean {
+    return book.noofpages !== undefined;
   }
 }

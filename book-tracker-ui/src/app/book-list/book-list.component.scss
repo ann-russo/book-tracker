@@ -30,3 +30,15 @@ img {
 .w-65 {
   width: 65px;
 }
+
+.element-row {
+  position: relative;
+}
+
+.element-row:not(.expanded) {
+  cursor: pointer;
+}
+
+.element-row:not(.expanded):hover {
+  background: #f5f5f5;
+}
