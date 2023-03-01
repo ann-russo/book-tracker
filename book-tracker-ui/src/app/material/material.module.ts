@@ -4,6 +4,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {KeyValuePipe} from "@angular/common";
+import { StarRatingModule } from 'angular-star-rating';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {KeyValuePipe} from "@angular/common";
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
-    KeyValuePipe
+    KeyValuePipe,
+    StarRatingModule.forRoot()
   ],
   exports: [
     MatSortModule,

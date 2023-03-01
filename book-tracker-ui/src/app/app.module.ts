@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,7 +7,7 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { LoginComponent } from './auth/login/login.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
-import { BookListComponent } from './book-list/book-list.component';
+import {BookListComponent} from './book-list/book-list.component';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import { HomeComponent } from './home/home.component';
 import {MatIconModule} from "@angular/material/icon";
@@ -55,8 +55,11 @@ import { BookGenreComponent } from './book-genre/book-genre.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
+import {EditBookDialogComponent} from "./book-list/edit-book-dialog/edit-book-dialog.component";
+import {StarRatingModule} from "angular-star-rating";
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     AppComponent,
     RegistrationComponent,
@@ -75,7 +78,8 @@ import {MatListModule} from "@angular/material/list";
     EditAccountComponent,
     AccountOverviewComponent,
     DeleteAccountComponent,
-    BookGenreComponent
+    BookGenreComponent,
+    EditBookDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +113,8 @@ import {MatListModule} from "@angular/material/list";
     KeyValuePipe,
     MatChipsModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    StarRatingModule.forRoot()
   ],
   providers: [
     AppRoutingModule,

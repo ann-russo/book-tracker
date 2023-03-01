@@ -1,4 +1,4 @@
 export interface BookStatus {
-  statusId: number;
+  statusId: number | undefined;
   statusName: string;
 }

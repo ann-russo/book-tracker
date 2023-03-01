@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {Book} from "../models/book";
 import {Observable, Observer} from "rxjs";
 import {BookListService} from "../services/book-list.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {EditBookDialogComponent} from "./edit-book-dialog/edit-book-dialog.component";
 
 export interface ListTab {
   label: string;
@@ -16,14 +18,16 @@ export interface ListTab {
   styleUrls: ['./book-list.component.scss'],
   providers: [BookListService, MatSnackBar]
 })
-export class BookListComponent {
+export class BookListComponent implements OnInit {
   asyncTabs!: Observable<ListTab[]>;
+  allBooks!: Book[];
   public displayedColumns = ['position', 'cover', 'title'];
   public dataSource = new MatTableDataSource<Book>();
 
   constructor(
     private bookListService: BookListService,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog) {
     const sorted: boolean = true;
     const books: Book[] = this.bookListService.getBookList(false);
 
@@ -39,8 +43,44 @@ export class BookListComponent {
     })
   }
 
-  editBookEntry(book: Book):void {
-    console.log("Edit this book entry: ", book)
+  ngOnInit() {
+    this.bookListService.getList().subscribe({
+      next: bookListAll => {
+        this.allBooks = bookListAll as Book[];
+      }
+    })
+  }
+
+  getPagesRead(book: Book): number {
+    if (book.noofpagesread != null) {
+      return book.noofpagesread;
+    } else {
+      return 0;
+    }
+  }
+
+  getPagesReadTotal(books: Book[]): number {
+    let total = 0;
+    for (let i = 0; i < books.length; ++i) {
+      if (books[i].noofpagesread != null) {
+        total += Number(books[i].noofpagesread!);
+      }
+    }
+    return total;
+  }
+  editBookEntry(book: Book): void {
+    const dialogRef = this.dialog.open(EditBookDialogComponent, {
+      data: {
+        book: book,
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      const updatedBook = result.data.book;
+      this.bookListService.updateBook(updatedBook).subscribe({
+        next: res => this.showFeedback(res),
+        error: err => this.showFeedback(err)
+      })
+    });
   }
 
   deleteBookEntry(book: Book):void {

@@ -45,4 +45,14 @@ export class BookListService {
       return book.status === status;
     });
   }
+
+  public getList(): Observable<any> {
+    const url = BOOKLIST_API + 'findbooks';
+    return this.http.get(url);
+  }
+
+  public updateBook(book: Book): Observable<any> {
+    const url = BOOKLIST_API + 'updatebook';
+    return this.http.patch(url, book);
+  }
 }

@@ -12,4 +12,9 @@ export interface Book {
   retailPrice?: string | undefined;
   retailPriceCurrency?: string | undefined;
   buyLink?: string | undefined;
+  noofpagesread?: number;
+  startdate?: string;
+  finishdate?: string;
+  notes?: string;
+  score?: string;
 }

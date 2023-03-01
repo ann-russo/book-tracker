@@ -84,13 +84,10 @@ export class EditAccountComponent implements OnInit {
       if (this.dataForm.controls[key].touched && this.dataForm.controls[key].value?.length > 0) {
         // @ts-ignore
         this.updatedUser[key] = this.dataForm.controls[key].value;
-        console.log(this.updatedUser)
       } else {
         console.log("unchanged: ", this.dataForm.controls[key].value)
       }
     });
-
-    console.log(this.updatedUser)
 
     this.userService.updateUser(this.updatedUser).subscribe({
       next: res => {

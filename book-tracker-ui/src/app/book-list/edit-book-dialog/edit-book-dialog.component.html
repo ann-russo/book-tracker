@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>Edit Book Entry</h2>
+<form class="mat-typography" [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <h3 class="book-title">{{data.book.title}}</h3>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Choose a status</mat-label>
+      <mat-select [(value)]="selectedStatus" formControlName="status">
+        <mat-option *ngFor="let item of bookStatuses" [value]="item.statusName">
+          {{item.statusName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Pages read of {{data.book.noofpages}}</mat-label>
+      <input matInput type="number" min="0" max="{{data.book.noofpages}}" formControlName="noofpagesread">
+      <mat-error *ngIf="formControl.noofpagesread.hasError('min')">
+        Number of read pages cannot be less than 0.
+      </mat-error>
+      <mat-error *ngIf="formControl.noofpagesread.hasError('max')">
+        Number of read pages cannot exceed then number of pages in the book.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Choose a start date</mat-label>
+      <input matInput [matDatepicker]="pickerStart" formControlName="startdate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="pickerStart"></mat-datepicker-toggle>
+      <mat-datepicker #pickerStart></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Choose a finish date</mat-label>
+      <input matInput [matDatepicker]="pickerFinish" formControlName="finishdate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="pickerFinish"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFinish></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Notes about the book</mat-label>
+      <textarea matInput #notes formControlName="notes"></textarea>
+      <mat-hint align="end">{{notes.value.length}} / 1000</mat-hint>
+    </mat-form-field>
+
+    <star-rating labelText="Rate this book"
+                 labelPosition="top"
+                 size="medium"
+                 [rating]="currentScore"
+                 formControlName="score"
+                 (ratingChange)="onRatingChange($event)"
+                 [starType]="'svg'"
+                 [step]="1">
+    </star-rating>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="buttons">
+    <button mat-flat-button color="accent" class="btn save">Save</button>
+    <button mat-stroked-button color="basic" class="btn cancel" mat-dialog-close="true">Cancel</button>
+  </mat-dialog-actions>
+
+</form>

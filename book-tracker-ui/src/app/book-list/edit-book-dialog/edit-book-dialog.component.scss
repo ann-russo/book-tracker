@@ -1,0 +1,24 @@
+.example-full-width {
+  width: 100%;
+}
+
+.mat-typography {
+  max-width: 600px;
+}
+
+.book-title {
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.btn {
+  flex-grow: 1;
+  margin-right: 10px;
+  margin-left: 10px;
+}

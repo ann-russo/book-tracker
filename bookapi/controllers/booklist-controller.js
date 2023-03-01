@@ -1,5 +1,3 @@
-const { Router } = require ('express');
-const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user-model')
 const booklist = require('../models/bookDB-model')
@@ -94,8 +92,14 @@ class booklistController{
         const user = await User.findOne({_id: claims._id})
         let findVariable = {}
         findVariable.id = user.id;
-        if(req.body.status){findVariable.status = req.body.status};
-        if(req.body.public){findVariable.public = req.body.public};
+
+        if (req.body.status) {
+            findVariable.status = req.body.status
+        }
+        if (req.body.public) {
+            findVariable.public = req.body.public
+        }
+
         let result = await booklist.find(findVariable)
         res.send(JSON.stringify(result))
     }
@@ -119,7 +123,7 @@ class booklistController{
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
         const user = await User.findOne({_id: claims._id})
-        //console.log("affected User: ", user, "userid" , user.id)
+        console.log("Affected user: ", user, "userid" , user.id)
 
         try{
             const result = await booklist.deleteOne({_id: req.body._id})
@@ -193,13 +197,13 @@ class booklistController{
                 const {password, ...data} = await result.toJSON()
                 res.send({
                     resultcode: 'OK',
-                    resulttext: 'Successfully Updated Book information',
+                    resulttext: 'Successfully updated book information',
                 })
             }catch (e) {
                 console.log(e)
                 res.send({
                     resultcode: 'ERROR',
-                    resulttext: 'ERROR updating Book Data',
+                    resulttext: 'Unable to update book data',
                 })
             }
 
