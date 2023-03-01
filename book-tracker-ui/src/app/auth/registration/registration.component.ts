@@ -4,6 +4,8 @@ import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MyErrorStateMatcher} from "../shared/my-error-state-matcher";
+import {LANGUAGES} from "../../models/languages";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'app-registration',
@@ -22,13 +24,14 @@ export class RegistrationComponent implements OnInit {
   isSignupFailed = false;
   errorMessage = '';
   matcher = new MyErrorStateMatcher();
-  listCountries: string[] = ['Austria', 'Germany', 'Switzerland']
-  listLanguages: string[] = ['English', 'German']
+  listCountries: string[] = ['Austria', 'Germany', 'Switzerland'];
+  listLanguages = LANGUAGES;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService) {
+    private userService: UserService,
+    private storageService: StorageService) {
   }
 
   ngOnInit() {
@@ -40,7 +43,7 @@ export class RegistrationComponent implements OnInit {
       lastnameFormControl: new FormControl(''),
       birthdateFormControl: new FormControl(''),
       countryFormControl: new FormControl(''),
-      prefLangFormControl: new FormControl(''),
+      prefLangFormControl: new FormControl('')
     });
   }
 
@@ -67,11 +70,18 @@ export class RegistrationComponent implements OnInit {
     this.userService.registerUser(this.userData).subscribe({
       next: res => {
         console.log(res);
+        this.getAndSaveUserData();
         this.router.navigate(['/home']);
       },
       error: err => {
         this.handleError(err);
       }
+    })
+  }
+
+  getAndSaveUserData(): void {
+    this.userService.getUserData().subscribe({
+      next: value => this.storageService.saveLang(value as User)
     })
   }
 

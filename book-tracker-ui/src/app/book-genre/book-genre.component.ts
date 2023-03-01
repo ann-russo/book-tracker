@@ -6,6 +6,8 @@ import {Book} from "../models/book";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {GenreEntry, GENRES} from "../models/genres";
+import {LanguageEntry} from "../models/languages";
+import {StorageService} from "../services/storage.service";
 
 @Component({
   selector: 'app-book-genre',
@@ -17,6 +19,7 @@ export class BookGenreComponent implements OnInit, AfterViewInit {
   isLoadingResults: boolean = true;
   selectedSortOption = '';
   selectedSortDirection = '';
+  prefLang!: LanguageEntry;
 
   public displayedColumns = ['cover', 'title'];
   public sortOptions = ['Author', 'Title', 'Pages'];
@@ -27,15 +30,16 @@ export class BookGenreComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private route: ActivatedRoute,
-    private bookService: BookService) {
-
+    private bookService: BookService,
+    private storageService: StorageService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const query = params['genre'];
       this.genre = GENRES.filter(x => x.link === query);
-      this.bookService.getBooksByGenre(this.genre[0].link, 'en').subscribe({
+      this.prefLang = this.storageService.getLang();
+      this.bookService.getBooksByGenre(this.genre[0].link, this.prefLang.code).subscribe({
         next: books => this.dataSource.data = books as Book[],
         error: error => console.log(error)
       })

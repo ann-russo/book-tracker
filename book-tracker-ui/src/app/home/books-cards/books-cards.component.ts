@@ -5,6 +5,8 @@ import {BookService} from "../../services/book.service";
 import {Observable, Observer} from "rxjs";
 import {UserService} from "../../services/user.service";
 import {filter} from "rxjs/operators";
+import {StorageService} from "../../services/storage.service";
+import {LanguageEntry} from "../../models/languages";
 
 
 let BOOK_DATA: Book[] = [];
@@ -21,7 +23,7 @@ export interface CardRow {
   providers: [BookService, UserService]
 })
 export class BooksCardsComponent implements OnInit, OnDestroy {
-  prefLang: string = ''
+  prefLang!: LanguageEntry;
   asyncRows!: Observable<CardRow[]>;
   dataSourceCardOne: Book[] = []
   dataSourceCardTwo: Book[] = []
@@ -29,7 +31,8 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
   constructor(
     private sanitization: DomSanitizer,
     private bookService: BookService,
-    private userService: UserService) {
+    private userService: UserService,
+    private storageService: StorageService) {
     this.asyncRows = new Observable((observer: Observer<CardRow[]>) => {
       setTimeout(() => {
         observer.next([
@@ -41,31 +44,27 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
     })
   }
 
-  getUsersLanguage(): void {
-    this.userService.getUserData().pipe(filter(x => x.prefLang))
-  }
-
   ngOnInit(): void {
-    this.bookService.getBooksByAuthor('Shakespeare', 'en', '20')
+    this.prefLang = this.storageService.getLang();
+
+    this.bookService.getBooksByAuthor('Shakespeare', this.prefLang.code, '40')
       .subscribe({
         next: books => this.extractBooks(books, 1),
         error: error => console.log(error)
       });
 
-    this.bookService.getBooksByQuery('programmieren', 'de', '20')
+    this.bookService.getBooksByQuery('programmieren', this.prefLang.code, '20')
       .subscribe({
         next: books => this.extractBooks(books, 2),
         error: error => console.log(error)
       });
 
-    this.bookService.getBooksByQueryAndAuthor('harry+potter', 'rowling', 'en', '20')
+    this.bookService.getBooksByQueryAndAuthor('harry+potter', 'rowling', this.prefLang.code, '40')
       .subscribe({
         next: books => this.extractBooks(books, 3),
         error: error => console.log(error)
       });
   }
-
-
 
   ngOnDestroy(): void {
     BOOK_DATA = []

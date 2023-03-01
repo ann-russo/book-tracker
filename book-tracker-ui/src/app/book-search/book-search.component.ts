@@ -6,6 +6,8 @@ import {Book} from "../models/book";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
+import {LanguageEntry} from "../models/languages";
+import {StorageService} from "../services/storage.service";
 
 @Component({
   selector: 'app-book-search',
@@ -18,6 +20,7 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
   isLoadingResults = true;
   selectedSortOption = '';
   selectedSortDirection = '';
+  prefLang!: LanguageEntry;
 
   public sortOptions = ['Author', 'Title', 'Pages'];
   public sortDirections = ['Ascending', 'Descending'];
@@ -28,8 +31,8 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private route: ActivatedRoute,
-    private bookService: BookService
-  ) {}
+    private bookService: BookService,
+    private storageService: StorageService) {}
 
   ngOnInit() {
     this.route.queryParams
@@ -38,6 +41,7 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
         this.keyword = params.query.split('-').join(' ');
       });
     this.isLoadingResults = true;
+    this.prefLang = this.storageService.getLang();
 
     if (this.isNumber(this.keyword)) {
       this.getResultByIsbn();
@@ -55,7 +59,7 @@ export class BookSearchComponent implements OnInit, AfterViewInit {
   }
 
   public getResults = () => {
-    this.bookService.getBooksByQuery(this.keyword, 'en', '40')
+    this.bookService.getBooksByQuery(this.keyword, this.prefLang.code, '40')
       .subscribe(res => {
         this.isLoadingResults = false;
         this.dataSource.data = res as Book[];

@@ -6,6 +6,7 @@ import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'app-edit-account',
@@ -27,7 +28,8 @@ export class EditAccountComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location,
     private _snackBar: MatSnackBar,
-    private userService: UserService) {
+    private userService: UserService,
+    private storageService: StorageService) {
 
   }
 
@@ -91,6 +93,7 @@ export class EditAccountComponent implements OnInit {
 
     this.userService.updateUser(this.updatedUser).subscribe({
       next: res => {
+        this.storageService.saveLang(this.updatedUser);
         this.showFeedback(res);
       },
       error: err => {

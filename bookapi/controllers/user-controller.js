@@ -111,13 +111,15 @@ class UserController {
         try{
             const claims = jwt.verify(cookie, 'secret')
             const user = await User.findOne({_id: claims._id})
-            res.send(user);
             if (!claims) {
                 return res.status(401).send({
                     resultcode: 'ERROR',
                     resulttext: 'User not authenticated!'
                 })
+            } else {
+                res.send(user);
             }
+
         }catch (e){
             return res.status(401).send({
                 resultcode: 'ERROR',

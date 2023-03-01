@@ -57,7 +57,8 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.userService.loginUser(this.userData).subscribe({
       next: res => {
-        this.storageService.saveUser(res.user);
+        console.log(res);
+        this.getAndSaveUserData();
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.router.navigate(['/home']);
@@ -65,6 +66,12 @@ export class LoginComponent implements OnInit {
       error: error => {
         this.handleError(error);
       }
+    })
+  }
+
+  getAndSaveUserData(): void {
+    this.userService.getUserData().subscribe({
+      next: value => this.storageService.saveLang(value as User)
     })
   }
 
