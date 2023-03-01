@@ -36,14 +36,5 @@
 </mat-tab-group>
 
 <div class="add-button">
-  <mat-form-field appearance="fill" class="input list">
-    <mat-label>Choose a status</mat-label>
-    <mat-select disableRipple [(ngModel)]="selectedStatus" [formControl]="statusControl" required>
-      <mat-option *ngFor="let item of lists" [value]="item">
-        {{item.statusName}}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="statusControl.hasError('required')">Please choose a status</mat-error>
-  </mat-form-field>
-  <button mat-flat-button color="accent" [disabled]="statusControl.invalid" (click)="addToList(selectedStatus)" class="input btn">Add to list</button>
+  <button mat-flat-button color="accent" (click)="addBook(this.book)" class="input btn">Add to list</button>
 </div>

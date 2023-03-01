@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BookService} from "../services/book.service";
 import {BookListService} from "../services/book-list.service";
+import {EditBookDialogComponent} from "../book-list/edit-book-dialog/edit-book-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -17,21 +19,13 @@ import {BookListService} from "../services/book-list.service";
 })
 export class BookDetailsComponent implements OnInit {
   book!: Book;
-  selectedStatus!: BookStatus;
-  statusControl = new FormControl<BookStatus | null>(null, Validators.required);
-  lists: BookStatus[] = [
-    {statusId: 1, statusName: "Currently Reading"},
-    {statusId: 2, statusName: "Plan to read"},
-    {statusId: 3, statusName: "Finished"},
-    {statusId: 4, statusName: "Dropped"}
-  ];
-
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private _snackBar: MatSnackBar,
     private bookService: BookService,
-    private bookListService: BookListService) {}
+    private bookListService: BookListService,
+    public dialog: MatDialog) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -73,12 +67,19 @@ export class BookDetailsComponent implements OnInit {
     return book.buyLink !== undefined;
   }
 
-  addToList(status: BookStatus): void {
-    this.book.status = status.statusId
-    this.bookListService.addBook(this.book).subscribe({
+  addBook(book: Book): void {
+    const dialogRef = this.dialog.open(EditBookDialogComponent, {
+      data: {
+        book: book,
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      const updatedBook = result.data.book;
+      this.bookListService.addBook(updatedBook).subscribe({
         next: response => this.showFeedback(response),
-        error: err => console.log(err)
+        error: err => this.showFeedback(err)
       })
+    });
   }
 
   showFeedback(response: Object): void {

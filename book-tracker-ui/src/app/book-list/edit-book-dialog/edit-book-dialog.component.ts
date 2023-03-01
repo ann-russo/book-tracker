@@ -37,7 +37,9 @@ export class EditBookDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<EditBookDialogComponent>) {
     let index = this.bookStatuses.findIndex(x => x.statusId === data.book.status);
     let currentStatus = this.bookStatuses[index];
-    this.selectedStatus = currentStatus.statusName;
+    if (currentStatus) {
+      this.selectedStatus = currentStatus.statusName;
+    }
   }
 
   ngOnInit() {
