@@ -7,23 +7,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  background-color: #fef9f4;
-}
-
-body {
-  background-color: #fef9f4;
-}
-
 .title {
   font-family: 'Comfortaa', cursive;
-  font-size: 30px;
-  color: #161347;
-  text-shadow: 3px 1px 0 #f7ce8f;
-}
-
-.title.a {
-  color: #161347;
+  font-size: 28px;
+  color: white;
+  text-shadow: 3px 1px 0 #8a58d0;
 }
 
 .content.header {
@@ -56,7 +44,7 @@ body {
   display: flex;
   align-items: center;
   font-weight: 600;
-  background-color: #fef9f4;
+  background-color: #4251af;
 }
 
 .toolbar img {
@@ -95,13 +83,12 @@ svg.material-icons:not(:last-child) {
   position: relative;
 }
 
-a,
-a:visited {
+footer a, footer a:visited {
   color: #161347;
   text-decoration: none;
 }
 
-a:hover {
+footer a:hover {
   color: #3831b3;
 }
 

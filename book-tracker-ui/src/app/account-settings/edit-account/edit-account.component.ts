@@ -7,6 +7,7 @@ import {User} from "../../models/user";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {StorageService} from "../../services/storage.service";
+import {LANGUAGES} from "../../models/languages";
 
 @Component({
   selector: 'app-edit-account',
@@ -21,7 +22,7 @@ export class EditAccountComponent implements OnInit {
   currentData!: User;
   updatedUser: MyUser = {}
   listCountries: string[] = ['Austria', 'Germany', 'Switzerland']
-  listLanguages: string[] = ['English', 'German']
+  listLanguages = LANGUAGES;
   selectedDate = new Date();
 
   constructor(

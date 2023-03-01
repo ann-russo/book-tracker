@@ -17,7 +17,7 @@ const bookSchema = new mongoose.Schema({
         unique: false,
         required: true
     },
-    status: { //1,2,3,4 = currently reading, plan to read, finsihed, cancelled
+    status: { //1,2,3,4 = currently reading, plan to read, finished, cancelled
         type: Number,
         unique: false,
         required: true

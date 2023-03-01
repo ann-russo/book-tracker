@@ -22,24 +22,25 @@ const routes: Routes = [
     component: WelcomeComponent,
     children: [
       { path: '', component: WelcomeLinksComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'registration', component: RegistrationComponent },
+      { path: 'login', component: LoginComponent, title: "Login | BookTracker" },
+      { path: 'registration', component: RegistrationComponent, title: "Sign Up | BookTracker" },
     ]
   },
   { path: 'home',
     component: HomeComponent,
+    title: "Home | BookTracker",
     canActivate: [AuthGuard],
     children: [
       { path: '', component: BooksCardsComponent },
-      { path: 'book/:isbn', component: BookDetailsComponent },
-      { path: 'genres/:genre', component: BookGenreComponent },
-      { path: 'search', component: BookSearchComponent },
-      { path: 'mylist', component: BookListComponent },
-      { path: 'settings', component: AccountSettingsComponent,
+      { path: 'book/:isbn', component: BookDetailsComponent, title: "Book Details | BookTracker" },
+      { path: 'genres/:genre', component: BookGenreComponent, title: "Categories | BookTracker" },
+      { path: 'search', component: BookSearchComponent, title: "Search | BookTracker" },
+      { path: 'mylist', component: BookListComponent, title: "My Book List | BookTracker" },
+      { path: 'settings', component: AccountSettingsComponent, title: "Account | BookTracker",
         children: [
           { path: '', component: AccountOverviewComponent },
-          { path: 'edit-account', component: EditAccountComponent },
-          { path: 'delete-account', component: DeleteAccountComponent },
+          { path: 'edit-account', component: EditAccountComponent, title: "Edit Account | BookTracker" },
+          { path: 'delete-account', component: DeleteAccountComponent, title: "Delete Account | BookTracker" },
         ]
       },
     ]

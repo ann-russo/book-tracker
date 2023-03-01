@@ -3,9 +3,9 @@ const User = require('../models/user-model')
 const booklist = require('../models/bookDB-model')
 
 
-class booklistController{
+class booklistController {
 
-    async addBookToDB(req, res){
+    async addBookToDB(req, res) {
         try {
             const cookie = req.cookies['jwt']
             const claims = jwt.verify(cookie, 'secret')
@@ -25,7 +25,7 @@ class booklistController{
         const user = await User.findOne({_id: claims._id})
         let bookInDB = await booklist.findOne({title: req.body.title, id: user.id})
 
-        if(!bookInDB){
+        if (!bookInDB) {
             const book = new booklist({
                 id: user.id,
                 email: user.email,
@@ -47,7 +47,7 @@ class booklistController{
                 language: req.body.language
             })
 
-            try{
+            try {
                 const result = await book.save();
                 const {password, ...data} = await result.toJSON()
                 //res.send(data)
@@ -55,7 +55,7 @@ class booklistController{
                     resultcode: 'OK',
                     resulttext: 'Added book to DB',
                 })
-            }catch (e) {
+            } catch (e) {
                 console.log(e)
                 res.send({
                     resultcode: 'ERROR',
@@ -71,7 +71,7 @@ class booklistController{
         }
     }
 
-    async findbooks(req, res){
+    async findbooks(req, res) {
         try {
             const cookie = req.cookies['jwt']
             const claims = jwt.verify(cookie, 'secret')
@@ -104,7 +104,7 @@ class booklistController{
         res.send(JSON.stringify(result))
     }
 
-    async deleteBook(req, res){
+    async deleteBook(req, res) {
         try {
             const cookie = req.cookies['jwt']
             const claims = jwt.verify(cookie, 'secret')
@@ -123,9 +123,9 @@ class booklistController{
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
         const user = await User.findOne({_id: claims._id})
-        console.log("Affected user: ", user, "userid" , user.id)
+        console.log("Affected user: ", user, "userid", user.id)
 
-        try{
+        try {
             const result = await booklist.deleteOne({_id: req.body._id})
             if (result.deletedCount === 1) {
                 let response = {
@@ -133,7 +133,7 @@ class booklistController{
                     resulttext: 'Book deleted successfully'
                 };
                 res.send(response)
-            }else{
+            } else {
                 let response = {
                     resultcode: 'ERROR',
                     resulttext: 'No Book matching _id'
@@ -141,7 +141,7 @@ class booklistController{
                 res.send(response)
             }
 
-        }catch (e) {
+        } catch (e) {
             let response = {
                 resultcode: 'ERROR',
                 resulttext: 'Error Deleting Book'
@@ -151,7 +151,7 @@ class booklistController{
 
     }
 
-    async updatebook(req,res){
+    async updatebook(req, res) {
         try {
             const cookie = req.cookies['jwt']
             const claims = jwt.verify(cookie, 'secret')
@@ -173,7 +173,7 @@ class booklistController{
         let bookInDB = await booklist.findOne({title: req.body.title, id: user.id})
 
 
-        if(bookInDB){
+        if (bookInDB) {
             const book = {
                 status: req.body.status,
                 author: req.body.author,
@@ -192,14 +192,14 @@ class booklistController{
                 language: req.body.language
             }
 
-            try{
+            try {
                 const result = await booklist.findOneAndUpdate({title: req.body.title, id: user.id}, book)
                 const {password, ...data} = await result.toJSON()
                 res.send({
                     resultcode: 'OK',
                     resulttext: 'Successfully updated book information',
                 })
-            }catch (e) {
+            } catch (e) {
                 console.log(e)
                 res.send({
                     resultcode: 'ERROR',

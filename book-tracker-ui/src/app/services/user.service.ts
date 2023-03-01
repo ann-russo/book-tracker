@@ -43,5 +43,4 @@ export class UserService {
     const url = USER_API + 'deleteuser';
     return this.http.delete<any>(url, httpOptions);
   }
-
 }

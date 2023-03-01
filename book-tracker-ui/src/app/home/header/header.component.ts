@@ -17,7 +17,7 @@ export interface DialogData {
   providers: [UserService]
 })
 export class HeaderComponent {
-  searchKeyword: string;
+  searchKeyword: string = '';
   genres = GENRES;
 
   constructor(
@@ -25,27 +25,28 @@ export class HeaderComponent {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private storageService: StorageService) {
-    this.searchKeyword = '';
-  }
+    private storageService: StorageService) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(HeaderSearchDialogComponent, {
-      data: {searchKeyword: this.searchKeyword},
+      data: {
+        searchKeyword: this.searchKeyword
+      },
       maxWidth: '100vw',
       width: '100%',
-      panelClass: 'full-screen-modal',
       position: {
         top: '0px'
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.searchKeyword = result;
-      const nameInRoute: String = this.searchKeyword.split(' ').join('-');
-      this.router.navigate(
-        ['search'],
-        { queryParams: { query: nameInRoute } , relativeTo: this.route});
+      if (result !== undefined) {
+        this.searchKeyword = result;
+        const nameInRoute: String = this.searchKeyword.split(' ').join('-');
+        this.router.navigate(
+          ['search'],
+          { queryParams: { query: nameInRoute } , relativeTo: this.route});
+      }
     });
   }
 

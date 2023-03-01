@@ -1,11 +1,9 @@
-const model = require("../models/book-model");
 const bookRequest = require("../models/book-requests");
 require("request");
 const fetch = require('node-fetch');
 const {json} = require("express");
 
-//TODO add required authentication for usage of API
-class BookController{
+class BookController {
     getBooks(req, resRequest) {
         let incomingRequest = extractRequestValues(req);
         console.log(
@@ -28,19 +26,19 @@ class BookController{
         if (searchAuthor) {
             query += "+inauthor:" + searchAuthor
         }
-        if(searchCategory){//subject
+        if (searchCategory) {
             query += "+subject:" + '"' + searchCategory + '"'
         }
 
-
-        let maxResults = 40; //the maximum possible by the Google api, set to requested value if exists
+        // The maximum possible value by the Google API, set to requested value if exists
+        let maxResults = 40;
         if (searchAmount) {
-            if(searchAmount <= 40){ //values bigger than 40 not allowed by the api
+            if (searchAmount <= 40) {
                 maxResults = searchAmount;
             }
         }
 
-        //if all parameters are empty return error //TODO add maybe other  useful combinations
+        // If all parameters are empty, return error
         if (searchRandom === undefined &&
             searchText === undefined &&
             searchIsbn === undefined &&
@@ -48,13 +46,12 @@ class BookController{
             searchCategory === undefined) {
             let response = {
                 resultcode: 'ERROR',
-                resulttext: 'not enough variables defined'
+                resulttext: 'Not enough variables defined'
             };
             resRequest.send(response)
         }
 
-        console.log("Currently executed query:", query);
-
+        console.log("Currently executed query: ", query);
 
         let propertiesObject = {
             q: query,
@@ -62,10 +59,10 @@ class BookController{
             langRestrict: searchLanguage
         };
 
+        console.log("Sending request using the following properties: ", propertiesObject)
 
-        console.log("sending request using the following properties: ", propertiesObject)
         let apiurl = ('https://www.googleapis.com/books/v1/volumes');
-        let options = {method: 'GET'}; //set method and other possible options.. https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+        let options = {method: 'GET'};
 
         fetchData(apiurl, propertiesObject, options).then((data) => {
             resRequest.send(createJson(data));
@@ -81,20 +78,18 @@ create expected JSON
 function createJson(input) {
     let count = 0;
     let jsonBookList = [];
-    console.log("total items according to the google api: ", input.totalItems)
+    console.log("Total items according to Google API: ", input.totalItems)
     for (let j in input) {
-
-        if(!input.hasOwnProperty((j))) {
+        if (!input.hasOwnProperty((j))) {
             continue; // current property not a direct property of input
         }
 
-        if(j === "items"){ // find delivered items
+        if (j === "items") { // find delivered items
             for (let x in input[j]) {
                 let item = {}
                 item ["title"] = input[j][x].volumeInfo.title;
-                count+=1;
+                count += 1;
                 item ["number"] = count;
-                //console.log("found book with title: " , input[j][x].volumeInfo.title, "number of book: ", count)
                 item ["author"] = input[j][x].volumeInfo.authors;
                 item ["year"] = input[j][x].volumeInfo.publishedDate;
                 item ["description"] = input[j][x].volumeInfo.description;
@@ -102,7 +97,7 @@ function createJson(input) {
                 item ["language"] = input[j][x].volumeInfo.language;
                 item["saleability"] = input[j][x].saleInfo.saleability;
                 let sale = false;
-                if(input[j][x].saleInfo.saleability == "FOR_SALE"){
+                if (input[j][x].saleInfo.saleability == "FOR_SALE") {
                     sale = true;
                     item["retailPrice"] = input[j][x].saleInfo.retailPrice.amount;
                     item["retailPriceCurrency"] = input[j][x].saleInfo.retailPrice.currencyCode;
@@ -111,8 +106,7 @@ function createJson(input) {
                 let isbnJson = input[j][x].volumeInfo.industryIdentifiers;
                 let isbnNumber;
                 for (let i in isbnJson) {
-                    //console.log("isbnJson:", isbnJson[i]);
-                    if(isbnJson[i].type === "ISBN_13"){
+                    if (isbnJson[i].type === "ISBN_13") {
                         isbnNumber = isbnJson[i].identifier;
                         item ["isbn"] = isbnNumber;
                     } else if (isbnJson[i].type === "ISBN_10") {
@@ -121,7 +115,7 @@ function createJson(input) {
                 }
                 item ["noofpages"] = input[j][x].volumeInfo.pageCount;
                 item ["cover"] = input[j][x].volumeInfo.imageLinks?.smallThumbnail;
-                if(isbnNumber){ //add book only if ISBN Exists and maybe buylink?..
+                if (isbnNumber) { //add book only if ISBN Exists and maybe buylink?..
                     jsonBookList.push(item);
                 }
             }
@@ -131,13 +125,13 @@ function createJson(input) {
 }
 
 
-async function fetchData(url, properties, options){
+async function fetchData(url, properties, options) {
     const response = await fetch(url + '?' + new URLSearchParams(properties), options)
     return response.json();
 }
 
 
-function extractRequestValues(req){
+function extractRequestValues(req) {
     return new bookRequest(req.query.querytext, req.query.isbn, req.query.author, req.query.category, req.query.rand, req.query.amount, req.query.language);
 }
 

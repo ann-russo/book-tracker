@@ -68,7 +68,7 @@
   <mat-form-field class="formField" appearance="outline">
     <mat-label>Select your preferred language</mat-label>
     <mat-select formControlName="prefLang">
-      <mat-option *ngFor="let item of listLanguages" [value]="item">{{item}}</mat-option>
+      <mat-option *ngFor="let item of listLanguages" [value]="item.lang">{{item.lang}}</mat-option>
     </mat-select>
   </mat-form-field>
 

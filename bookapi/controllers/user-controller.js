@@ -108,7 +108,7 @@ class UserController {
 
     async getUserData(req, res) {
         const cookie = req.cookies['jwt']
-        try{
+        try {
             const claims = jwt.verify(cookie, 'secret')
             const user = await User.findOne({_id: claims._id})
             if (!claims) {
@@ -120,7 +120,7 @@ class UserController {
                 res.send(user);
             }
 
-        }catch (e){
+        } catch (e) {
             return res.status(401).send({
                 resultcode: 'ERROR',
                 resulttext: 'User not authenticated!'
@@ -194,7 +194,7 @@ class UserController {
         }
     }
 
-    async deleteuser(req,res){
+    async deleteuser(req, res) {
         const cookie = req.cookies['jwt']
         const claims = jwt.verify(cookie, 'secret')
         if (!claims) {

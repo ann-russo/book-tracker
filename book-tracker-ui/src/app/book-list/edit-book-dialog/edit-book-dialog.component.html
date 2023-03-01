@@ -5,21 +5,24 @@
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Choose a status</mat-label>
-      <mat-select [(value)]="selectedStatus" formControlName="status">
+      <mat-select [(value)]="selectedStatus" formControlName="status" required>
         <mat-option *ngFor="let item of bookStatuses" [value]="item.statusName">
           {{item.statusName}}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="formControl.status.hasError('required')">
+        Book status is a required field.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Pages read of {{data.book.noofpages}}</mat-label>
       <input matInput type="number" min="0" max="{{data.book.noofpages}}" formControlName="noofpagesread">
       <mat-error *ngIf="formControl.noofpagesread.hasError('min')">
-        Number of read pages cannot be less than 0.
+        Number of pages cannot be less than 0.
       </mat-error>
       <mat-error *ngIf="formControl.noofpagesread.hasError('max')">
-        Number of read pages cannot exceed then number of pages in the book.
+        Number of pages cannot exceed the book's number of pages.
       </mat-error>
     </mat-form-field>
 
@@ -45,11 +48,10 @@
       <mat-hint align="end">{{notes.value.length}} / 1000</mat-hint>
     </mat-form-field>
 
-    <star-rating labelText="Rate this book"
+    <star-rating labelText="Score:"
                  labelPosition="top"
                  size="medium"
                  [rating]="currentScore"
-                 formControlName="score"
                  (ratingChange)="onRatingChange($event)"
                  [starType]="'svg'"
                  [step]="1">
@@ -58,7 +60,7 @@
   </mat-dialog-content>
 
   <mat-dialog-actions class="buttons">
-    <button mat-flat-button color="accent" class="btn save">Save</button>
+    <button mat-flat-button color="accent" class="btn save">SAVE</button>
     <button mat-stroked-button color="basic" class="btn cancel" mat-dialog-close="true">Cancel</button>
   </mat-dialog-actions>
 

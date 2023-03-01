@@ -28,6 +28,7 @@ export class BookGenreComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,

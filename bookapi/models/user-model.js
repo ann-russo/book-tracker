@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-//TODO add unique id or use email!
 const userSchema = new mongoose.Schema({
     id: {
         type: Number,
@@ -16,8 +15,8 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, 'Username is required'],
-        minlength: [2, 'Name can\'t be smaller than 2 characters'],
-        maxlength: [64, 'Name can\'t be greater than 64 characters']
+        minlength: [4, 'Username can\'t be smaller than 2 characters'],
+        maxlength: [20, 'Username can\'t be greater than 64 characters']
     },
     password: {
         type: String,

@@ -3,6 +3,7 @@ import {Location} from "@angular/common";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'app-delete-account',
@@ -16,6 +17,7 @@ export class DeleteAccountComponent {
     private location: Location,
     private router: Router,
     private userService: UserService,
+    private storageService: StorageService,
     private _snackBar: MatSnackBar) {
   }
 
@@ -28,6 +30,7 @@ export class DeleteAccountComponent {
       next: res => {
         this.showFeedback(res);
         setTimeout(() => {
+          this.storageService.clean();
           this.router.navigate(['/']);
         }, 3000);
       },

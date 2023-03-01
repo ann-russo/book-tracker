@@ -13,10 +13,7 @@ export class WelcomeComponent {
     private auth: AuthService,
     private router: Router) {
     if (auth.isAuthenticated()) {
-      console.log("is authenticated")
       this.router.navigate(['/home']);
-    } else {
-      console.log("not authenticated")
     }
   }
 }

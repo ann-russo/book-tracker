@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Book} from "../models/book";
-import {BookStatus} from "../models/bookstatus";
-import {FormControl, Validators} from "@angular/forms";
 import { Location } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BookService} from "../services/book.service";
 import {BookListService} from "../services/book-list.service";
 import {EditBookDialogComponent} from "../book-list/edit-book-dialog/edit-book-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {LANGUAGES} from "../models/languages";
 
 
 @Component({
@@ -19,6 +18,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class BookDetailsComponent implements OnInit {
   book!: Book;
+  languagesList = LANGUAGES;
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -47,11 +47,21 @@ export class BookDetailsComponent implements OnInit {
       isbn: newBook.isbn,
       noofpages: newBook.noofpages,
       year: newBook.year,
-      language: newBook.language,
+      language: this.getLanguage(newBook.language),
       genre: newBook.genre,
       retailPrice: newBook.retailPrice,
       retailPriceCurrency: newBook.retailPriceCurrency,
       buyLink: newBook.buyLink
+    }
+  }
+
+  getLanguage(bookLang: string): string {
+    const index = this.languagesList.findIndex(x => x.code === bookLang);
+    const found = this.languagesList[index];
+    if (found) {
+      return found.lang;
+    } else {
+      return bookLang;
     }
   }
 
@@ -74,11 +84,13 @@ export class BookDetailsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      const updatedBook = result.data.book;
-      this.bookListService.addBook(updatedBook).subscribe({
-        next: response => this.showFeedback(response),
-        error: err => this.showFeedback(err)
-      })
+      if (result.data !== undefined) {
+        const updatedBook = result.data.book;
+        this.bookListService.addBook(updatedBook).subscribe({
+          next: response => this.showFeedback(response),
+          error: err => this.showFeedback(err)
+        })
+      }
     });
   }
 

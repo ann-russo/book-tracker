@@ -44,6 +44,16 @@ img {
 }
 
 .statistic {
-  padding-left: 15px;
   padding-top: 15px;
+  text-align: center;
+  color: #aaaaad;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: row;
+}
+
+.book-status {
+  margin-top: 8px;
 }

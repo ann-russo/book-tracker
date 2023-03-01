@@ -5,6 +5,7 @@ import {DialogData} from "../header.component";
 @Component({
   selector: 'header-search-dialog.component',
   templateUrl: '/header-search-dialog.component.html',
+  styleUrls: ['./header-search-dialog.component.scss'],
 })
 export class HeaderSearchDialogComponent {
   constructor(

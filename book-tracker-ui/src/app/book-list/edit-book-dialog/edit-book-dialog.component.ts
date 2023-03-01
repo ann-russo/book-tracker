@@ -35,15 +35,24 @@ export class EditBookDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<EditBookDialogComponent>) {
-    let index = this.bookStatuses.findIndex(x => x.statusId === data.book.status);
-    let currentStatus = this.bookStatuses[index];
+    this.setStatus();
+  }
+
+  ngOnInit() {
+    this.buildForm();
+  }
+
+  setStatus(): void {
+    const index = this.bookStatuses.findIndex(x => x.statusId === this.data.book.status);
+    const currentStatus = this.bookStatuses[index];
     if (currentStatus) {
       this.selectedStatus = currentStatus.statusName;
     }
   }
 
-  ngOnInit() {
-    this.buildForm();
+  getStatusAsNumber(name: string): number | undefined {
+    const index = this.bookStatuses.findIndex(x => x.statusName === name);
+    return this.bookStatuses[index].statusId;
   }
 
   getMaxNoOfPages(): number {
@@ -56,7 +65,6 @@ export class EditBookDialogComponent implements OnInit {
 
   onRatingChange($event: RatingChangeEvent) {
     this.currentScore = $event.rating;
-    this.dataForm.controls['score'].setValue(this.currentScore);
   }
 
   buildForm(): void {
@@ -65,20 +73,18 @@ export class EditBookDialogComponent implements OnInit {
       noofpagesread: new FormControl(this.data.book.noofpagesread, [Validators.min(0), Validators.max(this.getMaxNoOfPages())]),
       startdate: new FormControl(this.data.book.startdate),
       finishdate: new FormControl(this.data.book.finishdate),
-      score: new FormControl(this.data.book.score),
       notes: new FormControl(this.data.book.notes, [Validators.maxLength(1000)])
     });
     this.currentScore = Number(this.data.book.score);
   }
 
-  getStatusAsNumber(name: string): number | undefined {
-    const index = this.bookStatuses.findIndex(x => x.statusName === name);
-    return this.bookStatuses[index].statusId;
-  }
-
   get formControl() { return this.dataForm.controls; }
 
   onSubmit(): void {
+    if (this.dataForm.invalid) {
+      return;
+    }
+
     this.data.book.status = this.getStatusAsNumber(this.dataForm.controls['status'].value);
     this.data.book.noofpagesread = this.dataForm.controls['noofpagesread'].value;
     this.data.book.startdate = this.dataForm.controls['startdate'].value;

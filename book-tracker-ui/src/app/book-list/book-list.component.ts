@@ -75,11 +75,13 @@ export class BookListComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      const updatedBook = result.data.book;
-      this.bookListService.updateBook(updatedBook).subscribe({
-        next: res => this.showFeedback(res),
-        error: err => this.showFeedback(err)
-      })
+      if (result.data !== undefined) {
+        const updatedBook = result.data.book;
+        this.bookListService.updateBook(updatedBook).subscribe({
+          next: res => this.showFeedback(res),
+          error: err => this.showFeedback(err)
+        })
+      }
     });
   }
 

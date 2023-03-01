@@ -4,7 +4,6 @@ import {Book} from "../../models/book";
 import {BookService} from "../../services/book.service";
 import {Observable, Observer} from "rxjs";
 import {UserService} from "../../services/user.service";
-import {filter} from "rxjs/operators";
 import {StorageService} from "../../services/storage.service";
 import {LanguageEntry} from "../../models/languages";
 
@@ -38,7 +37,7 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         observer.next([
           {title: 'Selected Shakespeare Works', content: this.dataSourceCardOne},
           {title: 'Selected Books About Coding', content: this.dataSourceCardTwo},
-          {title: 'Harry Potter Book Series', content: this.dataSourceCardThree}
+          {title: 'The Lord of the Rings Books', content: this.dataSourceCardThree}
         ]);
       }, 1000);
     })
@@ -59,7 +58,7 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         error: error => console.log(error)
       });
 
-    this.bookService.getBooksByQueryAndAuthor('harry+potter', 'rowling', this.prefLang.code, '40')
+    this.bookService.getBooksByQueryAndAuthor(' the lord of the rings', 'tolkien', this.prefLang.code, '20')
       .subscribe({
         next: books => this.extractBooks(books, 3),
         error: error => console.log(error)
