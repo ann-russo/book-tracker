@@ -53,7 +53,7 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         error: error => console.log(error)
       });
 
-    this.bookService.getBooksByQuery('programmieren', this.prefLang.code, '20')
+    this.bookService.getBooksByQuery('javascript', this.prefLang.code, '20')
       .subscribe({
         next: books => this.extractBooks(books, 2),
         error: error => console.log(error)
