@@ -73,7 +73,7 @@ export class EditAccountComponent implements OnInit {
     return !(dataForm.invalid || !dataForm.touched);
   }
 
-  addEvent(event: MatDatepickerInputEvent<Date>) {
+  addEvent(event: MatDatepickerInputEvent<any>) {
     // @ts-ignore
     this.updatedUser['birthdate'] = event.value
   }
