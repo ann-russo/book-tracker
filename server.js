@@ -65,11 +65,3 @@ mongoose.connect(mongodbUrl, {
 }, () => {
     console.log('Connected to the database')
 })
-
-export let BASE_URL = '';
-
-if (process.env.NODE_ENV === 'development') {
-    BASE_URL = 'http://localhost:3080';
-} else {
-    BASE_URL = 'https://book-tracker-app.herokuapp.com';
-}

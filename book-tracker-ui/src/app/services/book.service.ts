@@ -2,9 +2,8 @@ import {Injectable} from "@angular/core";
 import {Book} from "../models/book";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {BASE_URL} from "../../main";
 
-const BOOK_API = BASE_URL + '/api/books?';
+const BOOK_API = '/api/books?';
 
 @Injectable({
   providedIn:'root'
