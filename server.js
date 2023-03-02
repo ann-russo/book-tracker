@@ -58,7 +58,6 @@ app.listen(port, (error)=> {
     }
 })
 
-/*
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1:27017/book-tracker', {
     useNewUrlParser: true,
@@ -66,15 +65,3 @@ mongoose.connect('mongodb://127.0.0.1:27017/book-tracker', {
 }, () => {
     console.log('Connected to the database')
 })
- */
-
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://anastasiauru:VrZ1FRNd73k8fj8A@cluster0.wrx7hyy.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-    console.log('Connected to the database')
-    const collection = client.db("book-tracker").collection("users");
-    // perform actions on the collection object
-    client.close();
-});
