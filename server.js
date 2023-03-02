@@ -58,6 +58,7 @@ app.listen(port, (error)=> {
 })
 
 const mongodbUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/book-tracker';
+/*
 mongoose.set('strictQuery', false);
 mongoose.connect(mongodbUrl, {
     useNewUrlParser: true,
@@ -65,3 +66,18 @@ mongoose.connect(mongodbUrl, {
 }, () => {
     console.log('Connected to the database')
 })
+
+ */
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const client = new MongoClient(mongodbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverApi: ServerApiVersion.v1
+});
+client.connect(err => {
+    const collection = client.db("book-tracker").collection("users");
+    console.log('Connected to the database')
+    // perform actions on the collection object
+    client.close();
+});
