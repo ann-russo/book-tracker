@@ -2,6 +2,9 @@
   "name": "book-tracker",
   "version": "1.0",
   "description": "node.js server",
+  "engines": {
+    "node": "18.x"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
