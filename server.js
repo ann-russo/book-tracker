@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3080
-const dist = process.cwd()+"/book-tracker-ui/dist/book-tracker-ui/"
+const dist = process.cwd()+"/public"
 
 const bookRouter = require ('./bookapi/routes/book-router');
 const userRouter = require ('./bookapi/routes/user-routes');
