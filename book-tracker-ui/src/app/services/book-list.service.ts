@@ -2,8 +2,9 @@ import {Book} from "../models/book";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
+import {BASE_URL} from "../../main";
 
-const BOOKLIST_API = 'http://localhost:3080/api/booklist/';
+const BOOKLIST_API = BASE_URL + '/api/booklist/';
 
 @Injectable({
   providedIn:'root'
