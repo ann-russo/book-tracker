@@ -17,13 +17,22 @@ const mongodbUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/book-tr
 
 console.log(process.env)
 
-mongoose.set('strictQuery', false);
-mongoose.connect(mongodbUrl, {
+mongoCFG = {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-}, () => {
-    console.log('Connected to the database')
-})
+    ssl: true,
+    replicaSet: 'cluster0-shard-0',
+    authSource: 'admin',
+    retryWrites: true,
+    useUnifiedTopology: true,
+}
+
+mongoose.connect(mongodbUrl, mongoCFG)
+    .then(() => {
+        console.log("Connected to Mongo database!");
+    })
+    .catch(err => {
+        console.error("App starting error:", err.stack);
+    });
 
 app.use(cors());
 app.use(express.json())
