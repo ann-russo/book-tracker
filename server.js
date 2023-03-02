@@ -58,8 +58,9 @@ app.listen(port, (error)=> {
     }
 })
 
+const mongodbUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/book-tracker';
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://127.0.0.1:27017/book-tracker', {
+mongoose.connect(mongodbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }, () => {
