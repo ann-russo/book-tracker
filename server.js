@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const dist = process.cwd()+"/public"
+const dist = process.cwd()+"/public/"
 
 const bookRouter = require ('./bookapi/routes/book-router');
 const userRouter = require ('./bookapi/routes/user-routes');
@@ -25,9 +25,9 @@ mongoose.connect(mongodbUrl, {
     console.log('Connected to the database')
 })
 
+app.use(cors());
 app.use(express.json())
 app.use(express.static(dist));
-//include routes for user api
 app.use(cookieParser());
 
 app.use((req, res, next) => {
