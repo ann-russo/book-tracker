@@ -40,7 +40,7 @@ mat-card-subtitle {
   margin-left: 1em;
   margin-right: 1em;
   height: min-content;
-  max-height: 240px;
+  max-height: available;
   overflow-y: auto;
   font-size: 16px;
 }
@@ -50,23 +50,44 @@ mat-card-subtitle {
 }
 
 .btn {
+  margin-top: 20px;
+  width: 200px;
   height: 56px;
-  font-size: 16px;
-  position: fixed;
-  bottom:0%;
-  width:100%;
+  position: center;
 }
 
-@media only screen and (min-width:750px) {
-  .add-button {
-    margin-top: 20px;
-    width: 500px;
+@media only screen and (max-width:750px) {
+  .btn {
+    height: 56px;
+    font-size: 16px;
+    position: fixed;
+    bottom:0;
+    width:100%;
+    z-index: 1000;
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width:400px) {
+  mat-card-title {
+    font-size: 22px;
   }
 
-  .add-button button {
-    margin-left: 5px;
-    line-height: 1.125;
-    height: 56px;
-    width: 212px;
+  mat-card-subtitle {
+    font-size: 16px;
   }
+
+  .book-details {
+    font-size: 14px;
+    max-height: 180px;
+  }
+
+  .book-cover {
+    height: 184px;
+    width: 118px;
+  }
+
 }

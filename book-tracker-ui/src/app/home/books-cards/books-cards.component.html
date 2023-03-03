@@ -8,12 +8,12 @@
   <h2>{{row.title}}</h2>
   <mat-divider></mat-divider>
   <ul class="cards">
-    <li class="card" *ngFor="let item of row.content" [style.background-image]="getCoverUrl(item)">
+    <li class="card" *ngFor="let item of row.content" [style.background-image]="getCoverUrl(item)" [routerLink]="['book', item.isbn]">
       <div class="overlay">
         <mat-card-header></mat-card-header>
         <div class="card-link-wrapper">
-          <a [routerLink]="['book', item.isbn]" class="book-link"><mat-card-title>{{item.title}}</mat-card-title></a>
-          <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+          <mat-card-title>{{item.title}}</mat-card-title>
+          <mat-card-subtitle>{{getFirstAuthor(item)}}</mat-card-subtitle>
         </div>
       </div>
     </li>

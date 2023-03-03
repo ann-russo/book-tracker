@@ -25,13 +25,34 @@ img {
   margin-right: 10px;
 }
 
-.title {
+.name {
   font-family: 'Comfortaa', cursive;
   font-size: 28px;
-  color: #161347;
+  color: white;
   text-shadow: 3px 1px 0 #8a58d0;
+  display:inline-block;
+  vertical-align: baseline;
 }
 
-.title.a {
-  color: #161347;
+.logo {
+  display:inline-block;
+  vertical-align: middle;
+}
+
+@media only screen and (max-width:600px) {
+  .name {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (max-width:500px) {
+  .name {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width:470px) {
+  .name {
+    display: none;
+  }
 }

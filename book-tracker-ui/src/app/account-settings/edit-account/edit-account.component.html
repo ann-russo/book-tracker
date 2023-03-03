@@ -5,7 +5,8 @@
   <h3>Edit Data</h3>
 </div>
 
-<form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+<form class="mat-typography" [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+
   <mat-form-field appearance="outline" class="formField">
     <mat-label>Enter a new email address</mat-label>
     <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher">
@@ -46,34 +47,38 @@
     <mat-datepicker #picker startView="year" [startAt]="2023"></mat-datepicker>
   </mat-form-field>
 
-  <div class="formField">
-    <mat-form-field class="name" appearance="outline">
+  <div class="container">
+    <mat-form-field class="first" appearance="outline">
       <mat-label>First name</mat-label>
       <input matInput formControlName="firstname">
     </mat-form-field>
 
-    <mat-form-field class="name" appearance="outline">
+    <mat-form-field class="last" appearance="outline">
       <mat-label>Last name</mat-label>
       <input matInput formControlName="lastname">
     </mat-form-field>
   </div>
 
-  <mat-form-field class="formField" appearance="outline">
-    <mat-label>Select your country</mat-label>
-    <mat-select formControlName="country">
-      <mat-option *ngFor="let item of listCountries" [value]="item">{{item}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="container">
+    <mat-form-field class="first" appearance="outline">
+      <mat-label>Select your country</mat-label>
+      <mat-select formControlName="country">
+        <mat-option *ngFor="let item of listCountries" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field class="formField" appearance="outline">
-    <mat-label>Select your preferred language</mat-label>
-    <mat-select formControlName="prefLang">
-      <mat-option *ngFor="let item of listLanguages" [value]="item.lang">{{item.lang}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field class="last" appearance="outline">
+      <mat-label>Preferred language</mat-label>
+      <mat-select formControlName="prefLang">
+        <mat-option *ngFor="let item of listLanguages" [value]="item">{{item.lang}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <button mat-flat-button color="primary" class="bt submit" [disabled]="!isValid(dataForm)">SUBMIT</button>
-  <button mat-stroked-button color="basic" class="bt cancel" [routerLink]="['../']">Cancel</button>
+  <div class="container">
+    <button mat-flat-button color="primary" class="first" [disabled]="!isValid(dataForm)">SUBMIT</button>
+    <button mat-stroked-button color="basic" class="last" [routerLink]="['../']">Cancel</button>
+  </div>
 
 </form>
 

@@ -59,45 +59,33 @@
     <mat-datepicker #picker startView="year" [startAt]="2023"></mat-datepicker>
   </mat-form-field>
 
-  <table class="example-full-width">
-    <tr>
-      <td>
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>First name</mat-label>
-          <input matInput formControlName="firstnameFormControl">
-        </mat-form-field>
-      </td>
+  <div class="container">
+    <mat-form-field class="first" appearance="outline">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="firstnameFormControl">
+    </mat-form-field>
 
-      <td>
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Last name</mat-label>
-          <input matInput formControlName="lastnameFormControl">
-        </mat-form-field>
-      </td>
-    </tr>
-  </table>
+    <mat-form-field class="last" appearance="outline">
+      <mat-label>Last name</mat-label>
+      <input matInput formControlName="lastnameFormControl">
+    </mat-form-field>
+  </div>
 
-  <table class="example-full-width">
-    <tr>
-      <td>
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Select your country</mat-label>
-          <mat-select formControlName="countryFormControl">
-            <mat-option *ngFor="let item of listCountries" [value]="item">{{item}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
+  <div class="container">
+    <mat-form-field class="first" appearance="outline">
+      <mat-label>Select your country</mat-label>
+      <mat-select formControlName="countryFormControl">
+        <mat-option *ngFor="let item of listCountries" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <td>
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Preferred language</mat-label>
-          <mat-select formControlName="prefLangFormControl">
-            <mat-option *ngFor="let item of listLanguages" [value]="item">{{item.lang}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-    </tr>
-  </table>
+    <mat-form-field class="last" appearance="outline">
+      <mat-label>Preferred language</mat-label>
+      <mat-select formControlName="prefLangFormControl">
+        <mat-option *ngFor="let item of listLanguages" [value]="item">{{item.lang}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
   <div>
     <button mat-flat-button color="accent" [disabled]="loading" class="btn register">CONTINUE</button>

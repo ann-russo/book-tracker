@@ -32,20 +32,10 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
     private bookService: BookService,
     private userService: UserService,
     private storageService: StorageService) {
-    this.asyncRows = new Observable((observer: Observer<CardRow[]>) => {
-      setTimeout(() => {
-        observer.next([
-          {title: 'Selected Shakespeare Works', content: this.dataSourceCardOne},
-          {title: 'Selected Books About Coding', content: this.dataSourceCardTwo},
-          {title: 'The Lord of the Rings Books', content: this.dataSourceCardThree}
-        ]);
-      }, 1000);
-    })
+    this.prefLang = this.storageService.getLang();
   }
 
   ngOnInit(): void {
-    this.prefLang = this.storageService.getLang();
-
     this.bookService.getBooksByAuthor('Shakespeare', this.prefLang.code, '40')
       .subscribe({
         next: books => this.extractBooks(books, 1),
@@ -63,6 +53,16 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
         next: books => this.extractBooks(books, 3),
         error: error => console.log(error)
       });
+
+    this.asyncRows = new Observable((observer: Observer<CardRow[]>) => {
+      setTimeout(() => {
+        observer.next([
+          {title: 'Selected Shakespeare Works', content: this.dataSourceCardOne},
+          {title: 'Selected Books About Coding', content: this.dataSourceCardTwo},
+          {title: 'The Lord of the Rings Books', content: this.dataSourceCardThree}
+        ]);
+      }, 1000);
+    })
   }
 
   ngOnDestroy(): void {
@@ -107,5 +107,13 @@ export class BooksCardsComponent implements OnInit, OnDestroy {
 
   getCoverUrl(book: Book) {
     return this.sanitization.bypassSecurityTrustStyle('url(\'' + book.cover + '\')');
+  }
+
+  getFirstAuthor(book: Book): string {
+    if (book.author !== undefined) {
+      return book.author[0];
+    } else {
+      return "";
+    }
   }
 }

@@ -1,32 +1,29 @@
 const express = require('express')
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express()
-const dist = process.cwd()+"/public/"
+const mongoose = require("mongoose");
+const path = require("path");
 
 const bookRouter = require ('./bookapi/routes/book-router');
 const userRouter = require ('./bookapi/routes/user-routes');
 const booklistRouter = require ('./bookapi/routes/booklist-router');
 
-/*
- * mongodb configuration
- */
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const path = require("path");
+const dist = process.cwd()+"/public/"
 const mongodbUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/book-tracker';
 
 console.log(process.env)
 
 mongoose.set('strictQuery', false);
 mongoose.connect(mongodbUrl, {useNewUrlParser: true})
-    .then((x) => console.log('Connected to the DB'))
+    .then(() => console.log('Connected to the DB'))
     .catch(err => console.error('Error while connecting to DB', err));
+module.exports = {mongoose}
 
 app.use(cors());
 app.use(express.json())
 app.use(express.static(dist));
 app.use(cookieParser());
-
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "*");
@@ -37,7 +34,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/users', userRouter); //TODO during implementation add registered info when required...
+app.use('/api/users', userRouter);
 app.use('/api/booklist', booklistRouter);
 app.use('/api', bookRouter);
 
