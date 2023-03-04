@@ -12,8 +12,6 @@ const booklistRouter = require ('./bookapi/routes/booklist-router');
 const dist = process.cwd()+"/public/"
 const mongodbUrl = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/book-tracker';
 
-console.log(process.env)
-
 mongoose.set('strictQuery', false);
 mongoose.connect(mongodbUrl, {useNewUrlParser: true})
     .then(() => console.log('Connected to the DB'))

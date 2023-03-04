@@ -66,22 +66,15 @@ export class RegistrationComponent implements OnInit {
       prefLang: this.registerForm.controls['prefLangFormControl'].value,
     };
 
-    this.loading = true;
     this.userService.registerUser(this.userData).subscribe({
       next: res => {
         console.log(res);
-        this.getAndSaveUserData();
+        this.storageService.saveLang(this.userData.prefLang);
         this.router.navigate(['/home']);
       },
       error: err => {
         this.handleError(err);
       }
-    })
-  }
-
-  getAndSaveUserData(): void {
-    this.userService.getUserData().subscribe({
-      next: value => this.storageService.saveLang(value as User)
     })
   }
 

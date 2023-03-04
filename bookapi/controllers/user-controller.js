@@ -65,12 +65,7 @@ class UserController {
 
 
     async login(req, res) {
-        //TODO add headers again, excluded them as login was not possible
-        //res.headers.append('Access-Control-Allow-Origin', 'http://localhost:3080');
-        //res.headers.append('Access-Control-Allow-Credentials', 'true');
-
         const user = await User.findOne({email: req.body.email})
-
         if (!user) {
             return res.status(404).send({
                 resultcode: 'ERROR',

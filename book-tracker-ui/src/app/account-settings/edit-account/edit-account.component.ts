@@ -94,7 +94,7 @@ export class EditAccountComponent implements OnInit {
 
     this.userService.updateUser(this.updatedUser).subscribe({
       next: res => {
-        this.storageService.saveLang(this.updatedUser);
+        this.storageService.saveLang(this.updatedUser.prefLang);
         this.showFeedback(res);
       },
       error: err => {

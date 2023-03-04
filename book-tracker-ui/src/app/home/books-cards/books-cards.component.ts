@@ -5,8 +5,7 @@ import {BookService} from "../../services/book.service";
 import {Observable, Observer} from "rxjs";
 import {UserService} from "../../services/user.service";
 import {StorageService} from "../../services/storage.service";
-import {LanguageEntry} from "../../models/languages";
-
+import {LanguageEntry, LANGUAGES} from "../../models/languages";
 
 let BOOK_DATA: Book[] = [];
 
@@ -22,17 +21,18 @@ export interface CardRow {
   providers: [BookService, UserService]
 })
 export class BooksCardsComponent implements OnInit, OnDestroy {
-  prefLang!: LanguageEntry;
+
   asyncRows!: Observable<CardRow[]>;
   dataSourceCardOne: Book[] = []
   dataSourceCardTwo: Book[] = []
   dataSourceCardThree: Book[] = []
+  prefLang = LANGUAGES[0];
   constructor(
     private sanitization: DomSanitizer,
     private bookService: BookService,
     private userService: UserService,
     private storageService: StorageService) {
-    this.prefLang = this.storageService.getLang();
+      this.prefLang = this.storageService.getLang();
   }
 
   ngOnInit(): void {

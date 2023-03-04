@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private storageService: StorageService) {}
+    private storageService: StorageService) {
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -67,7 +68,10 @@ export class LoginComponent implements OnInit {
 
   getAndSaveUserData(): void {
     this.userService.getUserData().subscribe({
-      next: value => this.storageService.saveLang(value as User)
+      next: value => {
+        const user = value as User;
+        this.storageService.saveLang(user.prefLang);
+      }
     })
   }
 

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {GENRES} from "../../models/genres";
 import {UserService} from "../../services/user.service";
 import {HeaderSearchDialogComponent} from "./header-search-dialog/header-search-dialog.component";
+import {StorageService} from "../../services/storage.service";
 
 export interface DialogData {
   searchKeyword: string;
@@ -23,7 +24,8 @@ export class HeaderComponent {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService) {}
+    private userService: UserService,
+    private storageService: StorageService) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(HeaderSearchDialogComponent, {
@@ -52,7 +54,7 @@ export class HeaderComponent {
     this.userService.logoutUser().subscribe({
       next: res => {
         console.log(res);
-        //this.storageService.clean();
+        this.storageService.clean();
         this.router.navigate(['/'])
       },
       error: err => {
